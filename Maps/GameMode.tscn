@@ -106,7 +106,7 @@ shader_parameter/starmap_flip_u = false
 shader_parameter/starmap_flip_v = false
 shader_parameter/starmap_alignment = Vector3(2.68288, -0.25891, 0.40101)
 shader_parameter/star_rotation_offset = 9.38899
-shader_parameter/star_rotation = -8.657411973111843
+shader_parameter/star_rotation = -9.707476656234427
 shader_parameter/star_tilt = -1.2915436464758039
 shader_parameter/star_field_color = Color(1, 1, 1, 1)
 shader_parameter/star_field_texture = ExtResource("23_vmqyc")
@@ -122,8 +122,8 @@ shader_parameter/cirrus_absorption = 2.0
 shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.21427996, 0.21427996)
-shader_parameter/cirrus_position2 = Vector2(0.21427996, 0.21427996)
+shader_parameter/cirrus_position1 = Vector2(0.23684637, 0.23684637)
+shader_parameter/cirrus_position2 = Vector2(0.23684637, 0.23684637)
 shader_parameter/cirrus_texture = ExtResource("19_fehfy")
 shader_parameter/cumulus_visible = true
 shader_parameter/cumulus_intensity = 0.6
@@ -133,7 +133,7 @@ shader_parameter/cumulus_absorption = 2.0
 shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(51.070183, 51.070183)
+shader_parameter/cumulus_position = Vector2(1.184214, 1.184214)
 shader_parameter/cumulus_texture = ExtResource("20_3pguu")
 shader_parameter/cumulus_partial_mie_phase = Vector3(0.957564, 1.042436, 0.412)
 shader_parameter/cumulus_mie_intensity = 1.0
@@ -143,7 +143,7 @@ shader_parameter/azimuthal_grid_rotation_offset = 0.03
 shader_parameter/show_equatorial_grid = false
 shader_parameter/equatorial_grid_color = Color(0, 0.75, 1, 1)
 shader_parameter/equatorial_grid_rotation_offset = 0.03
-shader_parameter/moon_matrix = Basis(0.9226154, 0.3707787, 0.10631908, 0.16179922, -0.12180465, -0.9792775, -0.35014513, 0.920699, -0.17237055)
+shader_parameter/moon_matrix = Basis(0.1693266, 0.9473811, 0.27165717, 0.40433162, 0.184597, -0.89579016, -0.8988017, 0.26152068, -0.35179898)
 
 [sub_resource type="Sky" id="Sky_amo7d"]
 sky_material = SubResource("ShaderMaterial_gase3")
@@ -152,7 +152,7 @@ sky_material = SubResource("ShaderMaterial_gase3")
 background_mode = 2
 sky = SubResource("Sky_amo7d")
 ambient_light_source = 3
-ambient_light_color = Color(0.93963367, 0.93963367, 0.93963367, 1)
+ambient_light_color = Color(1, 1, 1, 1)
 reflected_light_source = 2
 tonemap_mode = 3
 tonemap_white = 6.0
@@ -176,7 +176,7 @@ spawn_path = NodePath("../SubViewportContainer/SubViewport/WorldObjects")
 spawn_limit = 4
 
 [node name="TarotCardSpawner" type="Node3D" parent="." unique_id=1817543051 node_paths=PackedStringArray("spawn_points")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1076427, 63.48851, 0.2094624)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1076427, 35.9231, -3.4061177)
 script = ExtResource("2_abnra")
 object_scene = ExtResource("3_abnra")
 object_scenes = Array[PackedScene]([ExtResource("4_gdwpl"), ExtResource("5_oaoby"), ExtResource("6_yjxwv")])
@@ -197,7 +197,7 @@ spawn_path = NodePath("../../SubViewportContainer/SubViewport/WorldObjects")
 spawn_limit = 12
 
 [node name="BodyPartSpawner" type="Node3D" parent="." unique_id=488715404 node_paths=PackedStringArray("spawn_points")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8760922, -4.4956474)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 31.114859, -4.4956474)
 script = ExtResource("2_abnra")
 object_scene = ExtResource("10_part")
 spawn_points = [NodePath("BodySpawn1"), NodePath("BodySpawn2"), NodePath("BodySpawn3"), NodePath("BodySpawn4"), NodePath("BodySpawn5"), NodePath("BodySpawn6"), NodePath("BodySpawn7"), NodePath("BodySpawn8"), NodePath("BodySpawn9"), NodePath("BodySpawn10"), NodePath("BodySpawn11"), NodePath("BodySpawn12")]
@@ -476,7 +476,7 @@ text = "GameMode (PlayGround)"
 font_size = 142
 
 [node name="TarotPickup" type="Area3D" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=1660027506 groups=["interactable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9967477, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 40.46969, -3)
 script = ExtResource("6_tpick")
 card = ExtResource("7_abnra")
 
@@ -487,7 +487,7 @@ mesh = SubResource("BoxMesh_tarot")
 shape = SubResource("BoxShape3D_tarot")
 
 [node name="TarotPickup2" type="Area3D" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=1873848666 groups=["interactable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.8153989, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 34.422928, -3)
 script = ExtResource("6_tpick")
 card = ExtResource("11_hanged")
 
@@ -498,12 +498,12 @@ mesh = SubResource("BoxMesh_tarot")
 shape = SubResource("BoxShape3D_tarot")
 
 [node name="SpellCenter" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=689938534 instance=ExtResource("9_center")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9998918, 1.2133296, -6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9998918, 29.72553, -6)
 
 [node name="main_map" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=268275247 instance=ExtResource("17_amo7d")]
 
 [node name="SpawnPoints" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1560531572]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0218, -6.19973)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32.262455, -6.19973)
 
 [node name="SpawnPoint1" type="Marker3D" parent="SubViewportContainer/SubViewport/SpawnPoints" unique_id=1757836481]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.17159, 1.62939, 8.162987)
@@ -557,7 +557,7 @@ month = 10
 year = 2026
 
 [node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=1630302830]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.94105387, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 35.715187, 0)
 physics_material_override = SubResource("PhysicsMaterial_2q7m2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D" unique_id=1127134142]
