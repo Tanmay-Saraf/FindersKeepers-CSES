@@ -18,6 +18,9 @@ var listener_peer : PacketPeerUDP = PacketPeerUDP.new()
 var discovery_timer : Timer
 var discovery_listen_timer : Timer
 
+const LOBBY_SCENE = "res://MainMenu/Lobby.tscn"
+var match_started := false  # Set once the host leaves the lobby and starts the match
+
 # Signals
 signal player_update_received(peer_id, position, velocity, rotation, camera_rotation)
 
@@ -63,8 +66,9 @@ func host_game():
 	# Set as multiplayer peer and load game world
 	multiplayer.multiplayer_peer = peer
 	print("Hosting game on port ", PORT)
+	match_started = false
 	start_host_discovery()
-	load_game_world()
+	load_lobby()
 	
 	return true
 	
@@ -126,6 +130,34 @@ func load_game_world():
 	if get_tree().current_scene.name != "GameMode":
 		get_tree().change_scene_to_file("res://Maps/GameMode.tscn")
 
+# Load the pre-match lobby where players gather before the host starts
+func load_lobby():
+	get_tree().change_scene_to_file(LOBBY_SCENE)
+
+# Called by the host from the lobby: moves every connected peer into the match
+func start_game():
+	if not multiplayer.is_server():
+		return
+	match_started = true
+	rpc_start_game.rpc()
+
+# Sent by the host to all peers (including itself) to leave the lobby for the match
+@rpc("authority", "call_local", "reliable")
+func rpc_start_game():
+	load_game_world()
+
+# Leave the current session (host or client) and return to the main menu
+func leave_session():
+	if discovery_timer:
+		discovery_timer.queue_free()
+		discovery_timer = null
+	discovery_peer.close()
+	if multiplayer.has_multiplayer_peer():
+		multiplayer.multiplayer_peer.close()
+	multiplayer.multiplayer_peer = null
+	match_started = false
+	get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
+
 # Remote procedure call to load game world on clients
 @rpc("any_peer", "call_local", "reliable")
 func rpc_load_game_world():
@@ -136,9 +168,9 @@ func rpc_load_game_world():
 # Called when a new peer connects
 func _on_peer_connected(id):
 	print("Player connected: ", id)
-	# Server tells new client to load game world
-	if multiplayer.is_server():
-		rpc_load_game_world.rpc_id(id)
+	# Late joiners go straight into a running match; otherwise they wait in the lobby
+	if multiplayer.is_server() and match_started:
+		rpc_start_game.rpc_id(id)
 
 # Called when a peer disconnects
 func _on_peer_disconnected(id):
@@ -151,7 +183,7 @@ func _on_peer_disconnected(id):
 # Called when successfully connected to server
 func _on_connected_to_server():
 	print("Successfully connected to server")
-	load_game_world()
+	load_lobby()
 
 # Called when connection attempt fails
 func _on_connection_failed():

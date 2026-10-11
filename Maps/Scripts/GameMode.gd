@@ -57,6 +57,15 @@ func _ready():
 		spawn_player(multiplayer.get_unique_id())
 		GameManager.start_match()
 		print("Match Started")
+	elif multiplayer != null and multiplayer.has_multiplayer_peer():
+		# Peers that connected in the lobby won't fire peer_connected again,
+		# so tell the server our map is loaded and we can be spawned
+		_client_ready_in_game.rpc_id(1)
+
+@rpc("any_peer", "reliable")
+func _client_ready_in_game():
+	if multiplayer.is_server():
+		spawn_player(multiplayer.get_remote_sender_id())
 	
 
 func _on_spell_center_deposited(collector: Node, part: Node) -> void:
