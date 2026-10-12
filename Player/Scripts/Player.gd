@@ -49,6 +49,8 @@ var current_speed := 0.0              # Current movement speed
 var was_on_floor := true              # Previous frame ground state
 var speed_modifier: float = 1.0 # Used while using demon speed
 var input_multiplier: float  = 1.0 # Used for inverting the controls while using hanged man 
+var knockback_velocity: Vector3 = Vector3.ZERO
+var knockback_time_remaining: float = 0.0
 
 # ===== JUMP VARIABLES =====
 var jump_buffer_timer := 0.0          # Jump input buffer timer
@@ -272,6 +274,37 @@ func teleport_to(new_position: Vector3) -> void:
 	global_position = new_position
 	velocity = Vector3.ZERO
 	print("Teleported ", name, " to ", new_position)
+
+func _apply_tower_knockback_local(
+	direction: Vector3,
+	strength: float,
+	duration: float
+) -> void:
+	if not is_multiplayer_authority():
+		return
+
+	knockback_velocity = direction.normalized() * strength
+	knockback_time_remaining = duration
+
+	if held_body_part != null:
+		drop_body_part.rpc()
+
+	print("Tower knockback applied to ", name)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func apply_tower_knockback(
+	direction: Vector3,
+	strength: float,
+	duration: float
+) -> void:
+	var sender_id := multiplayer.get_remote_sender_id()
+
+	# Only the server (peer ID 1) can trigger knockback.
+	if sender_id != 1:
+		return
+
+	_apply_tower_knockback_local(direction, strength, duration)
 
 
 func apply_speed_modifier(multiplier: float)->void:
@@ -539,6 +572,16 @@ func handle_movement(delta):
 			current_vel = current_vel.move_toward(target_vel, ground_acceleration * air_control * delta)
 			velocity.x = current_vel.x
 			velocity.z = current_vel.y
+	if knockback_time_remaining > 0.0:
+		velocity.x = knockback_velocity.x
+		velocity.z = knockback_velocity.z
+
+		knockback_time_remaining -= delta
+		knockback_velocity = knockback_velocity.move_toward(
+			Vector3.ZERO, 20.0 * delta
+		)
+	else:
+		knockback_velocity = Vector3.ZERO
 
 func apply_gravity(delta):
 	if not is_on_floor():

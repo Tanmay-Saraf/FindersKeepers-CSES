@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TowerEffect" format=3 uid="uid://62smq63rxwg8"]
+
+[ext_resource type="Script" uid="uid://cktdie4n5ucc2" path="res://Tarot/Scripts/TowerEffect.gd" id="1_m8f1c"]
+
+[resource]
+script = ExtResource("1_m8f1c")
+effect_id = &"tower_effect"
+display_name = "Tower"
+effect_type = 0
+metadata/_custom_type_script = "uid://cktdie4n5ucc2"

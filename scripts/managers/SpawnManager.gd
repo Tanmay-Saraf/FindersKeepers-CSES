@@ -24,14 +24,16 @@ func spawn_objects(peer_id : int = -1) -> void:
 				_spawn_object(spawn_points[n % spawn_points.size()], pid, t)
 				n += 1
 		return
-	
-	for i in range(len(spawn_points)):
+	var available_scenes: Array[PackedScene] = object_scenes.duplicate()
+	available_scenes.shuffle()
+
+	for i in range(spawn_points.size()):
 		var scene_to_spawn: PackedScene = object_scene
-		
-		if object_scenes.size() == spawn_points.size():
-			scene_to_spawn = object_scenes[i]
-		
-		_spawn_object(spawn_points[i],-1,-1,scene_to_spawn)
+
+		if i < available_scenes.size():
+			scene_to_spawn = available_scenes[i]
+
+		_spawn_object(spawn_points[i], -1, -1, scene_to_spawn)
 
 
 func spawn_super_tarot() -> void:

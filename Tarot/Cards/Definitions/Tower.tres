@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TarotCard" format=3 uid="uid://dvitcfoyljqu2"]
+
+[ext_resource type="Resource" uid="uid://62smq63rxwg8" path="res://Tarot/Cards/Effects/TowerEffect.tres" id="1_o4vku"]
+[ext_resource type="Script" uid="uid://ddrmv7b3k80g5" path="res://Tarot/Scripts/TarotCard.gd" id="1_v4y43"]
+
+[resource]
+script = ExtResource("1_v4y43")
+card_id = &"tower"
+card_name = "Tower"
+description = "Knocks nearby opponents away and makes them drop carried body parts"
+effect = ExtResource("1_o4vku")
+metadata/_custom_type_script = "uid://ddrmv7b3k80g5"

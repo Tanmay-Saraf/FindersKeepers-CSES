@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bdux4ohva6vk8" path="res://TarotTest_DemonSpeed.tscn" id="5_oaoby"]
 [ext_resource type="Script" uid="uid://qxjx26k0iqkt" path="res://Tarot/Scripts/TarotPickup.gd" id="6_tpick"]
 [ext_resource type="PackedScene" uid="uid://um7aivmlr1qr" path="res://TarotTest_HangedMan.tscn" id="6_yjxwv"]
+[ext_resource type="PackedScene" uid="uid://dd6texlcddpm5" path="res://TarotTest_Tower.tscn" id="7_3pguu"]
 [ext_resource type="Resource" uid="uid://s0fvvca0wbib" path="res://Tarot/Cards/Definitions/DarkMoon.tres" id="7_abnra"]
 [ext_resource type="PackedScene" uid="uid://2npo8sjgn5st" path="res://TarotTest_Recaller.tscn" id="7_fehfy"]
 [ext_resource type="Script" uid="uid://5yp7py770d41" path="res://Maps/Scripts/TarotInventoryUI.gd" id="8_tinv"]
@@ -181,7 +182,7 @@ spawn_limit = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1076427, 35.9231, -3.4061177)
 script = ExtResource("2_abnra")
 object_scene = ExtResource("3_abnra")
-object_scenes = Array[PackedScene]([ExtResource("4_gdwpl"), ExtResource("5_oaoby"), ExtResource("6_yjxwv")])
+object_scenes = Array[PackedScene]([ExtResource("4_gdwpl"), ExtResource("5_oaoby"), ExtResource("6_yjxwv"), ExtResource("7_3pguu")])
 spawn_points = [NodePath("TarotSpawn1"), NodePath("TarotSpawn2"), NodePath("TarotSpawn3")]
 super_tarot_scene = ExtResource("7_fehfy")
 
@@ -195,7 +196,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.63837, 6.68755)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.80623, 0.746818, 5.42771)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="TarotCardSpawner" unique_id=1876028794]
-_spawnable_scenes = PackedStringArray("uid://b0u1d8aox07b8", "uid://bonou20gtdbp2", "uid://bdux4ohva6vk8", "uid://um7aivmlr1qr", "uid://2npo8sjgn5st")
+_spawnable_scenes = PackedStringArray("uid://b0u1d8aox07b8", "uid://bonou20gtdbp2", "uid://bdux4ohva6vk8", "uid://um7aivmlr1qr", "uid://2npo8sjgn5st", "uid://dd6texlcddpm5")
 spawn_path = NodePath("../../SubViewportContainer/SubViewport/WorldObjects")
 spawn_limit = 12
 
