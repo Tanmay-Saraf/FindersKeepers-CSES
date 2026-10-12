@@ -258,6 +258,22 @@ func use_tarot_card(slot_index: int)->void:
 	tarot_card_removed.emit(slot_index)
 	print("removed tarot cards : ",card.card_name," | Inventory: ",tarot_cards.size(),"/",tarot_capacity)
 
+@rpc("any_peer", "call_remote", "reliable")
+func teleport_to(new_position: Vector3) -> void:
+	var sender_id := multiplayer.get_remote_sender_id()
+
+	if multiplayer.is_server():
+		if sender_id != 0:
+			return
+	else:
+		if sender_id != 1:
+			return
+
+	global_position = new_position
+	velocity = Vector3.ZERO
+	print("Teleported ", name, " to ", new_position)
+
+
 func apply_speed_modifier(multiplier: float)->void:
 	speed_modifier *= multiplier
 	

@@ -385,6 +385,10 @@ func evaluate_shrine_votes() -> void:
 		
 		if majority_accepted:
 			time_remaining = max(0.0, time_remaining - SHRINE_PENALTY_SECONDS)
+			if tarot_card_spawner != null:
+				tarot_card_spawner.spawn_super_tarot()
+			else:
+				push_warning("GameManager: Tarot Card Spawner is not assigned")
 
 		current_state = MatchState.IN_PROGRESS
 		broadcast_shrine_result.rpc(majority_accepted)

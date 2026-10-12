@@ -10,6 +10,7 @@ enum spawnerType{
 @export var spawn_points : Array[Marker3D]
 @export var objects_to_spawn = 1
 @export var object_spawner_type : spawnerType
+@export var super_tarot_scene: PackedScene
 
 var spawned_objects : Array[Node] = []
 
@@ -32,6 +33,27 @@ func spawn_objects(peer_id : int = -1) -> void:
 		
 		_spawn_object(spawn_points[i],-1,-1,scene_to_spawn)
 
+
+func spawn_super_tarot() -> void:
+	if not multiplayer.is_server():
+		return
+
+	if super_tarot_scene == null:
+		push_warning("SpawnManager: Super Tarot scene is not assigned")
+		return
+
+	if spawn_points.is_empty():
+		push_warning("SpawnManager: No Tarot spawn points available")
+		return
+
+	var random_spawn_point: Marker3D = spawn_points.pick_random()
+
+	_spawn_object(
+		random_spawn_point,
+		-1,
+		-1,
+		super_tarot_scene
+	)
 
 func _spawn_object(
 	spawn_point: Marker3D,

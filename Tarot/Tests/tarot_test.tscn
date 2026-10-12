@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://riwr8antkf37"]
 
+[ext_resource type="Script" uid="uid://bu23p8p345a0k" path="res://Tarot/Tests/tarot_test.gd" id="1_3jedb"]
 [ext_resource type="Script" uid="uid://bcemgv3dalyu2" path="res://Tarot/Tests/TarotTestPlayer.gd" id="1_r5va3"]
 [ext_resource type="Script" uid="uid://b362schemplyn" path="res://Tarot/Scripts/TarotEffectController.gd" id="2_ugvy3"]
 [ext_resource type="Script" uid="uid://qxjx26k0iqkt" path="res://Tarot/Scripts/TarotPickup.gd" id="3_acbn7"]
+[ext_resource type="Resource" uid="uid://03fc567bvki5" path="res://Tarot/Cards/Definitions/Recaller.tres" id="4_3jedb"]
 [ext_resource type="Resource" uid="uid://s0fvvca0wbib" path="res://Tarot/Cards/Definitions/DarkMoon.tres" id="4_foo6t"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_foo6t"]
@@ -17,11 +19,21 @@ background_mode = 2
 sky = SubResource("Sky_3jedb")
 glow_enabled = true
 
+[sub_resource type="BoxMesh" id="BoxMesh_2krnp"]
+size = Vector3(1, 2, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_mkfg2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mkfg2"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_14qsb"]
+size = Vector3(30, 1, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_14qsb"]
+size = Vector3(30, 1, 30)
+
 [node name="TarotTest" type="Node3D" unique_id=1526363546]
+script = ExtResource("1_3jedb")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2114001916]
 environment = SubResource("Environment_62kai")
@@ -30,18 +42,20 @@ environment = SubResource("Environment_62kai")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="TarotTestPlayer" type="Node" parent="." unique_id=786170852]
+[node name="TarotTestPlayer" type="Node3D" parent="." unique_id=536579590]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 0)
 script = ExtResource("1_r5va3")
 
 [node name="TarotEffectController" type="Node" parent="TarotTestPlayer" unique_id=1574527259]
 script = ExtResource("2_ugvy3")
 
-[node name="Camera3D" type="Camera3D" parent="TarotTestPlayer" unique_id=1939257631]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 5)
+[node name="PlayerVisual" type="MeshInstance3D" parent="TarotTestPlayer" unique_id=1258322597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_2krnp")
 
 [node name="TarotPickup" type="Area3D" parent="." unique_id=738219792]
 script = ExtResource("3_acbn7")
-card = ExtResource("4_foo6t")
+card = ExtResource("4_3jedb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="TarotPickup" unique_id=1055127275]
 mesh = SubResource("BoxMesh_mkfg2")
@@ -60,7 +74,8 @@ skeleton = NodePath("../../TarotPickup2")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TarotPickup2" unique_id=1160380085]
 shape = SubResource("BoxShape3D_mkfg2")
 
-[node name="TarotTestPlayer2" type="Node" parent="." unique_id=1698019822]
+[node name="TarotTestPlayer2" type="Node3D" parent="." unique_id=359474347]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
 script = ExtResource("1_r5va3")
 input_enabled = false
 
@@ -70,3 +85,19 @@ script = ExtResource("2_ugvy3")
 [node name="Camera3D" type="Camera3D" parent="TarotTestPlayer2" unique_id=7311739]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 5)
 current = true
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=962469700]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1885425885]
+mesh = SubResource("BoxMesh_14qsb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1215520271]
+shape = SubResource("BoxShape3D_14qsb")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1939257631]
+transform = Transform3D(1, 0, 0, 0, 0.9063078, 0.4226183, 0, -0.4226183, 0.9063078, -3, 9, 12)
+current = true
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1896682308]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RecallerEffect" format=3 uid="uid://7242he012s84"]
+
+[ext_resource type="Script" uid="uid://b3qp6rt6xxqmf" path="res://Tarot/Scripts/RecallerEffect.gd" id="1_b4iom"]
+
+[resource]
+script = ExtResource("1_b4iom")
+effect_id = &"recaller_effect"
+display_name = "Recaller"
+effect_type = 0
+target_mode = 3
+metadata/_custom_type_script = "uid://b3qp6rt6xxqmf"
