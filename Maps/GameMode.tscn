@@ -100,7 +100,7 @@ shader_parameter/moon_texture_flip_u = false
 shader_parameter/moon_texture_flip_v = false
 shader_parameter/moon_size = 0.07
 shader_parameter/atm_moon_mie_tint = Color(0.137255, 0.184314, 0.292196, 1)
-shader_parameter/atm_moon_mie_intensity = 0.0
+shader_parameter/atm_moon_mie_intensity = 0.5546563154459
 shader_parameter/atm_moon_partial_mie_phase = Vector3(0.36, 1.64, 1.6)
 shader_parameter/starmap_color = Color(0.709804, 0.709804, 0.709804, 0.854902)
 shader_parameter/starmap_texture = ExtResource("24_kdu3y")
@@ -124,8 +124,8 @@ shader_parameter/cirrus_absorption = 2.0
 shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.19384955, 0.19384955)
-shader_parameter/cirrus_position2 = Vector2(0.19384955, 0.19384955)
+shader_parameter/cirrus_position1 = Vector2(0.58658934, 0.58658934)
+shader_parameter/cirrus_position2 = Vector2(0.58658934, 0.58658934)
 shader_parameter/cirrus_texture = ExtResource("19_fehfy")
 shader_parameter/cumulus_visible = true
 shader_parameter/cumulus_intensity = 0.6
@@ -135,7 +135,7 @@ shader_parameter/cumulus_absorption = 2.0
 shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(5.96931, 5.96931)
+shader_parameter/cumulus_position = Vector2(7.9327993, 7.9327993)
 shader_parameter/cumulus_texture = ExtResource("20_3pguu")
 shader_parameter/cumulus_partial_mie_phase = Vector3(0.957564, 1.042436, 0.412)
 shader_parameter/cumulus_mie_intensity = 1.0
@@ -505,6 +505,7 @@ shape = SubResource("BoxShape3D_tarot")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9998918, 29.72553, -6)
 
 [node name="main_map" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=268275247 instance=ExtResource("17_amo7d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47662354, 0.20548439, 0.6701126)
 
 [node name="SpawnPoints" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1560531572]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32.262455, -6.19973)
