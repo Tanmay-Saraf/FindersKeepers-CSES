@@ -1,5 +1,3 @@
-
-
 # This script extends Node3D, making it a 3D scene root
 extends Node3D
 
@@ -23,9 +21,6 @@ func get_game_time() -> String:
 
 # Called when the node is ready
 func _ready():
-	print("GameMode ready")
-
-	
 	# If running standalone (e.g. F6) without an active peer, initialize local server peer
 	if multiplayer != null and not multiplayer.has_multiplayer_peer():
 		var peer = ENetMultiplayerPeer.new()
@@ -43,7 +38,7 @@ func _ready():
 			var hud = hud_scene.instantiate()
 			hud.name = "MatchHUD"
 			$CanvasLayer.add_child(hud)
-	
+
 	# Connect to SpellCenter.part_deposited signal as a rock-solid failsafe
 	var spell_center = world.get_node_or_null("SpellCenter")
 	if spell_center and not spell_center.part_deposited.is_connected(_on_spell_center_deposited):
@@ -54,6 +49,19 @@ func _ready():
 	if multiplayer != null && multiplayer.is_server():
 		spawn_player(multiplayer.get_unique_id())
 		GameManager.start_match()
+		# Ensure MatchHUD is present under CanvasLayer
+		if has_node("CanvasLayer"):
+			var canvas = $CanvasLayer
+			# Remove any existing MatchHUD
+			var old = canvas.get_node_or_null("MatchHUD")
+			if old:
+				old.queue_free()
+			# Instantiate a fresh MatchHUD (which includes CompassUI from the tscn)
+			var hud_scene = load("res://Maps/MatchHUD.tscn")
+			if hud_scene:
+				var hud = hud_scene.instantiate()
+				hud.name = "MatchHUD"
+				canvas.add_child(hud)
 		print("Match Started")
 	elif multiplayer != null and multiplayer.has_multiplayer_peer():
 		# Peers that connected in the lobby won't fire peer_connected again,
@@ -64,53 +72,26 @@ func _ready():
 func _client_ready_in_game():
 	if multiplayer.is_server():
 		spawn_player(multiplayer.get_remote_sender_id())
-	
+		# Respawn body parts for all currently registered players
+		if GameManager.body_part_spawner != null:
+			GameManager.body_part_spawner.spawn_objects()
 
 func _on_spell_center_deposited(collector: Node, part: Node) -> void:
-	print("GameMode: SpellCenter deposit event triggered by ", collector.name if collector else "unknown")
-	if collector == null or  not collector.is_multiplayer_authority():
+	if collector == null or not collector.is_multiplayer_authority():
 		return
-	#var depositor_id: int = 1
-	#if collector:
-		#if collector.get("player_id") != null and collector.player_id > 0:
-			#depositor_id = collector.player_id
-		#elif collector.name.contains("_"):
-			#depositor_id = collector.name.get_slice("_", 1).to_int()
 
 	var victim_id: int = part.get("owner_id") if (part and part.get("owner_id") != null) else -1
 	var part_type: int = part.get("part_type") if (part and part.get("part_type") != null) else 0
 
 	GameManager.request_deposit_part.rpc_id(1, part_type, victim_id)
 
-	## 1. Update GameManager state
-	#if GameManager:
-		#if not GameManager.players.has(depositor_id):
-			#GameManager.register_player(depositor_id, "Player_" + str(depositor_id))
-		#if GameManager.players.has(depositor_id):
-			#GameManager.players[depositor_id]["parts_deposited"] += 1
-			#print("GameMode: Incremented GameManager parts_deposited to ", GameManager.players[depositor_id]["parts_deposited"])
-		#
-		## Broadcast or emit directly
-		#if GameManager.has_method("broadcast_part_deposit"):
-			#GameManager.broadcast_part_deposit(depositor_id, victim_id, part_type)
-		#elif GameManager.has_signal("part_deposited_broadcast"):
-			#GameManager.part_deposited_broadcast.emit(depositor_id, victim_id, part_type)
-#
-	## 2. Directly notify MatchHUD
-	#var hud = $CanvasLayer.get_node_or_null("MatchHUD")
-	#if hud and hud.has_method("_on_part_deposited"):
-		#hud._on_part_deposited(depositor_id, victim_id, part_type)
-
 # Called when a new peer connects
 func _on_peer_connected(peer_id: int):
-	# Only the server handles player spawning
 	if multiplayer.is_server():
-		print("Peer connected to GameMode: ", peer_id)
 		spawn_player(peer_id)
 
 # Called when a peer disconnects
 func _on_peer_disconnected(peer_id: int):
-	print("Peer disconnected from GameMode: ", peer_id)
 	remove_player(peer_id)
 
 # Spawns a player for the given peer_id
@@ -118,7 +99,6 @@ func spawn_player(peer_id: int):
 	if world.has_node("Player_" + str(peer_id)):
 		return
 
-	# Register player into authoritative match state
 	if GameManager:
 		GameManager.register_player(peer_id, "Player_" + str(peer_id))
 
@@ -126,14 +106,12 @@ func spawn_player(peer_id: int):
 	var player = player_scene.instantiate()
 	player.name = "Player_" + str(peer_id)
 
-	
 	var spawnPos : Vector3= get_next_spawn_position(nextSpawnIdx)
 	player.position = spawnPos
 	world.add_child(player, true)
-	
+
 	if peer_id != multiplayer.get_unique_id():
 		_place_player.rpc_id(peer_id, spawnPos)
-	
 
 @rpc("authority", "reliable")
 func _place_player(pos : Vector3):
@@ -142,7 +120,7 @@ func _place_player(pos : Vector3):
 	while not world.has_node(node_name) and tries < 300:
 		await get_tree().process_frame
 		tries += 1
-		
+
 	var p = world.get_node_or_null(node_name)
 	if p:
 		p.global_position = pos
@@ -154,14 +132,13 @@ func get_next_spawn_position(idx : int):
 		if points.size() > 0:
 			nextSpawnIdx += 1
 			return points[idx].global_position
-	
 	return Vector3(0, 10, 0)
 
 func remove_player(peer_id: int):
 	var player = world.get_node_or_null("Player_" + str(peer_id))
 	if player:
 		player.queue_free()
-		print("Removed player: ", peer_id)
+	print("Removed player: ", peer_id)
 
 func get_random_spawn_position() -> Vector3:
 	if spawn_points:

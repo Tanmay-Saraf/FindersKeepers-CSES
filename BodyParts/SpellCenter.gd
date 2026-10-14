@@ -18,7 +18,7 @@ func _on_body_entered(body: Node) -> void:
 	if not body.has_method("deposit_body_part"):
 		return
 
-	var part = body.get("held_body_part")
+	var part = body.held_body_part
 	if part == null:
 		return  # player is not carrying a body part
 
