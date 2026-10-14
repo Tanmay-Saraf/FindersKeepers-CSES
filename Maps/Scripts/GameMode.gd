@@ -7,6 +7,7 @@ extends Node3D
 @onready var spawn_points: Node = $SubViewportContainer/SubViewport/SpawnPoints
 @onready var tod: TimeOfDay = $SubViewportContainer/SubViewport/Sky3D/TimeOfDay
 
+var nextSpawnIdx : int = 0;
 
 # Called when the node enters the scene tree
 func _enter_tree():
@@ -23,9 +24,6 @@ func get_game_time() -> String:
 # Called when the node is ready
 func _ready():
 	print("GameMode ready")
-	
-	
-	
 
 	
 	# If running standalone (e.g. F6) without an active peer, initialize local server peer
@@ -128,10 +126,36 @@ func spawn_player(peer_id: int):
 	var player = player_scene.instantiate()
 	player.name = "Player_" + str(peer_id)
 
+	
+	var spawnPos : Vector3= get_next_spawn_position(nextSpawnIdx)
+	player.position = spawnPos
 	world.add_child(player, true)
-	player.global_position = get_random_spawn_position()
+	
+	if peer_id != multiplayer.get_unique_id():
+		_place_player.rpc_id(peer_id, spawnPos)
+	
 
-	print("Spawned player: ", player.name)
+@rpc("authority", "reliable")
+func _place_player(pos : Vector3):
+	var node_name := "Player_" + str(multiplayer.get_unique_id())
+	var tries := 0
+	while not world.has_node(node_name) and tries < 300:
+		await get_tree().process_frame
+		tries += 1
+		
+	var p = world.get_node_or_null(node_name)
+	if p:
+		p.global_position = pos
+		p.velocity = Vector3.ZERO
+
+func get_next_spawn_position(idx : int):
+	if spawn_points:
+		var points = spawn_points.get_children()
+		if points.size() > 0:
+			nextSpawnIdx += 1
+			return points[idx].global_position
+	
+	return Vector3(0, 10, 0)
 
 func remove_player(peer_id: int):
 	var player = world.get_node_or_null("Player_" + str(peer_id))

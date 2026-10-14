@@ -45,6 +45,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [node name="Player" type="CharacterBody3D" unique_id=611918509]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 safe_margin = 0.08
 script = ExtResource("1_cb6jr")
 
@@ -53,6 +54,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6823256, -0.14701265)
 fov = 70.5
 
 [node name="HeadPosition" type="Node3D" parent="Camera3D" unique_id=1095777352]
+
+[node name="Flashlight" type="SpotLight3D" parent="Camera3D" unique_id=1365428271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4656279, -0.061312616)
+visible = false
+light_energy = 3.0
+spot_range = 25.0
+spot_angle = 30.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1715516151]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.102, 0)

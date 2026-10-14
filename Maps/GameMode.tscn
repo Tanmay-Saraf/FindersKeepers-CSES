@@ -100,7 +100,7 @@ shader_parameter/moon_texture_flip_u = false
 shader_parameter/moon_texture_flip_v = false
 shader_parameter/moon_size = 0.07
 shader_parameter/atm_moon_mie_tint = Color(0.137255, 0.184314, 0.292196, 1)
-shader_parameter/atm_moon_mie_intensity = 0.0
+shader_parameter/atm_moon_mie_intensity = 0.5546563154459
 shader_parameter/atm_moon_partial_mie_phase = Vector3(0.36, 1.64, 1.6)
 shader_parameter/starmap_color = Color(0.709804, 0.709804, 0.709804, 0.854902)
 shader_parameter/starmap_texture = ExtResource("24_kdu3y")
@@ -124,8 +124,8 @@ shader_parameter/cirrus_absorption = 2.0
 shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.19384955, 0.19384955)
-shader_parameter/cirrus_position2 = Vector2(0.19384955, 0.19384955)
+shader_parameter/cirrus_position1 = Vector2(0.1601732, 0.1601732)
+shader_parameter/cirrus_position2 = Vector2(0.1601732, 0.1601732)
 shader_parameter/cirrus_texture = ExtResource("19_fehfy")
 shader_parameter/cumulus_visible = true
 shader_parameter/cumulus_intensity = 0.6
@@ -135,7 +135,7 @@ shader_parameter/cumulus_absorption = 2.0
 shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(5.96931, 5.96931)
+shader_parameter/cumulus_position = Vector2(25.800396, 25.800396)
 shader_parameter/cumulus_texture = ExtResource("20_3pguu")
 shader_parameter/cumulus_partial_mie_phase = Vector3(0.957564, 1.042436, 0.412)
 shader_parameter/cumulus_mie_intensity = 1.0
@@ -190,10 +190,10 @@ super_tarot_scene = ExtResource("7_fehfy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.76277, 0.368119, 0)
 
 [node name="TarotSpawn2" type="Marker3D" parent="TarotCardSpawner" unique_id=230038535]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.63837, 6.68755)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.44621, 3.6383705, 6.68755)
 
 [node name="TarotSpawn3" type="Marker3D" parent="TarotCardSpawner" unique_id=690235969]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.80623, 0.746818, 5.42771)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.365774, 0.74681854, 5.42771)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="TarotCardSpawner" unique_id=1876028794]
 _spawnable_scenes = PackedStringArray("uid://b0u1d8aox07b8", "uid://bonou20gtdbp2", "uid://bdux4ohva6vk8", "uid://um7aivmlr1qr", "uid://2npo8sjgn5st", "uid://dd6texlcddpm5")
@@ -470,6 +470,7 @@ aspect_ratio = Vector2(4, 3)
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1945453894]
 handle_input_locally = false
 size = Vector2i(1280, 960)
+size_2d_override_stretch = true
 render_target_update_mode = 4
 
 [node name="WorldObjects" type="Node" parent="SubViewportContainer/SubViewport" unique_id=1331820642]
@@ -507,19 +508,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9998918, 29.72553, -6)
 [node name="main_map" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=268275247 instance=ExtResource("17_amo7d")]
 
 [node name="SpawnPoints" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1560531572]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32.262455, -6.19973)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.20095, 85.54709, -6.19973)
 
 [node name="SpawnPoint1" type="Marker3D" parent="SubViewportContainer/SubViewport/SpawnPoints" unique_id=1757836481]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.17159, 1.62939, 8.162987)
+transform = Transform3D(-0.49856833, -0.32887015, 0.8020437, 0, 0.92523885, 0.3793851, -0.86685044, 0.1891494, -0.46129477, -25.121193, -67.85431, 44.118034)
 
 [node name="SpawnPoint2" type="Marker3D" parent="SubViewportContainer/SubViewport/SpawnPoints" unique_id=1160767251]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9869041, 2.205394, -1.4466405)
+transform = Transform3D(0.70519304, -0.12367477, 0.6981457, 0, 0.98466927, 0.17443173, -0.7090154, -0.12300803, 0.6943819, -25.26136, -67.75885, 51.043907)
 
 [node name="SpawnPoint3" type="Marker3D" parent="SubViewportContainer/SubViewport/SpawnPoints" unique_id=1598305161]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.30116, 0, 10.4345)
+transform = Transform3D(0.9827609, -0.049549118, 0.17811787, 0, 0.96341753, 0.26800507, -0.18488128, -0.26338488, 0.94680905, -26.723785, -67.675285, 52.089348)
 
 [node name="SpawnPoint4" type="Marker3D" parent="SubViewportContainer/SubViewport/SpawnPoints" unique_id=933366168]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.52572, 0, 11.024586)
+transform = Transform3D(-0.82319015, 0.0020254957, 0.56776214, 0, 0.9999936, -0.003567485, -0.5677658, -0.0029367185, -0.8231849, -26.698982, -68.20772, 42.689598)
 
 [node name="Sky3D" type="WorldEnvironment" parent="SubViewportContainer/SubViewport" unique_id=1611302914]
 environment = SubResource("Environment_fehfy")

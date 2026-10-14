@@ -39,6 +39,7 @@ var pitch = 0.0
 @onready var sync := $MultiplayerSynchronizer # Network sync component
 @onready var effect_controller: TarotEffectController = $TarotEffectController #Effect controller component
 @onready var interact_prompt: Label = $InteractPrompt/PromptLabel  # Interaction prompt label
+@onready var flashlight : SpotLight3D = $Camera3D/Flashlight
 
 # ===== MOVEMENT STATE =====
 enum MovementState { WALKING, SPRINTING, AIRBORNE }
@@ -134,6 +135,7 @@ func _enter_tree():
 
 func _ready():
 	add_to_group("player")
+	print("Player Spawns at: ", global_position)
 	dark_moon_environment = Environment.new()
 	dark_moon_environment.background_mode = Environment.BG_COLOR
 	dark_moon_environment.background_color = Color.BLACK
@@ -207,6 +209,14 @@ func _input(event):
 		use_tarot_card.rpc(0)
 	elif event.is_action_pressed("tarot_slot_2"):
 		use_tarot_card.rpc(1)
+		
+	if event.is_action_pressed("flashlight"):
+		set_flashlight.rpc(not flashlight.visible)
+		
+# ===== Flashlight =====
+@rpc("authority", "reliable", "call_local")
+func set_flashlight(on : bool):
+	flashlight.visible = on
 
 # ===== TAROT INVENTORY =====
 signal tarot_card_added(card: TarotCard, slot: int)  # Emitted when a card fills a slot
