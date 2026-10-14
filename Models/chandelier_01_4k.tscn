@@ -1,10 +1,9 @@
 [gd_scene format=4 uid="uid://ccrcynsbpixdq"]
 
 [ext_resource type="Script" uid="uid://nmcriasb46s7" path="res://Models/chandelier_01_4k.gd" id="1_rmuqb"]
-[ext_resource type="Texture2D" uid="uid://dbcs8so1sp7vp" path="res://Models/Chandelier_01_4k_Chandelier_01_diff_4k.jpg" id="2_gn4tk"]
-[ext_resource type="Texture2D" uid="uid://db7kiekj8iq3l" path="res://Models/Chandelier_01_4k_Chandelier_01_metallic-Chandelier_01_roughness.png" id="3_b14ro"]
-[ext_resource type="Texture2D" uid="uid://duvqaymwb1wsa" path="res://Models/Chandelier_01_4k_Chandelier_01_nor_gl.png" id="4_r60rc"]
-
+[ext_resource type="Texture2D" uid="uid://c7jlk2pp4s3qt" path="res://Models/dependencies/chandelier/Chandelier_01_4k_Chandelier_01_diff_4k.jpg" id="2_gn4tk"]
+[ext_resource type="Texture2D" uid="uid://cai0fnvtjop87" path="res://Models/dependencies/chandelier/Chandelier_01_4k_Chandelier_01_metallic-Chandelier_01_roughness.png" id="3_b14ro"]
+[ext_resource type="Texture2D" uid="uid://cb06dimugg5kj" path="res://Models/dependencies/chandelier/Chandelier_01_4k_Chandelier_01_nor_gl.png" id="4_r60rc"]
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2mvch"]
 resource_name = "basecolor_classic_chandelier_1"
 cull_mode = 2
