@@ -11,6 +11,8 @@ extends CharacterBody3D
 @export var ground_acceleration := 15.0 # Acceleration on ground
 @export var ground_deceleration := 20.0 # Deceleration on ground
 @export var air_control := 0.3         # Air movement control factor
+@export var character_turn_speed := 12.0 # How quickly the visible character faces movement
+@export var character_facing_yaw: float = PI # Replicated visual facing, relative to the player root
 
 @export_category("Camera Settings")
 @export var mouse_sensitivity := 0.01 # Mouse sensitivity
@@ -39,6 +41,7 @@ var pitch = 0.0
 @onready var sync := $MultiplayerSynchronizer # Network sync component
 @onready var effect_controller: TarotEffectController = $TarotEffectController #Effect controller component
 @onready var interact_prompt: Label = $InteractPrompt/PromptLabel  # Interaction prompt label
+@onready var animation_controller: Node = $AnimationController # Animation controller for character animations
 
 # ===== MOVEMENT STATE =====
 enum MovementState { WALKING, SPRINTING, AIRBORNE }
@@ -57,6 +60,7 @@ var jump_buffer_timer := 0.0          # Jump input buffer timer
 var coyote_timer := 0.0               # Coyote time timer
 var can_jump := true                  # Can player jump
 var jump_count := 0                   # Current jump count
+var jump_animation_name: StringName = &"jump_in_place"
 
 # ===== CAMERA EFFECTS =====
 var camera_tilt := 0.0                # Current camera tilt amount
@@ -164,6 +168,10 @@ func _ready():
 		camera.add_child(look_at_ray)
 		
 	GameManager.player_eliminated.connect(_on_player_eliminated)
+
+	# Initialize animations
+	if animation_controller and animation_controller.has_method("setup"):
+		animation_controller.setup(self)
 
 # ===== INPUT HANDLING =====
 func _input(event):
@@ -485,11 +493,13 @@ func _physics_process(delta):
 		# Local player movement
 		process_local_movement(delta)
 		move_and_slide()
+		update_character_facing(delta)
 		send_network_update()
 		update_camera_effects(delta)
 	else:
 		# Remote player movement interpolation
 		process_remote_movement(delta)
+		update_remote_character_facing(delta)
 
 # ===== LOCAL MOVEMENT =====
 func process_local_movement(delta):
@@ -531,6 +541,8 @@ func handle_jump_mechanics(delta):
 		perform_jump()
 
 func perform_jump():
+	# Use the same in-place jump for standing, walking, and running jumps.
+	jump_animation_name = &"jump_in_place"
 	velocity.y = jump_velocity
 	jump_buffer_timer = 0
 	can_jump = false
@@ -548,6 +560,40 @@ func update_movement_state():
 			current_speed = walk_speed*speed_modifier
 	else:
 		current_state = MovementState.AIRBORNE
+
+	_play_movement_animation()
+
+func _play_movement_animation() -> void:
+	if not animation_controller or not animation_controller.has_method("play_walk"):
+		return
+	var locomotion_animation: StringName = &""
+	match current_state:
+		MovementState.WALKING:
+			if not is_moving:
+				animation_controller.play_idle()
+				return
+			if Input.is_action_pressed("crouch"):
+				locomotion_animation = &"crouch_walk"
+			elif absf(raw_input_dir.x) > absf(raw_input_dir.y) + 0.1:
+				locomotion_animation = &"strafe_left" if raw_input_dir.x < 0.0 else &"strafe_right"
+			elif raw_input_dir.y > 0.1:
+				locomotion_animation = &"walk_back"
+			else:
+				locomotion_animation = &"walk"
+		MovementState.SPRINTING:
+			locomotion_animation = &"run"
+		MovementState.AIRBORNE:
+			if velocity.y > 0:
+				animation_controller.play_jump(jump_animation_name)
+			elif animation_controller.has_method("is_jump_animation_playing") and animation_controller.is_jump_animation_playing():
+				# Let the selected jump clip finish through the descending part.
+				pass
+			else:
+				animation_controller.play_fall()
+			return
+
+	if animation_controller.has_method("play_state"):
+		animation_controller.play_state(locomotion_animation)
 
 # ===== MOVEMENT CALCULATION =====
 func handle_movement(delta):
@@ -675,6 +721,45 @@ func process_remote_movement(delta):
 	# Apply with smoothing
 	global_position = global_position.lerp(target_pos, POSITION_LERP_FACTOR)
 	rotation = rotation.lerp(target_rot, ROTATION_LERP_FACTOR)
+
+func update_character_facing(delta: float) -> void:
+	var model := animation_controller.character_node as Node3D if animation_controller else null
+	if not is_instance_valid(model):
+		return
+
+	var travel_direction := Vector3(velocity.x, 0.0, velocity.z)
+	if travel_direction.length_squared() < 0.04:
+		return
+
+	var local_direction := global_transform.basis.inverse() * travel_direction.normalized()
+	var desired_facing_yaw: float
+	if current_state == MovementState.WALKING \
+		and not Input.is_action_pressed("crouch") \
+		and absf(raw_input_dir.x) > absf(raw_input_dir.y) + 0.1:
+		# Aim the selected strafe side (the arm at 3 or 9 o'clock) into travel.
+		if raw_input_dir.x > 0.0:
+			desired_facing_yaw = atan2(local_direction.z, -local_direction.x)
+		else:
+			desired_facing_yaw = atan2(-local_direction.z, local_direction.x)
+	elif current_state == MovementState.WALKING \
+		and not Input.is_action_pressed("crouch") \
+		and raw_input_dir.y > 0.1:
+		# Back-walk travels in the direction of the character's back (6 o'clock).
+		desired_facing_yaw = atan2(-local_direction.x, -local_direction.z)
+	else:
+		# Forward walk, run, crouch-walk, and forward jump travel from the front.
+		desired_facing_yaw = atan2(local_direction.x, local_direction.z)
+
+	character_facing_yaw = desired_facing_yaw
+	var turn_weight := 1.0 - exp(-character_turn_speed * delta)
+	model.rotation.y = lerp_angle(model.rotation.y, character_facing_yaw, turn_weight)
+
+func update_remote_character_facing(delta: float) -> void:
+	var model := animation_controller.character_node as Node3D if animation_controller else null
+	if not is_instance_valid(model):
+		return
+	var turn_weight := 1.0 - exp(-character_turn_speed * delta)
+	model.rotation.y = lerp_angle(model.rotation.y, character_facing_yaw, turn_weight)
 
 # ===== INPUT CONTROL =====
 func set_input_enabled(enabled: bool):

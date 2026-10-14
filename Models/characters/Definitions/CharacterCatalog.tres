@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CharacterCatalog" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://Models/characters/CharacterCatalog.gd" id="1_catalog"]
+[ext_resource type="Script" path="res://Models/characters/CharacterDefinition.gd" id="2_definition"]
+[ext_resource type="Resource" path="res://Models/characters/Definitions/Player1.tres" id="1_player1"]
+[ext_resource type="Resource" path="res://Models/characters/Definitions/Player2.tres" id="2_player2"]
+[ext_resource type="Resource" path="res://Models/characters/Definitions/Player3.tres" id="3_player3"]
+[ext_resource type="Resource" path="res://Models/characters/Definitions/Player4.tres" id="4_player4"]
+[ext_resource type="Resource" path="res://Models/characters/Definitions/Player5.tres" id="5_player5"]
+[ext_resource type="Resource" path="res://Models/characters/Definitions/Player6.tres" id="6_player6"]
+[ext_resource type="Resource" path="res://Models/characters/Definitions/Player7.tres" id="7_player7"]
+[ext_resource type="Resource" path="res://Models/characters/Definitions/Player8.tres" id="8_player8"]
+
+[resource]
+script = ExtResource("1_catalog")
+characters = Array[ExtResource("2_definition")]([ExtResource("1_player1"), ExtResource("2_player2"), ExtResource("3_player3"), ExtResource("4_player4"), ExtResource("5_player5"), ExtResource("6_player6"), ExtResource("7_player7"), ExtResource("8_player8")])

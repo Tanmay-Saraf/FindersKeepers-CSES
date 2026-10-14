@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://ba5s5f24vha8o" path="res://Player/Scripts/Player.gd" id="1_cb6jr"]
 [ext_resource type="Script" uid="uid://x7jvc2jhq42u" path="res://Player/Scripts/LocalPlayerController.gd" id="2_luh4h"]
 [ext_resource type="Script" uid="uid://d28ggpbcl23fi" path="res://Networking/RemotePlayerController.gd" id="3_kshrv"]
-[ext_resource type="PackedScene" uid="uid://6yhwxnmq278w" path="res://Models/male_character_ps1-style.glb" id="4_kshrv"]
 [ext_resource type="Script" uid="uid://b362schemplyn" path="res://Tarot/Scripts/TarotEffectController.gd" id="5_3ledp"]
+[ext_resource type="Script" uid="uid://uh4mw0m6exo8" path="res://Player/Scripts/PlayerAnimationController.gd" id="6_3ledp"]
+[ext_resource type="Resource" path="res://Models/characters/Definitions/CharacterCatalog.tres" id="7_catalog"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hegmd"]
 
@@ -36,6 +37,9 @@ properties/7/replication_mode = 1
 properties/8/path = NodePath("Camera3D/HeadPosition:position")
 properties/8/spawn = true
 properties/8/replication_mode = 1
+properties/9/path = NodePath(".:character_facing_yaw")
+properties/9/spawn = true
+properties/9/replication_mode = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ledp"]
 bg_color = Color(1, 1, 1, 1)
@@ -47,12 +51,6 @@ corner_radius_bottom_left = 3
 [node name="Player" type="CharacterBody3D" unique_id=611918509]
 safe_margin = 0.08
 script = ExtResource("1_cb6jr")
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=459706199]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6823256, -0.14701265)
-fov = 70.5
-
-[node name="HeadPosition" type="Node3D" parent="Camera3D" unique_id=1095777352]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1715516151]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.102, 0)
@@ -78,8 +76,10 @@ script = ExtResource("2_luh4h")
 [node name="RemotePlayerController" type="Node" parent="." unique_id=609825108]
 script = ExtResource("3_kshrv")
 
-[node name="Sketchfab_Scene" parent="." unique_id=2103658859 instance=ExtResource("4_kshrv")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, -1.1015973, 0)
+[node name="AnimationController" type="Node" parent="." unique_id=987654321]
+script = ExtResource("6_3ledp")
+character_catalog = ExtResource("7_catalog")
+default_character_id = &"player_1"
 
 [node name="TarotEffectController" type="Node" parent="." unique_id=485209888]
 script = ExtResource("5_3ledp")
@@ -130,8 +130,14 @@ custom_minimum_size = Vector2(2, 2)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3ledp")
 
+[node name="Camera3D" type="Camera3D" parent="." unique_id=459706199]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42957062, -0.35205686)
+fov = 70.5
+
+[node name="HeadPosition" type="Node3D" parent="Camera3D" unique_id=1095777352]
+
 [node name="Camera3D2" type="Camera3D" parent="." unique_id=271996068]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6823256, -0.14701265)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4305305, -0.35408556)
 fov = 70.5
 
 [node name="HeadPosition" type="Node3D" parent="Camera3D2" unique_id=103432510]
