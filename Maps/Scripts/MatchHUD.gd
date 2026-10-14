@@ -148,7 +148,7 @@ func _on_shrine_accept() -> void:
 	if shrine_decline_btn:
 		shrine_decline_btn.disabled = true
 	shrine_status_label.text = "Accepted! Waiting for other players..."
-	GameManager.submit_shrine_vote(true)
+	GameManager.submit_shrine_vote.rpc(true)
 
 func _on_shrine_decline() -> void:
 	if shrine_accept_btn:
@@ -156,7 +156,7 @@ func _on_shrine_decline() -> void:
 	if shrine_decline_btn:
 		shrine_decline_btn.disabled = true
 	shrine_status_label.text = "Declined! Waiting for other players..."
-	GameManager.submit_shrine_vote(false)
+	GameManager.submit_shrine_vote.rpc(false)
 
 func _on_shrine_resolved(accepted: bool) -> void:
 	if shrine_modal:
