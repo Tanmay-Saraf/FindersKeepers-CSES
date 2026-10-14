@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b662evo73twym"]
 
 [ext_resource type="Script" uid="uid://c2tg4bbt5rqq8" path="res://BodyParts/bodypart.gd" id="1_part"]
+[ext_resource type="Script" uid="uid://buhx1s3iasoll" path="res://BodyParts/OwnerTag.gd" id="2_gocp0"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_part"]
 size = Vector3(0.3, 0.3, 0.3)
@@ -22,6 +23,22 @@ properties/3/path = NodePath(".:part_color")
 properties/3/spawn = true
 properties/3/replication_mode = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gocp0"]
+transparency = 1
+albedo_color = Color(0.21859801, 0.023448706, 0.03896058, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_14qsb"]
+material = SubResource("StandardMaterial3D_gocp0")
+size = Vector2(1.5, 0.38)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2krnp"]
+transparency = 1
+albedo_color = Color(0.78431374, 0.19607843, 0.24313726, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_evfu2"]
+material = SubResource("StandardMaterial3D_2krnp")
+size = Vector2(1.5, 0.38)
+
 [node name="BodyPart" type="RigidBody3D" unique_id=1864461176 groups=["interactable"]]
 collision_mask = 3
 script = ExtResource("1_part")
@@ -35,3 +52,27 @@ shape = SubResource("BoxShape3D_part")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=622153700]
 replication_config = SubResource("SceneReplicationConfig_1h14b")
+
+[node name="OwnerTag" type="Node3D" parent="." unique_id=1218663292]
+script = ExtResource("2_gocp0")
+
+[node name="OwnerLabel" type="Label3D" parent="OwnerTag" unique_id=864816222]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0.2)
+visible = false
+no_depth_test = true
+modulate = Color(0.9607843, 0.92941177, 0.8784314, 1)
+outline_modulate = Color(0.09019608, 0.07450981, 0.08627451, 1)
+text = "Player 1 - Head"
+outline_size = 5
+
+[node name="OwnerLabelBackground" type="MeshInstance3D" parent="OwnerTag" unique_id=141951984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0.02)
+visible = false
+mesh = SubResource("QuadMesh_14qsb")
+skeleton = NodePath("../OwnerLabel")
+
+[node name="OwnerLabelFrame" type="MeshInstance3D" parent="OwnerTag" unique_id=872290974]
+transform = Transform3D(1.04, 0, 0, 0, 1.12, 0, 0, 0, 1, 0, 0.65, 0)
+visible = false
+mesh = SubResource("QuadMesh_evfu2")
+skeleton = NodePath("../OwnerLabel")

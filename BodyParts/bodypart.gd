@@ -1,6 +1,10 @@
 class_name BodyPart
 extends RigidBody3D
 
+@onready var owner_label: Label3D = $OwnerTag/OwnerLabel
+@onready var owner_label_background: MeshInstance3D = $OwnerTag/OwnerLabelBackground
+@onready var owner_label_frame: MeshInstance3D = $OwnerTag/OwnerLabelFrame
+
 ## Base class for all collectible Body Parts.
 ## Inherits from Area3D to provide trigger-based detection when a player enters its collision zone.
 
@@ -146,3 +150,19 @@ func _apply_color() -> void:
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = part_color
 	mesh.material_override = mat
+
+func set_owner_label_visible(show_label: bool) -> void:
+	if owner_label == null:
+		return
+
+	if show_label:
+		var part_names := ["Head", "Hands", "Torso", "Legs"]
+		var part_name: String = part_names[part_type]
+		owner_label.text = "Player %d's %s" % [owner_id, part_name]
+
+	owner_label.visible = show_label
+
+	if owner_label_background:
+		owner_label_background.visible = show_label
+	if owner_label_frame:
+		owner_label_frame.visible = show_label

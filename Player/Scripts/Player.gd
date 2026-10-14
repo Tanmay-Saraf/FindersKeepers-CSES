@@ -82,7 +82,7 @@ var player_id: int = -1
 var look_at_ray: RayCast3D            # Raycast for detecting objects in front of player
 var held_object: Node3D = null        # Currently held interactable object
 var held_body_part: BodyPart = null   # Body part being carried, deposited at the spell center
-
+var hovered_body_part: BodyPart = null # Body part which is being hovered
 
 
 var _t := 0.0
@@ -102,15 +102,40 @@ func _process(delta):
 	# Update controller camera look (local player only)
 	if is_multiplayer_authority() and input_enabled:
 		process_controller_look(delta)
-	
-	# Update interaction prompt visibility (local player only)
-	if is_multiplayer_authority() and interact_prompt:
-		var show_prompt = false
-		if look_at_ray and look_at_ray.is_colliding() and not held_object and not held_body_part:
-			var hit_node = look_at_ray.get_collider()
-			if hit_node and (hit_node.is_in_group("interactable") or hit_node is BodyPart or hit_node is TarotPickup):
-				show_prompt = true
-		interact_prompt.visible = show_prompt
+
+	# Hover identification is local to this player
+	if not is_multiplayer_authority():
+		return
+
+	var current_hovered_part: BodyPart = null
+
+	if look_at_ray and look_at_ray.is_colliding() and not held_object and not held_body_part:
+		var hit_node = look_at_ray.get_collider()
+
+		if hit_node is BodyPart:
+			current_hovered_part = hit_node
+
+		# Preserve the existing interaction prompt behavior
+		if interact_prompt:
+			interact_prompt.visible = hit_node != null and (
+				hit_node.is_in_group("interactable")
+				or hit_node is BodyPart
+				or hit_node is TarotPickup
+			)
+	else:
+		if interact_prompt:
+			interact_prompt.visible = false
+
+	# Hide the previously hovered body part
+	if hovered_body_part != current_hovered_part:
+		if is_instance_valid(hovered_body_part):
+			hovered_body_part.set_owner_label_visible(false)
+
+		hovered_body_part = current_hovered_part
+
+	# Show the label on the newly hovered body part
+	if is_instance_valid(hovered_body_part):
+		hovered_body_part.set_owner_label_visible(true)
 
 func process_controller_look(delta: float) -> void:
 	var look_dir = Input.get_vector("look_left", "look_right", "look_up", "look_down")
