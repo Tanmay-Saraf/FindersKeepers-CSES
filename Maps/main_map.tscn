@@ -70,10 +70,10 @@ mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_quu1p")])
 [node name="main_map" type="Node3D" unique_id=268275247]
 
 [node name="island_part" parent="." unique_id=1574973063 instance=ExtResource("1_acmjk")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.19026947, -0.22542572, 0.20471954)
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.19026947, -0.22542572, 0.20471954)
 
 [node name="church" parent="." unique_id=1824352235 instance=ExtResource("1_u3all")]
-transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -97.34478, 13.464863, 40.984276)
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -90.37113, 13.464863, 5.252152)
 
 [node name="Terrain3D" type="Terrain3D" parent="." unique_id=677699343]
 data_directory = "res://Maps/terrain_data"
