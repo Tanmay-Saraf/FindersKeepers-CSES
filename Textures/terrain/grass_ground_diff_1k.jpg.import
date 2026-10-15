@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfuyvebp2j60q"
-path="res://.godot/imported/rock_ground_diff_1k.jpg-229dcceb061f46c3573a525a7941f453.ctex"
+uid="uid://bfoi5bynsk2oh"
+path="res://.godot/imported/grass_ground_diff_1k.jpg-68083ddbfb2758e04f0e31b20a579c14.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/grass/rock_ground_diff_1k.jpg"
-dest_files=["res://.godot/imported/rock_ground_diff_1k.jpg-229dcceb061f46c3573a525a7941f453.ctex"]
+source_file="res://Textures/terrain/grass_ground_diff_1k.jpg"
+dest_files=["res://.godot/imported/grass_ground_diff_1k.jpg-68083ddbfb2758e04f0e31b20a579c14.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

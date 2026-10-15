@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[ext_resource type="Texture2D" path="res://Textures/terrain/sand_03_diff_1k.jpg" id="1_diff"]
+[ext_resource type="Texture2D" path="res://Textures/terrain/sand_03_nor_gl_1k.jpg" id="2_normal"]
+
+[resource]
+resource_name = "Island Sand"
+albedo_texture = ExtResource("1_diff")
+roughness = 0.9
+normal_enabled = true
+normal_scale = 0.5
+normal_texture = ExtResource("2_normal")
+uv1_scale = Vector3(1, 1, 1)

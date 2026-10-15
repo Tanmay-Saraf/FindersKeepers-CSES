@@ -1,0 +1,50 @@
+[gd_resource type="Terrain3DAssets" load_steps=12 format=3]
+
+[ext_resource type="Texture2D" path="res://Textures/terrain/rock_ground_diff_1k.jpg" id="1_rock_albedo"]
+[ext_resource type="Texture2D" path="res://Textures/terrain/rock_ground_nor_gl_1k.jpg" id="2_rock_normal"]
+[ext_resource type="Texture2D" path="res://Textures/terrain/grass_ground_diff_1k.jpg" id="3_grass_albedo"]
+[ext_resource type="Texture2D" path="res://Textures/terrain/grass_ground_nor_gl_1k.jpg" id="4_grass_normal"]
+[ext_resource type="Texture2D" path="res://Textures/terrain/sand_03_diff_1k.jpg" id="5_sand_albedo"]
+[ext_resource type="Texture2D" path="res://Textures/terrain/sand_03_nor_gl_1k.jpg" id="6_sand_normal"]
+
+[sub_resource type="Terrain3DTextureAsset" id="RockGround"]
+name = "Rock Ground"
+albedo_texture = ExtResource("1_rock_albedo")
+normal_texture = ExtResource("2_rock_normal")
+normal_depth = 1.0
+
+[sub_resource type="Terrain3DTextureAsset" id="GrassGround"]
+name = "Grass Ground"
+id = 1
+albedo_texture = ExtResource("3_grass_albedo")
+normal_texture = ExtResource("4_grass_normal")
+normal_depth = 1.0
+
+[sub_resource type="Terrain3DTextureAsset" id="Sand03"]
+name = "Sand 03"
+id = 2
+albedo_texture = ExtResource("5_sand_albedo")
+normal_texture = ExtResource("6_sand_normal")
+normal_depth = 1.0
+
+[sub_resource type="StandardMaterial3D" id="GrassCardMaterial"]
+transparency = 4
+cull_mode = 2
+vertex_color_use_as_albedo = true
+backlight_enabled = true
+backlight = Color(0.5, 0.5, 0.5, 1)
+distance_fade_mode = 1
+distance_fade_min_distance = 128.0
+distance_fade_max_distance = 96.0
+
+[sub_resource type="Terrain3DMeshAsset" id="GrassCard"]
+generated_type = 1
+height_offset = 0.5
+material_override = SubResource("GrassCardMaterial")
+last_lod = 0
+last_shadow_lod = 0
+lod0_range = 128.0
+
+[resource]
+mesh_list = Array[Terrain3DMeshAsset]([SubResource("GrassCard")])
+texture_list = Array[Terrain3DTextureAsset]([SubResource("RockGround"), SubResource("GrassGround"), SubResource("Sand03")])
