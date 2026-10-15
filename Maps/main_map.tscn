@@ -3,6 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://g6jvwmoxqc4u" path="res://Maps/island_part.tscn" id="1_acmjk"]
 [ext_resource type="PackedScene" uid="uid://cmtlv2wyaewl5" path="res://Maps/church.tscn" id="1_u3all"]
 [ext_resource type="Script" uid="uid://cib2rig7vup10" path="res://addons/terrain_3d/tools/importer.gd" id="5_vv64y"]
+[ext_resource type="Texture2D" path="res://Textures/grass/rock_ground_diff_1k.jpg" id="6_rock_albedo"]
+[ext_resource type="Texture2D" path="res://Textures/grass/rock_ground_nor_gl_1k.jpg" id="7_rock_normal"]
+[ext_resource type="Texture2D" path="res://Textures/grass/grass_ground_diff_1k.jpg" id="8_grass_albedo"]
+[ext_resource type="Texture2D" path="res://Textures/grass/grass_ground_nor_gl_1k.jpg" id="9_grass_normal"]
+[ext_resource type="Texture2D" path="res://Textures/grass/sand_03_diff_1k.jpg" id="10_sand_albedo"]
+[ext_resource type="Texture2D" path="res://Textures/grass/sand_03_nor_gl_1k.jpg" id="11_sand_normal"]
 
 [sub_resource type="Gradient" id="Gradient_u3all"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -64,8 +70,29 @@ last_lod = 0
 last_shadow_lod = 0
 lod0_range = 128.0
 
+[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_rock"]
+name = "Rock Ground"
+albedo_texture = ExtResource("6_rock_albedo")
+normal_texture = ExtResource("7_rock_normal")
+normal_depth = 1.0
+
+[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_grass"]
+name = "Grass Ground"
+id = 1
+albedo_texture = ExtResource("8_grass_albedo")
+normal_texture = ExtResource("9_grass_normal")
+normal_depth = 1.0
+
+[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_sand"]
+name = "Sand 03"
+id = 2
+albedo_texture = ExtResource("10_sand_albedo")
+normal_texture = ExtResource("11_sand_normal")
+normal_depth = 1.0
+
 [sub_resource type="Terrain3DAssets" id="Terrain3DAssets_cmmmn"]
 mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_quu1p")])
+texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_rock"), SubResource("Terrain3DTextureAsset_grass"), SubResource("Terrain3DTextureAsset_sand")])
 
 [node name="main_map" type="Node3D" unique_id=268275247]
 
