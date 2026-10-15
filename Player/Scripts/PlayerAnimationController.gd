@@ -266,7 +266,7 @@ func _find_skeleton(node: Node) -> Skeleton3D:
 			return result
 	return null
 
-
+@rpc("authority", "call_local", "reliable")
 func _play_animation(name: String) -> void:
 	if animation_player == null:
 		push_warning("No animation_player")
@@ -283,31 +283,32 @@ func _play_animation(name: String) -> void:
 
 ## Public playback API for local or remote state drivers. This controller does
 ## not read input or network state; callers select a clip by its key in ANIM_SCENES.
+@rpc("authority", "call_local", "reliable")
 func play_state(animation_state: StringName) -> void:
-	_play_animation(String(animation_state))
+	_play_animation.rpc(String(animation_state))
 
 
 func play_locomotion(animation_name: StringName) -> void:
-	play_state(animation_name)
+	play_state.rpc(animation_name)
 
 
 func play_walk() -> void:
-	play_state(&"walk")
+	play_state.rpc(&"walk")
 
 func play_walk_back() -> void:
-	play_state(&"walk_back")
+	play_state.rpc(&"walk_back")
 
 func play_crouch_walk() -> void:
-	play_state(&"crouch_walk")
+	play_state.rpc(&"crouch_walk")
 
 func play_sprint() -> void:
-	play_state(&"run")
+	play_state.rpc(&"run")
 
 func play_idle() -> void:
-	play_state(&"idle")
+	play_state.rpc(&"idle")
 
 func play_jump(jump_animation: StringName = &"jump_in_place") -> void:
-	play_state(jump_animation)
+	play_state.rpc(jump_animation)
 
 func play_fall() -> void:
 	# No fall clip is present yet; keep a valid looping pose while airborne.
