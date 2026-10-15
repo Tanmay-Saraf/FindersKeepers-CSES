@@ -506,6 +506,7 @@ shape = SubResource("BoxShape3D_tarot")
 transform = Transform3D(-0.99736893, 0.003219755, -0.072421454, 0, 0.9990132, 0.044414714, 0.07249299, 0.04429785, -0.99638474, -86.10003, 17.412252, 41.13269)
 
 [node name="main_map" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=268275247 instance=ExtResource("17_amo7d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47662354, 0.20548439, 0.6701126)
 
 [node name="SpawnPoints" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1560531572]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.20095, 85.54709, -6.19973)

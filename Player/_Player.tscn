@@ -137,3 +137,9 @@ grow_vertical = 2
 custom_minimum_size = Vector2(2, 2)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3ledp")
+
+[node name="Camera3D2" type="Camera3D" parent="." unique_id=271996068]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6823256, -0.14701265)
+fov = 70.5
+
+[node name="HeadPosition" type="Node3D" parent="Camera3D2" unique_id=103432510]

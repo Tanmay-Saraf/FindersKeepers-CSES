@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://duvqaymwb1wsa"
+uid="uid://c23pj8hdtmvyp"
 path.s3tc="res://.godot/imported/Chandelier_01_4k_Chandelier_01_nor_gl.png-c1a408675bb14e8a910048d17bdc7538.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
@@ -30,7 +30,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://Models/Chandelier_01_4k_Chandelier_01_nor_gl.png"
+roughness/src_normal="res://Models/dependencies/chandelier/Chandelier_01_4k_Chandelier_01_nor_gl.png"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2
