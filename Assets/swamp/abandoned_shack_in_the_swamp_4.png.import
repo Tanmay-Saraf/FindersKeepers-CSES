@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lmpuo2ny0xs"
-path.s3tc="res://.godot/imported/a_forest_3_with_a_road_at_night_for_game_3.png-ed86c5c2b6664520b9acc035b53ad0e7.s3tc.ctex"
+uid="uid://bk4xdytt4r3x8"
+path.s3tc="res://.godot/imported/abandoned_shack_in_the_swamp_4.png-80bb932fd145677cb618ed20c2aa004e.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "7679831f8a3e27421cb8d0169d5a1382"
+"md5": "bace01ea411ad38853f75ad73c0ad38d"
 }
 
 [deps]
 
-source_file="res://Assets/a_forest_3_with_a_road_at_night_for_game_3.png"
-dest_files=["res://.godot/imported/a_forest_3_with_a_road_at_night_for_game_3.png-ed86c5c2b6664520b9acc035b53ad0e7.s3tc.ctex"]
+source_file="res://Assets/swamp/abandoned_shack_in_the_swamp_4.png"
+dest_files=["res://.godot/imported/abandoned_shack_in_the_swamp_4.png-80bb932fd145677cb618ed20c2aa004e.s3tc.ctex"]
 
 [params]
 
@@ -25,12 +25,12 @@ compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://Assets/swamp/abandoned_shack_in_the_swamp_4.png"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

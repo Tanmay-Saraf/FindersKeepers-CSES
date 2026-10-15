@@ -41,6 +41,9 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "nodes": {
+"PATH:Sketchfab_model/root": {
+"node/node_type": "StaticBody3D"
+},
 "PATH:Sketchfab_model/root/GLTF_SceneRootNode/Ponderosa Pine seedling_038_foliage_130/Object_181": {
 "generate/physics": true
 },

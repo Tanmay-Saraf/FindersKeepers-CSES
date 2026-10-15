@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://deoiottxaojf8"
-path.s3tc="res://.godot/imported/a_forest_3_with_a_road_at_night_for_game_2.png-3e07a480fedc6d273b1ffe80599fcc19.s3tc.ctex"
+uid="uid://dt8dxntgtdlyu"
+path.s3tc="res://.godot/imported/abandoned_shack_in_the_swamp_7.png-55204fa9d683304ddd2722e1bb4061c7.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "e83d95bb3bbc15303e0d9a8676340aac"
+"md5": "12489aa79a1b73a73f78a55b063ca654"
 }
 
 [deps]
 
-source_file="res://Assets/a_forest_3_with_a_road_at_night_for_game_2.png"
-dest_files=["res://.godot/imported/a_forest_3_with_a_road_at_night_for_game_2.png-3e07a480fedc6d273b1ffe80599fcc19.s3tc.ctex"]
+source_file="res://Assets/swamp/abandoned_shack_in_the_swamp_7.png"
+dest_files=["res://.godot/imported/abandoned_shack_in_the_swamp_7.png-55204fa9d683304ddd2722e1bb4061c7.s3tc.ctex"]
 
 [params]
 
@@ -30,7 +30,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://Assets/a_forest_3_with_a_road_at_night_for_game_2.png"
+roughness/src_normal="res://Assets/swamp/abandoned_shack_in_the_swamp_7.png"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

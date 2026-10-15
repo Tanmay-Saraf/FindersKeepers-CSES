@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvr03d81o0o4j"
-path.s3tc="res://.godot/imported/a_forest_3_with_a_road_at_night_for_game_0.png-f55a7996db7ef6cb05accaceb52b51dc.s3tc.ctex"
+uid="uid://bhltmbwsh1c50"
+path.s3tc="res://.godot/imported/abandoned_shack_in_the_swamp_0.png-4b6a1844a205fafb1df986c3cadf3418.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "bf9a9de06bae6fb109c8731611c954b2"
+"md5": "e3697cc02b4f5d04bca6a16b5e9dd988"
 }
 
 [deps]
 
-source_file="res://Assets/a_forest_3_with_a_road_at_night_for_game_0.png"
-dest_files=["res://.godot/imported/a_forest_3_with_a_road_at_night_for_game_0.png-f55a7996db7ef6cb05accaceb52b51dc.s3tc.ctex"]
+source_file="res://Assets/swamp/abandoned_shack_in_the_swamp_0.png"
+dest_files=["res://.godot/imported/abandoned_shack_in_the_swamp_0.png-4b6a1844a205fafb1df986c3cadf3418.s3tc.ctex"]
 
 [params]
 

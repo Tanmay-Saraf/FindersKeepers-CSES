@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://d6o18yb54dg7"
-path="res://.godot/imported/a_forest_3_with_a_road_at_night_for_game.glb-44ad17b191f67dbd572b09ac2e681800.scn"
+uid="uid://ckmgn14dmhl30"
+path="res://.godot/imported/abandoned_shack_in_the_swamp.glb-1c15b32b5e974796988b9f43c53c286c.scn"
 
 [deps]
 
-source_file="res://Assets/a_forest_3_with_a_road_at_night_for_game.glb"
-dest_files=["res://.godot/imported/a_forest_3_with_a_road_at_night_for_game.glb-44ad17b191f67dbd572b09ac2e681800.scn"]
+source_file="res://Assets/swamp/abandoned_shack_in_the_swamp.glb"
+dest_files=["res://.godot/imported/abandoned_shack_in_the_swamp.glb-1c15b32b5e974796988b9f43c53c286c.scn"]
 
 [params]
 
@@ -41,11 +41,11 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "nodes": {
-"PATH:Sketchfab_model/8487a72de1e44d0180e1c3e69ca9c229_fbx/RootNode/Plane_002/Plane_002_Material_003_0": {
+"PATH:Sketchfab_model/root/GLTF_SceneRootNode/Terrain_4/Object_12": {
 "generate/physics": true,
 "physics/shape_type": 2
 },
-"PATH:Sketchfab_model/8487a72de1e44d0180e1c3e69ca9c229_fbx/RootNode/Plane_003/Plane_003_Material_0": {
+"PATH:Sketchfab_model/root/GLTF_SceneRootNode/Water_5/Object_14": {
 "generate/physics": true,
 "physics/shape_type": 2
 }
