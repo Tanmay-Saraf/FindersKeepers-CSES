@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ebb68b68eb81b99482332714ffcf662a5df054b51d7760d38438b497ec6f5b2b
-size 331
+[gd_scene format=3 uid="uid://ch0fvpgw0xlsm"]
+
+[ext_resource type="PackedScene" uid="uid://ckmgn14dmhl30" path="res://Assets/swamp/abandoned_shack_in_the_swamp.glb" id="1_vqi4o"]
+
+[node name="Node3D" type="Node3D" unique_id=1661178471]
+
+[node name="Sketchfab_Scene" parent="." unique_id=1967116556 instance=ExtResource("1_vqi4o")]

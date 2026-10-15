@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7dcd38c076367f57e22639f535c17bfacd511528de5be2f121190ea16da9545d
-size 354
+[gd_scene format=3 uid="uid://bw7b8hyaoe2xf"]
+
+[ext_resource type="PackedScene" uid="uid://8e23lyv4uyw4" path="res://Assets/graveyard/38689b21fa70449fa725d53fda4550e0.glb" id="1_ocuwg"]
+
+[node name="Node3D" type="Node3D" unique_id=767950715]
+
+[node name="38689b21fa70449fa725d53fda4550e0" parent="." unique_id=1713788550 instance=ExtResource("1_ocuwg")]

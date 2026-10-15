@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:185c4164558850675a151c7527a010a4b169fe246ac81c3f2019cdc7fd8f6548
-size 303
+[gd_scene format=3 uid="uid://cb27bkmg7kfjb"]
+
+[ext_resource type="PackedScene" uid="uid://dxlp46cxmhet2" path="res://Maps/dependencies/garage/garage.glb" id="1_mgtst"]
+
+[node name="garage" unique_id=352538222 instance=ExtResource("1_mgtst")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
