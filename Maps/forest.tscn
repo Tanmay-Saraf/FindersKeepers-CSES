@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://3vbkl5rfv8f6"]
+
+[ext_resource type="PackedScene" uid="uid://c6qs26gcfsovu" path="res://Assets/newForest/pine_forest_at_sunset.glb" id="1_56x3q"]
+
+[node name="Node3D" type="Node3D" unique_id=684661660]
+
+[node name="Sketchfab_Scene" parent="." unique_id=1759881413 instance=ExtResource("1_56x3q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.429716, 0, -1.6538908)
