@@ -49,7 +49,7 @@ signal blood_shrine_prompt_started()
 signal blood_shrine_resolved(accepted: bool)
 signal game_over_announced(winner_id: int, winner_name: String)
 signal active_parts_manifest_generated(parts_list: Array)
-
+signal player_roster_updated()
 
 
 # STATE VARIABLES
@@ -135,7 +135,8 @@ func register_player(peer_id: int, player_name: String) -> void:
 		"voted_yes": false       # The player's actual vote
 	}
 	print("Registered %s (Peer ID: %d) with color %s" % [player_name, peer_id, assigned_color])
-
+	if current_state == MatchState.IN_PROGRESS:
+		sync_player_roster.rpc(players)
 
 ## Handles peer disconnects gracefully while preserving their parts in the arena.
 func _on_peer_disconnected(disconnected_peer_id: int) -> void:
@@ -214,6 +215,12 @@ func sync_match_start(server_players: Dictionary, server_active_parts: Array) ->
 	current_state = MatchState.IN_PROGRESS
 	match_state_changed.emit(current_state)
 	active_parts_manifest_generated.emit(active_body_parts)
+
+
+@rpc("authority", "call_local", "reliable")
+func sync_player_roster(server_players: Dictionary) -> void:
+	players = server_players
+	player_roster_updated.emit()
 
 
 @rpc("authority", "call_local", "unreliable")
@@ -458,3 +465,14 @@ func get_player_color(peer_id : int) -> String:
 		
 	var c : int = players[peer_id]["color"]
 	return PlayerColor.keys()[c].capitalize()
+
+
+func get_player_display_number(peer_id: int) -> int:
+	var player_ids: Array = players.keys()
+	player_ids.sort()
+
+	var index: int = player_ids.find(peer_id)
+	if index == -1:
+		return -1
+
+	return index + 1

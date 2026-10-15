@@ -20,6 +20,9 @@ extends Control
 @onready var winner_label: Label = $GameOverPanel/VBoxContainer/WinnerLabel
 @onready var menu_btn: Button = $GameOverPanel/VBoxContainer/MenuBtn
 
+
+@onready var player_legend_rows: VBoxContainer = $PlayerLegend/LegendVBox/LegendRows
+
 var local_deposits: int = 0
 
 func _ready() -> void:
@@ -72,9 +75,13 @@ func _setup_focus_styling() -> void:
 		GameManager.blood_shrine_prompt_started.connect(_on_shrine_prompt_started)
 		GameManager.blood_shrine_resolved.connect(_on_shrine_resolved)
 		GameManager.game_over_announced.connect(_on_game_over)
+		GameManager.match_state_changed.connect(_on_match_state_changed)
+		GameManager.player_roster_updated.connect(_update_player_legend)
 		
 		# Initial timer display
 		_on_match_timer_updated(GameManager.time_remaining)
+		if GameManager.current_state == GameManager.MatchState.IN_PROGRESS:
+			_update_player_legend()
 	
 	_update_score_display()
 
@@ -186,3 +193,40 @@ func _on_game_over(winner_id: int, winner_name: String) -> void:
 
 func _on_menu_pressed() -> void:
 	get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
+
+
+func _update_player_legend() -> void:
+	if player_legend_rows == null or GameManager == null:
+		return
+
+	for child in player_legend_rows.get_children():
+		child.queue_free()
+
+	var player_ids: Array = GameManager.players.keys()
+	player_ids.sort()
+
+	var local_id: int = multiplayer.get_unique_id()
+
+	for peer_id in player_ids:
+		var player_data: Dictionary = GameManager.players[peer_id]
+		var display_number: int = GameManager.get_player_display_number(peer_id)
+		var color_index: int = int(player_data["color"])
+		var player_color: Color = GameManager.PLAYER_COLOR_VALUES[color_index]
+
+		var row := HBoxContainer.new()
+		var color_swatch := ColorRect.new()
+		color_swatch.color = player_color
+		color_swatch.custom_minimum_size = Vector2(14, 14)
+		row.add_child(color_swatch)
+
+		var label := Label.new()
+		label.text = "Player %d" % display_number
+		if peer_id == local_id:
+			label.text += " (YOU)"
+		row.add_child(label)
+
+		player_legend_rows.add_child(row)
+
+func _on_match_state_changed(new_state: GameManager.MatchState) -> void:
+	if new_state == GameManager.MatchState.IN_PROGRESS:
+		_update_player_legend()
