@@ -266,7 +266,7 @@ func _find_skeleton(node: Node) -> Skeleton3D:
 			return result
 	return null
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func _play_animation(name: String) -> void:
 	if animation_player == null:
 		push_warning("No animation_player")
@@ -283,7 +283,7 @@ func _play_animation(name: String) -> void:
 
 ## Public playback API for local or remote state drivers. This controller does
 ## not read input or network state; callers select a clip by its key in ANIM_SCENES.
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func play_state(animation_state: StringName) -> void:
 	_play_animation.rpc(String(animation_state))
 
