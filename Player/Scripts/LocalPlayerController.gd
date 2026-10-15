@@ -184,4 +184,3 @@ func handle_controller_look(delta: float):
 			var camera = player.get_node("Camera3D")
 			var pitch = clamp(camera.rotation.x - look_dir.y * controller_sensitivity * delta, deg_to_rad(-90), deg_to_rad(90))
 			camera.rotation.x = pitch
-
