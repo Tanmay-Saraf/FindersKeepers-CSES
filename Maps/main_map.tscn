@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://cjsstbxelp7rg"]
 
-[ext_resource type="PackedScene" uid="uid://g6jvwmoxqc4u" path="res://Maps/island_part.tscn" id="1_acmjk"]
 [ext_resource type="PackedScene" uid="uid://cmtlv2wyaewl5" path="res://Maps/church.tscn" id="1_u3all"]
 [ext_resource type="Script" uid="uid://cib2rig7vup10" path="res://addons/terrain_3d/tools/importer.gd" id="5_vv64y"]
-[ext_resource type="Terrain3DAssets" path="res://Materials/main_map_terrain_assets.tres" id="6_terrain_assets"]
+[ext_resource type="Terrain3DAssets" uid="uid://hwlqou0asrc6" path="res://Materials/main_map_terrain_assets.tres" id="6_terrain_assets"]
 
 [sub_resource type="Gradient" id="Gradient_u3all"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -28,6 +27,10 @@ seamless = true
 
 [sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_2x6ge"]
 _shader_parameters = {
+&"auto_base_texture": 0,
+&"auto_height_reduction": 0.1,
+&"auto_overlay_texture": 1,
+&"auto_slope": 1.0,
 &"bias_distance": null,
 &"blend_sharpness": null,
 &"depth_blur": null,
@@ -43,19 +46,11 @@ _shader_parameters = {
 &"noise1_scale": null,
 &"noise2_scale": null,
 &"noise_texture": SubResource("NoiseTexture2D_vv64y"),
-&"projection_threshold": null,
-&"auto_base_texture": 0,
-&"auto_overlay_texture": 1,
-&"auto_slope": 1.0,
-&"auto_height_reduction": 0.1
+&"projection_threshold": null
 }
 auto_shader = true
-show_checkered = true
 
 [node name="main_map" type="Node3D" unique_id=268275247]
-
-[node name="island_part" parent="." unique_id=1574973063 instance=ExtResource("1_acmjk")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.19026947, -0.22542572, 0.20471954)
 
 [node name="church" parent="." unique_id=1824352235 instance=ExtResource("1_u3all")]
 transform = Transform3D(-1.2370323e-07, 0, -2.83, 0, 2.83, 0, 2.83, 0, -1.2370323e-07, -97.34478, 13.464863, 40.984276)
@@ -64,7 +59,6 @@ transform = Transform3D(-1.2370323e-07, 0, -2.83, 0, 2.83, 0, 2.83, 0, -1.237032
 data_directory = "res://Maps/terrain_data"
 material = SubResource("Terrain3DMaterial_2x6ge")
 assets = ExtResource("6_terrain_assets")
-show_checkered = true
 top_level = true
 script = ExtResource("5_vv64y")
 height_file_name = "/home/soham-roy/Documents/code/Games/FindersKeepers/Textures/rocks/herringbone_concrete_tile_03_nor_gl_4k.exr"

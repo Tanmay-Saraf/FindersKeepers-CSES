@@ -134,8 +134,8 @@ shader_parameter/cirrus_absorption = 2.0
 shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.85001075, 0.85001075)
-shader_parameter/cirrus_position2 = Vector2(0.85001075, 0.85001075)
+shader_parameter/cirrus_position1 = Vector2(0.09545978, 0.09545978)
+shader_parameter/cirrus_position2 = Vector2(0.09545978, 0.09545978)
 shader_parameter/cirrus_texture = ExtResource("19_fehfy")
 shader_parameter/cumulus_visible = true
 shader_parameter/cumulus_intensity = 0.6
@@ -145,7 +145,7 @@ shader_parameter/cumulus_absorption = 2.0
 shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(19.249775, 19.249775)
+shader_parameter/cumulus_position = Vector2(0.47729874, 0.47729874)
 shader_parameter/cumulus_texture = ExtResource("20_3pguu")
 shader_parameter/cumulus_partial_mie_phase = Vector3(0.957564, 1.042436, 0.412)
 shader_parameter/cumulus_mie_intensity = 1.0
@@ -171,13 +171,6 @@ tonemap_white = 6.0
 sdfgi_use_occlusion = true
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_3pguu"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_2q7m2"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_obcad"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_tagav"]
-size = Vector3(1.0625, 1, 1.1732178)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7a78o"]
 resource_name = "Foliage_DeadGrass"
@@ -1088,7 +1081,7 @@ shape = SubResource("BoxShape3D_tarot")
 transform = Transform3D(-0.99736893, 0.003219755, -0.072421454, 0, 0.9990132, 0.044414714, 0.07249299, 0.04429785, -0.99638474, -86.10003, 17.412252, 41.13269)
 
 [node name="main_map" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=268275247 instance=ExtResource("17_amo7d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.572971, 0.89868927, -2.1897545)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.572971, -5.8728104, -2.1897545)
 
 [node name="SpawnPoints" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1560531572]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -70.28093, 60, 38.79452)
@@ -1142,20 +1135,8 @@ day = 4
 month = 10
 year = 2026
 
-[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=1630302830]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 35.715187, 0)
-physics_material_override = SubResource("PhysicsMaterial_2q7m2")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D" unique_id=1127134142]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.955291, -0.021501064, 0)
-mesh = SubResource("BoxMesh_obcad")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=1720842359]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.03125, 0, -0.022399902)
-shape = SubResource("BoxShape3D_tagav")
-
-[node name="Node3D" parent="." unique_id=684661660 instance=ExtResource("29_3pguu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -124.61803, 10.446297, 41.29782)
+[node name="forest" parent="." unique_id=684661660 instance=ExtResource("29_3pguu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -121.900955, 0, -12.381683)
 
 [node name="Sketchfab_Scene" parent="." unique_id=1967116556 instance=ExtResource("30_41yog")]
 transform = Transform3D(0.020517861, 0, -3.7799444, 0, 3.78, 0, 3.7799444, 0, 0.020517861, 104.121445, 10.530977, -61.668404)
