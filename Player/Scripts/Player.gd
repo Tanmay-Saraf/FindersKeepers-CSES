@@ -10,7 +10,8 @@ extends CharacterBody3D
 @export var jump_velocity := 15.0      # Jump force
 @export var ground_acceleration := 15.0 # Acceleration on ground
 @export var ground_deceleration := 20.0 # Deceleration on ground
-@export var air_control := 1.3        # Air movement control factor
+@export var air_control := 0.3         # Air movement control factor
+@export var sprint_grace_time := 0.25  # Sprint still counts this long after release (A -> B thumb travel)
 @export var character_turn_speed := 12.0 # How quickly the visible character faces movement
 @export var character_facing_yaw: float = PI # Replicated visual facing, relative to the player root
 
@@ -56,6 +57,8 @@ var speed_modifier: float = 1.0 # Used while using demon speed
 var input_multiplier: float  = 1.0 # Used for inverting the controls while using hanged man 
 var knockback_velocity: Vector3 = Vector3.ZERO
 var knockback_time_remaining: float = 0.0
+var sprint_grace_timer := 0.0          # Time left in which a released sprint still counts
+var air_speed := 0.0                   # Horizontal speed carried from takeoff
 
 # ===== JUMP VARIABLES =====
 var jump_buffer_timer := 0.0          # Jump input buffer timer
@@ -287,6 +290,26 @@ func add_tarot_card(card: TarotCard) -> bool:
 
 	print("Tarot inventory full.")
 	return false
+
+# Server-granted card (e.g. Blood Shrine reward). Uses the first empty slot,
+# or overwrites slot 1 when the inventory is full.
+@rpc("any_peer", "call_local", "reliable")
+func grant_tarot_card(card_path: String) -> void:
+	var sender_id := multiplayer.get_remote_sender_id()
+	if sender_id != 1 and not (sender_id == 0 and multiplayer.is_server()):
+		return
+
+	var card := load(card_path) as TarotCard
+	if card == null:
+		push_warning("Cannot grant Tarot card, failed to load: " + card_path)
+		return
+
+	if add_tarot_card(card):
+		return
+
+	tarot_cards[0] = card
+	print("Granted Tarot Card: ", card.card_name, " | Replaced Slot: 0")
+	tarot_card_added.emit(card, 0)
 
 @rpc("any_peer", "call_local", "reliable")
 func use_tarot_card(slot_index: int)->void:
@@ -572,6 +595,13 @@ func process_local_movement(delta):
 func handle_jump_mechanics(delta):
 	# Update timers
 	jump_buffer_timer = max(jump_buffer_timer - delta, 0)
+	# Holding jump keeps re-jumping on every landing
+	if Input.is_action_pressed("jump"):
+		jump_buffer_timer = max(jump_buffer_timer, 0.15)
+	if Input.is_action_pressed("sprint"):
+		sprint_grace_timer = sprint_grace_time
+	else:
+		sprint_grace_timer = max(sprint_grace_timer - delta, 0)
 	
 	# Coyote time - allows jumping shortly after leaving ground
 	if is_on_floor():
@@ -579,6 +609,7 @@ func handle_jump_mechanics(delta):
 		if not was_on_floor:
 			can_jump = true
 			jump_count = 0
+			air_speed = 0.0
 	else:
 		coyote_timer = max(coyote_timer - delta, 0)
 	
@@ -592,6 +623,8 @@ func perform_jump():
 	# Use the same in-place jump for standing, walking, and running jumps.
 	jump_animation_name = &"jump_in_place"
 	velocity.y = jump_velocity
+	# Carry takeoff momentum into the air (also chains held-jump hops)
+	air_speed = Vector2(velocity.x, velocity.z).length()
 	jump_buffer_timer = 0
 	can_jump = false
 	coyote_timer = 0
@@ -600,7 +633,7 @@ func perform_jump():
 # ===== MOVEMENT STATES =====
 func update_movement_state():
 	if is_on_floor():
-		if Input.is_action_pressed("sprint") and is_moving and raw_input_dir.y < 0:
+		if (Input.is_action_pressed("sprint") or sprint_grace_timer > 0) and is_moving and raw_input_dir.y < 0:
 			current_state = MovementState.SPRINTING
 			current_speed = sprint_speed*speed_modifier
 		else:
@@ -660,7 +693,7 @@ func handle_movement(delta):
 	else:
 		# Air movement
 		var current_vel = Vector2(velocity.x, velocity.z)
-		var target_vel = Vector2(wish_dir.x, wish_dir.z) * current_speed
+		var target_vel = Vector2(wish_dir.x, wish_dir.z) * max(current_speed, air_speed)
 		
 		if wish_dir.length() > 0:
 			current_vel = current_vel.move_toward(target_vel, ground_acceleration * air_control * delta)

@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bclrdutqm7kog"
-path="res://.godot/imported/Left Strafe Walking.fbx-58482b095747c561120e6a7523579cad.scn"
+valid=false
 
 [deps]
 
 source_file="res://Animations/Left Strafe Walking.fbx"
-dest_files=["res://.godot/imported/Left Strafe Walking.fbx-58482b095747c561120e6a7523579cad.scn"]
 
 [params]
 
