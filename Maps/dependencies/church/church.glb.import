@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dd45jtosp0l0i"
-path="res://.godot/imported/church.glb-a88d6706cd83df777d91497f85bdde8c.scn"
+valid=false
 
 [deps]
 
 source_file="res://Maps/dependencies/church/church.glb"
-dest_files=["res://.godot/imported/church.glb-a88d6706cd83df777d91497f85bdde8c.scn"]
 
 [params]
 

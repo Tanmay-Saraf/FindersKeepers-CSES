@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cgjjn4ryulaiv"
-path="res://.godot/imported/Injured Walk Backwards.fbx-e8cb3870cb510ce3fc748a9f8bf7241d.scn"
+valid=false
 
 [deps]
 
 source_file="res://Animations/Injured Walk Backwards.fbx"
-dest_files=["res://.godot/imported/Injured Walk Backwards.fbx-e8cb3870cb510ce3fc748a9f8bf7241d.scn"]
 
 [params]
 
