@@ -123,12 +123,19 @@ func _process(delta):
 			current_hovered_part = hit_node
 
 		# Preserve the existing interaction prompt behavior
+# Show the appropriate prompt for the targeted object.
 		if interact_prompt:
-			interact_prompt.visible = hit_node != null and (
-				hit_node.is_in_group("interactable")
-				or hit_node is BodyPart
-				or hit_node is TarotPickup
-			)
+			if hit_node is CharacterBody3D and hit_node.is_in_group("player"):
+				var is_in_range := global_position.distance_to(hit_node.global_position) <= 3.0
+				interact_prompt.text = "Q - Push Player" if is_in_range else ""
+				interact_prompt.visible = is_in_range
+			else:
+				interact_prompt.text = "Press [X] to interact"
+				interact_prompt.visible = hit_node != null and (
+					hit_node.is_in_group("interactable")
+					or hit_node is BodyPart
+					or hit_node is TarotPickup
+				)
 	else:
 		if interact_prompt:
 			interact_prompt.visible = false
@@ -217,6 +224,15 @@ func _input(event):
 	# Jump input buffering
 	if event.is_action_pressed("jump"):
 		jump_buffer_timer = 0.15
+
+	# Push player input
+	if event.is_action_pressed("push_player"):
+		var target := _get_push_target()
+		if target:
+			request_push_player.rpc_id(1, target.get_path())
+			print("[Push] Target: ", target.name)
+		else:
+			print("[Push] No valid player target")
 
 	# Interact input
 	if event.is_action_pressed("interact"):
@@ -385,6 +401,24 @@ func apply_tower_knockback(
 
 	_apply_tower_knockback_local(direction, strength, duration)
 
+func _get_push_target() -> CharacterBody3D:
+	if not look_at_ray or not look_at_ray.is_colliding():
+		return null
+
+	var hit_node := look_at_ray.get_collider()
+
+	# Only push a player directly hit by the look-at ray.
+	if not hit_node is CharacterBody3D:
+		return null
+
+	if not hit_node.is_in_group("player"):
+		return null
+
+	# The target must be within 3 units.
+	if global_position.distance_to(hit_node.global_position) > 3.0:
+		return null
+
+	return hit_node
 
 func apply_speed_modifier(multiplier: float)->void:
 	speed_modifier *= multiplier
@@ -397,6 +431,7 @@ func remove_speed_modifier(multiplier: float)->void:
 	speed_modifier /= multiplier
 	
 	print("speed modifier removed : ",multiplier , " | current modifier : ",speed_modifier)
+
 
 func apply_vision_modifier(multiplier: float)->void:
 	vision_modifier *= multiplier
@@ -435,6 +470,66 @@ func remove_input_modifier(multiplier: float)->void:
 		return
 	input_multiplier /= multiplier
 	print("Input modifier removed ",multiplier," | current modifier : ",input_multiplier)
+
+@rpc("any_peer", "call_local", "reliable")
+func request_push_player(target_path: NodePath) -> void:
+	if not multiplayer.is_server():
+		return
+
+	var sender_id := multiplayer.get_remote_sender_id()
+
+	# Resolve the host's local request.
+	if sender_id == 0:
+		sender_id = 1
+
+	# The request must come from this player.
+	if sender_id != player_id:
+		return
+
+	if target_path.is_empty():
+		return
+
+	var target := get_node_or_null(target_path)
+
+	if target == null or not is_instance_valid(target):
+		return
+
+	if target == self:
+		return
+
+	if not target is CharacterBody3D:
+		return
+
+	if not target.is_in_group("player"):
+		return
+
+	# Validate the distance on the server.
+	if global_position.distance_to(target.global_position) > 3.0:
+		return
+
+	# Push away from the requesting player.
+	var direction :Vector3 = target.global_position - global_position
+	direction.y = 0.0
+
+	if direction.length_squared() < 0.001:
+		direction = -global_transform.basis.z
+
+	direction = direction.normalized()
+
+	var target_peer_id := target.get_multiplayer_authority()
+
+	if target_peer_id == 1:
+		target._apply_tower_knockback_local(direction, 14.0, 0.45)
+	else:
+		target.rpc_id(
+			target_peer_id,
+			"apply_tower_knockback",
+			direction,
+			14.0,
+			0.45
+		)
+
+	print("[Push] ", name, " pushed ", target.name)
 
 # ===== PICKUP / DROP =====
 @rpc("any_peer", "call_local", "reliable")
