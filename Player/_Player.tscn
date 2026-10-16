@@ -45,6 +45,10 @@ light_energy = 6.0
 spot_range = 25.0
 spot_angle = 30.0
 
+[node name="Timer" type="Timer" parent="Camera3D/Flashlight" unique_id=57878081]
+wait_time = 10.0
+one_shot = true
+
 [node name="HeadPosition2" type="Node3D" parent="Camera3D" unique_id=31649153]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1715516151]

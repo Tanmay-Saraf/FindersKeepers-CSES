@@ -43,6 +43,7 @@ var pitch = 0.0
 @onready var interact_prompt: Label = $InteractPrompt/PromptLabel  # Interaction prompt label
 @onready var animation_controller: Node = $AnimationController # Animation controller for character animations
 @onready var flashlight : SpotLight3D = $Camera3D/Flashlight
+@onready var timer : Timer = $Camera3D/Flashlight/Timer
 
 # ===== MOVEMENT STATE =====
 enum MovementState { WALKING, SPRINTING, AIRBORNE }
@@ -87,9 +88,8 @@ var look_at_ray: RayCast3D            # Raycast for detecting objects in front o
 var held_object: Node3D = null        # Currently held interactable object
 var held_body_part: BodyPart = null   # Body part being carried, deposited at the spell center
 var hovered_body_part: BodyPart = null # Body part which is being hovered
-
-
 var _t := 0.0
+
 
 
 func flicker_lights(delta) -> void:
@@ -158,6 +158,8 @@ func _enter_tree():
 		if sync:
 			sync.set_multiplayer_authority(peer_id)
 			sync.replication_interval = 1.0 / network_update_rate
+			
+	
 
 func _ready():
 	add_to_group("player")
@@ -241,12 +243,26 @@ func _input(event):
 		use_tarot_card.rpc(1)
 		
 	if event.is_action_pressed("flashlight"):
-		set_flashlight.rpc(not flashlight.visible)
-		
+		if not flashlight.visible and timer.is_stopped():
+			timer.start(2)
+			timer.timeout.connect(func() : set_flashlight.rpc(not flashlight.visible))
+		elif flashlight.visible:
+			set_flashlight.rpc(not flashlight.visible)
+			if not timer.is_stopped():
+				timer.stop()
+				
 # ===== Flashlight =====
 @rpc("authority", "reliable", "call_local")
 func set_flashlight(on : bool):
+	print("Flashlight was Turned ", on)
 	flashlight.visible = on
+	timer.stop()
+	if flashlight.visible:
+		timer.start(10)
+		timer.timeout.connect(func() : set_flashlight.rpc(false))
+	else:
+		timer.set_wait_time(2)
+	
 
 # ===== TAROT INVENTORY =====
 signal tarot_card_added(card: TarotCard, slot: int)  # Emitted when a card fills a slot
