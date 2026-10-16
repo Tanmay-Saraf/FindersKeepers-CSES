@@ -156,6 +156,7 @@ func leave_session():
 		multiplayer.multiplayer_peer.close()
 	multiplayer.multiplayer_peer = null
 	match_started = false
+	
 	get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
 
 # Remote procedure call to load game world on clients

@@ -164,7 +164,6 @@ layout_mode = 2
 text = "Decline"
 
 [node name="GameOverPanel" type="Panel" parent="." unique_id=255492576]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

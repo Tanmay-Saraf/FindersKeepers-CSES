@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cjsstbxelp7rg"]
 
 [ext_resource type="PackedScene" uid="uid://cmtlv2wyaewl5" path="res://Maps/church.tscn" id="1_u3all"]
-[ext_resource type="PackedScene" uid="uid://3vbkl5rfv8f6" path="res://Maps/forest.tscn" id="2_3s748"]
+[ext_resource type="PackedScene" path="res://Maps/forest.scn" id="2_3s748"]
 
 [node name="main_map" type="Node3D" unique_id=268275247]
 

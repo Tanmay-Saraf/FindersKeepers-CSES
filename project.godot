@@ -28,8 +28,16 @@ GameManager="*res://scripts/managers/GameManager.gd"
 
 [display]
 
+window/size/viewport_width=480
+window/size/viewport_height=320
 window/size/mode=3
-window/vsync/vsync_mode=0
+window/stretch/mode="canvas_items"
+window/fps=60
+window/canvas_textures/default_texture_filter=1
+
+[editor]
+
+movie_writer/fps=90
 
 [editor_plugins]
 
@@ -156,6 +164,7 @@ flashlight={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=5
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality=5
 lights_and_shadows/positional_shadow/soft_shadow_filter_quality.mobile=5
