@@ -1,73 +1,12 @@
 [gd_scene format=3 uid="uid://cjsstbxelp7rg"]
 
-[ext_resource type="PackedScene" uid="uid://g6jvwmoxqc4u" path="res://Maps/island_part.tscn" id="1_acmjk"]
 [ext_resource type="PackedScene" uid="uid://cmtlv2wyaewl5" path="res://Maps/church.tscn" id="1_u3all"]
-[ext_resource type="Script" uid="uid://cib2rig7vup10" path="res://addons/terrain_3d/tools/importer.gd" id="5_vv64y"]
-[ext_resource type="Terrain3DAssets" path="res://Materials/main_map_terrain_assets.tres" id="6_terrain_assets"]
-
-[sub_resource type="Gradient" id="Gradient_u3all"]
-offsets = PackedFloat32Array(0.2, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_acmjk"]
-noise_type = 2
-frequency = 0.03
-cellular_jitter = 3.0
-cellular_return_type = 0
-domain_warp_enabled = true
-domain_warp_type = 1
-domain_warp_amplitude = 50.0
-domain_warp_fractal_type = 2
-domain_warp_fractal_lacunarity = 1.5
-domain_warp_fractal_gain = 1.0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vv64y"]
-noise = SubResource("FastNoiseLite_acmjk")
-color_ramp = SubResource("Gradient_u3all")
-seamless = true
-
-[sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_2x6ge"]
-_shader_parameters = {
-&"bias_distance": null,
-&"blend_sharpness": null,
-&"depth_blur": null,
-&"enable_macro_variation": null,
-&"enable_projection": null,
-&"flat_terrain_normals": null,
-&"macro_variation1": null,
-&"macro_variation2": null,
-&"macro_variation_slope": null,
-&"mipmap_bias": null,
-&"noise1_angle": null,
-&"noise1_offset": null,
-&"noise1_scale": null,
-&"noise2_scale": null,
-&"noise_texture": SubResource("NoiseTexture2D_vv64y"),
-&"projection_threshold": null,
-&"auto_base_texture": 0,
-&"auto_overlay_texture": 1,
-&"auto_slope": 1.0,
-&"auto_height_reduction": 0.1
-}
-auto_shader = true
-show_checkered = true
+[ext_resource type="PackedScene" uid="uid://3vbkl5rfv8f6" path="res://Maps/forest.tscn" id="2_3s748"]
 
 [node name="main_map" type="Node3D" unique_id=268275247]
 
-[node name="island_part" parent="." unique_id=1574973063 instance=ExtResource("1_acmjk")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.19026947, -0.22542572, 0.20471954)
-
 [node name="church" parent="." unique_id=1824352235 instance=ExtResource("1_u3all")]
-transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -90.37113, 13.464863, 5.252152)
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, 1.0389633, 7.6545105, -11.20105)
 
-[node name="Terrain3D" type="Terrain3D" parent="." unique_id=677699343]
-data_directory = "res://Maps/terrain_data"
-material = SubResource("Terrain3DMaterial_2x6ge")
-assets = ExtResource("6_terrain_assets")
-show_checkered = true
-top_level = true
-script = ExtResource("5_vv64y")
-height_file_name = "/home/soham-roy/Documents/code/Games/FindersKeepers/Textures/rocks/herringbone_concrete_tile_03_nor_gl_4k.exr"
-control_file_name = "/home/soham-roy/Documents/code/Games/FindersKeepers/Textures/rocks/herringbone_concrete_tile_03_diff_4k.jpg"
-color_file_name = "/home/soham-roy/Documents/code/Games/FindersKeepers/Textures/rocks/herringbone_concrete_tile_03_disp_4k.png"
-metadata/_edit_lock_ = true
+[node name="Node3D" parent="." unique_id=684661660 instance=ExtResource("2_3s748")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9827557, 0)

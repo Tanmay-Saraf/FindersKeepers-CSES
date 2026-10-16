@@ -168,6 +168,10 @@ func rpc_load_game_world():
 # Called when a new peer connects
 func _on_peer_connected(id):
 	print("Player connected: ", id)
+	if multiplayer.is_server():
+		var p = peer.get_peer(id)
+		if p:
+			p.set_timeout(32, 600000, 900000)
 	# Late joiners go straight into a running match; otherwise they wait in the lobby
 	if multiplayer.is_server() and match_started:
 		rpc_start_game.rpc_id(id)
@@ -183,6 +187,10 @@ func _on_peer_disconnected(id):
 # Called when successfully connected to server
 func _on_connected_to_server():
 	print("Successfully connected to server")
+	if multiplayer.is_server():
+		var p = peer.get_peer(1)
+		if p:
+			p.set_timeout(32, 600000, 900000)
 	load_lobby()
 
 # Called when connection attempt fails
