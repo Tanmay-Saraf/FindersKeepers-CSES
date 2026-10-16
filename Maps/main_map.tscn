@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://cmtlv2wyaewl5" path="res://Maps/church.tscn" id="1_u3all"]
 [ext_resource type="Script" uid="uid://cib2rig7vup10" path="res://addons/terrain_3d/tools/importer.gd" id="5_vv64y"]
 [ext_resource type="Terrain3DAssets" uid="uid://hwlqou0asrc6" path="res://Materials/main_map_terrain_assets.tres" id="6_terrain_assets"]
+[ext_resource type="Script" uid="uid://cxxkyaih6skhx" path="res://Maps/main_map_setup.gd" id="7_setup"]
+[ext_resource type="Shader" uid="uid://bmj8m6djahy2x" path="res://Materials/ocean_terrain.gdshader" id="8_ocean_shader"]
+[ext_resource type="PackedScene" uid="uid://ignpdv10rx52" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="9_boujie_ocean"]
 
 [sub_resource type="Gradient" id="Gradient_u3all"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -27,10 +30,6 @@ seamless = true
 
 [sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_2x6ge"]
 _shader_parameters = {
-&"auto_base_texture": 0,
-&"auto_height_reduction": 0.1,
-&"auto_overlay_texture": 1,
-&"auto_slope": 1.0,
 &"bias_distance": null,
 &"blend_sharpness": null,
 &"depth_blur": null,
@@ -48,12 +47,23 @@ _shader_parameters = {
 &"noise_texture": SubResource("NoiseTexture2D_vv64y"),
 &"projection_threshold": null
 }
-auto_shader = true
+
+[sub_resource type="Terrain3DMaterial" id="OceanTerrainMaterial"]
+_shader_parameters = {
+&"flat_terrain_normals": null,
+&"water_level": null,
+&"wave_frequency": null,
+&"wave_height": null,
+&"wave_speed": null
+}
+shader_override_enabled = true
+shader_override = ExtResource("8_ocean_shader")
 
 [node name="main_map" type="Node3D" unique_id=268275247]
+script = ExtResource("7_setup")
 
 [node name="church" parent="." unique_id=1824352235 instance=ExtResource("1_u3all")]
-transform = Transform3D(-1.2370323e-07, 0, -2.83, 0, 2.83, 0, 2.83, 0, -1.2370323e-07, -97.34478, 13.464863, 40.984276)
+transform = Transform3D(-1.2370323e-07, 0, -2.83, 0, 2.83, 0, 2.83, 0, -1.2370323e-07, -97.34478, 38.597, -6.5020447)
 
 [node name="Terrain3D" type="Terrain3D" parent="." unique_id=677699343]
 data_directory = "res://Maps/terrain_data"
@@ -65,3 +75,15 @@ height_file_name = "/home/soham-roy/Documents/code/Games/FindersKeepers/Textures
 control_file_name = "/home/soham-roy/Documents/code/Games/FindersKeepers/Textures/rocks/herringbone_concrete_tile_03_diff_4k.jpg"
 color_file_name = "/home/soham-roy/Documents/code/Games/FindersKeepers/Textures/rocks/herringbone_concrete_tile_03_disp_4k.png"
 metadata/_edit_lock_ = true
+
+[node name="OceanTerrain3D" type="Terrain3D" parent="." unique_id=554093836]
+data_directory = "res://Maps/ocean_data"
+material = SubResource("OceanTerrainMaterial")
+assets = ExtResource("6_terrain_assets")
+top_level = true
+visible = false
+metadata/_edit_lock_ = true
+
+[node name="BoujieOcean" parent="." unique_id=1516741431 instance=ExtResource("9_boujie_ocean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+far_edge = 4000
