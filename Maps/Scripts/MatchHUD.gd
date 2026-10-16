@@ -192,7 +192,8 @@ func _on_game_over(winner_id: int, winner_name: String) -> void:
 		menu_btn.grab_focus()
 
 func _on_menu_pressed() -> void:
-	get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
+	print("Menu Button Pressed After Game End!")
+	NetworkManager.leave_session()
 
 
 func _update_player_legend() -> void:

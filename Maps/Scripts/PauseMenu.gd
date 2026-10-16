@@ -236,7 +236,8 @@ func _on_back_to_menu_pressed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	
 	# Load main menu scene
-	get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
+	NetworkManager.leave_session()
+	# get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
 
 # Quit button pressed
 func _on_quit_pressed():

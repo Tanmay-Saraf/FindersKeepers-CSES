@@ -60,6 +60,8 @@ func _setup_focus_styling() -> void:
 	leave_btn.add_theme_stylebox_override("focus", focus_box)
 
 func _on_peers_changed(_id: int) -> void:
+	if not is_inside_tree():
+		return
 	_refresh()
 
 # Rebuild the player count and roster from the current set of connected peers

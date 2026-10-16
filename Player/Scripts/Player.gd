@@ -5,9 +5,9 @@ extends CharacterBody3D
 
 # ===== EXPORTED SETTINGS =====
 @export_category("Movement Settings")
-@export var walk_speed := 5.0          # Normal movement speed
-@export var sprint_speed := 8.0        # Sprinting speed
-@export var jump_velocity := 12.0      # Jump force
+@export var walk_speed := 10.0          # Normal movement speed
+@export var sprint_speed := 15.0        # Sprinting speed
+@export var jump_velocity := 15.0      # Jump force
 @export var ground_acceleration := 15.0 # Acceleration on ground
 @export var ground_deceleration := 20.0 # Deceleration on ground
 @export var air_control := 0.3         # Air movement control factor
@@ -24,7 +24,7 @@ extends CharacterBody3D
 @export var sway_smoothness := 10.0    # Camera sway smoothing
 
 @export_category("Network Settings")
-@export var network_update_rate := 20.0 # Network updates per second
+@export var network_update_rate := 10.0 # Network updates per second
 @export var interpolation_time := 0.15  # Network interpolation smoothing time
 
 @export_category("Tarot Settings")
@@ -44,6 +44,7 @@ var pitch = 0.0
 @onready var interact_prompt: Label = $InteractPrompt/PromptLabel  # Interaction prompt label
 @onready var animation_controller: Node = $AnimationController # Animation controller for character animations
 @onready var flashlight : SpotLight3D = $Camera3D/Flashlight
+@onready var timer : Timer = $Camera3D/Flashlight/Timer
 
 # ===== MOVEMENT STATE =====
 enum MovementState { WALKING, SPRINTING, AIRBORNE }
@@ -90,9 +91,8 @@ var look_at_ray: RayCast3D            # Raycast for detecting objects in front o
 var held_object: Node3D = null        # Currently held interactable object
 var held_body_part: BodyPart = null   # Body part being carried, deposited at the spell center
 var hovered_body_part: BodyPart = null # Body part which is being hovered
-
-
 var _t := 0.0
+
 
 
 func flicker_lights(delta) -> void:
@@ -161,9 +161,8 @@ func _enter_tree():
 		if sync:
 			sync.set_multiplayer_authority(peer_id)
 			sync.replication_interval = 1.0 / network_update_rate
-			sync.replication_config.add_property("global_position")
-			sync.replication_config.add_property("rotation")
-			sync.replication_config.add_property("velocity")
+			
+	
 
 func _ready():
 	add_to_group("player")
@@ -247,12 +246,26 @@ func _input(event):
 		use_tarot_card.rpc(1)
 		
 	if event.is_action_pressed("flashlight"):
-		set_flashlight.rpc(not flashlight.visible)
-		
+		if not flashlight.visible and timer.is_stopped():
+			timer.start(2)
+			timer.timeout.connect(func() : set_flashlight.rpc(not flashlight.visible))
+		elif flashlight.visible:
+			set_flashlight.rpc(not flashlight.visible)
+			if not timer.is_stopped():
+				timer.stop()
+				
 # ===== Flashlight =====
 @rpc("authority", "reliable", "call_local")
 func set_flashlight(on : bool):
+	print("Flashlight was Turned ", on)
 	flashlight.visible = on
+	timer.stop()
+	if flashlight.visible:
+		timer.start(10)
+		timer.timeout.connect(func() : set_flashlight.rpc(false))
+	else:
+		timer.set_wait_time(2)
+	
 
 # ===== TAROT INVENTORY =====
 signal tarot_card_added(card: TarotCard, slot: int)  # Emitted when a card fills a slot
@@ -731,7 +744,7 @@ func send_network_update():
 		rotation,
 		Time.get_ticks_msec() / 1000.0)
 
-@rpc("unreliable_ordered", "any_peer")
+@rpc("unreliable_ordered", "any_peer", "call_remote", 1)
 func _receive_network_update(pos: Vector3, vel: Vector3, rot: Vector3, timestamp: float):
 	if is_multiplayer_authority(): return
 	
@@ -778,13 +791,18 @@ func process_remote_movement(delta):
 	# Calculate interpolation factor
 	var prev_time = network_timestamp_buffer[prev_index]
 	var next_time = network_timestamp_buffer[next_index]
-	var t = clamp((render_time - prev_time) / (next_time - prev_time), 0.0, 1.0)
+	var time_diff = next_time - prev_time
+	
+	var t = 1.0  if time_diff < 0.001 else clamp((render_time - prev_time) / (next_time - prev_time), 0.0, 1.0)
 	
 	# Interpolate position and rotation
 	var target_pos = network_position_buffer[prev_index].lerp(
 		network_position_buffer[next_index], t)
 	var target_rot = network_rotation_buffer[prev_index].lerp(
 		network_rotation_buffer[next_index], t)
+
+	if not target_pos.is_finite() or not target_rot.is_finite():
+		return
 	
 	# Apply with smoothing
 	global_position = global_position.lerp(target_pos, POSITION_LERP_FACTOR)
@@ -796,7 +814,7 @@ func update_character_facing(delta: float) -> void:
 		return
 
 	var travel_direction := Vector3(velocity.x, 0.0, velocity.z)
-	if travel_direction.length_squared() < 0.04:
+	if travel_direction.length_squared() < 0.004:
 		return
 
 	var local_direction := global_transform.basis.inverse() * travel_direction.normalized()

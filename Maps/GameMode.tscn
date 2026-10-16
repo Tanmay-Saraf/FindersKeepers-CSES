@@ -124,8 +124,8 @@ shader_parameter/cirrus_absorption = 2.0
 shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.07600971, 0.07600971)
-shader_parameter/cirrus_position2 = Vector2(0.07600971, 0.07600971)
+shader_parameter/cirrus_position1 = Vector2(0.50846547, 0.50846547)
+shader_parameter/cirrus_position2 = Vector2(0.50846547, 0.50846547)
 shader_parameter/cirrus_texture = ExtResource("19_fehfy")
 shader_parameter/cumulus_visible = true
 shader_parameter/cumulus_intensity = 0.6
@@ -135,7 +135,7 @@ shader_parameter/cumulus_absorption = 2.0
 shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(5.38021, 5.38021)
+shader_parameter/cumulus_position = Vector2(97.78091, 97.78091)
 shader_parameter/cumulus_texture = ExtResource("20_3pguu")
 shader_parameter/cumulus_partial_mie_phase = Vector3(0.957564, 1.042436, 0.412)
 shader_parameter/cumulus_mie_intensity = 1.0
@@ -187,13 +187,13 @@ spawn_points = [NodePath("TarotSpawn1"), NodePath("TarotSpawn2"), NodePath("Taro
 super_tarot_scene = ExtResource("7_fehfy")
 
 [node name="TarotSpawn1" type="Marker3D" parent="TarotCardSpawner" unique_id=191008190]
-transform = Transform3D(-0.01890153, -0.047174588, -0.99870783, 0, 0.9988863, -0.04718302, 0.99982136, -0.00089183124, -0.018880479, -89.0698, -19.5683, 8.789777)
+transform = Transform3D(-0.13308032, 0.10965371, 0.9850207, 0, 0.99386084, -0.110637814, -0.99110526, -0.014723714, -0.13226332, 5.3171544, -25.831652, -7.2092934)
 
 [node name="TarotSpawn2" type="Marker3D" parent="TarotCardSpawner" unique_id=230038535]
-transform = Transform3D(0.91110975, -0.005066949, -0.4121327, 0, 0.9999244, -0.012293531, 0.41216385, 0.011200755, 0.9110409, -110.560616, -27.228928, 158.67375)
+transform = Transform3D(0.02796269, -0.0723033, 0.9969906, 0, 0.9973807, 0.072331585, -0.999609, -0.0020225858, 0.027889445, -1.5748057, -25.467136, -6.718153)
 
 [node name="TarotSpawn3" type="Marker3D" parent="TarotCardSpawner" unique_id=690235969]
-transform = Transform3D(0.32707772, -0.15264381, 0.93258786, 0, 0.98686814, 0.16152829, -0.94499743, -0.0528323, 0.32278258, -77.03474, -23.377186, 164.40771)
+transform = Transform3D(0.9906235, -0.009772967, -0.13627043, 0, 0.9974382, -0.07153371, 0.13662043, 0.07086297, 0.9880857, -6.6447186, -25.902178, -10.051143)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="TarotCardSpawner" unique_id=1876028794]
 _spawnable_scenes = PackedStringArray("uid://b0u1d8aox07b8", "uid://bonou20gtdbp2", "uid://bdux4ohva6vk8", "uid://um7aivmlr1qr", "uid://2npo8sjgn5st", "uid://dd6texlcddpm5")
@@ -208,10 +208,10 @@ spawn_points = [NodePath("BodySpawn1"), NodePath("BodySpawn2"), NodePath("BodySp
 object_spawner_type = 1
 
 [node name="BodySpawn1" type="Marker3D" parent="BodyPartSpawner" unique_id=2062795408]
-transform = Transform3D(-0.9997929, 0.0022317986, -0.020229612, 0, 0.9939694, 0.10965804, 0.020352349, 0.10963532, -0.9937635, -99.52965, -15.578581, 10.4922905)
+transform = Transform3D(-0.11063702, 0.02858086, -0.99344987, 0, 0.9995864, 0.028757406, 0.9938609, 0.0031816333, -0.11059126, -9.704292, -19.26535, -23.929447)
 
 [node name="BodySpawn2" type="Marker3D" parent="BodyPartSpawner" unique_id=1848621869]
-transform = Transform3D(0.072647065, 0.009497268, -0.99731255, 0, 0.9999547, 0.00952243, 0.9973577, -0.00069177645, 0.07264377, -91.70453, -14.936865, 9.808563)
+transform = Transform3D(-0.99998116, 0.00059981784, 0.0061151143, 0, 0.9952238, -0.09761928, -0.0061444617, -0.09761743, -0.99520504, 0.34435478, -19.58269, -21.684338)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="BodyPartSpawner" unique_id=459146891]
 _spawnable_scenes = PackedStringArray("uid://b662evo73twym")
@@ -219,34 +219,34 @@ spawn_path = NodePath("../../SubViewportContainer/SubViewport/WorldObjects")
 spawn_limit = 16
 
 [node name="BodySpawn3" type="Marker3D" parent="BodyPartSpawner" unique_id=862312077]
-transform = Transform3D(-0.45148292, -0.053763382, -0.89065856, 0, 0.9981831, -0.060253955, 0.89227974, -0.02720363, -0.4506626, -6.8930664, -18.772726, 155.79527)
+transform = Transform3D(-0.992327, -0.031266358, 0.119622916, 0, 0.9674979, 0.2528791, -0.12364153, 0.25093874, -0.96007425, 5.971984, -20.565723, -28.392212)
 
 [node name="BodySpawn4" type="Marker3D" parent="BodyPartSpawner" unique_id=896890286]
-transform = Transform3D(-0.13330379, -0.039697766, 0.99027985, 0, 0.9991975, 0.04005525, -0.9910753, 0.005339517, -0.1331968, -50.844666, -15.229235, 149.20131)
+transform = Transform3D(-0.2773518, -0.0017119737, -0.9607669, 0, 0.99999845, -0.0017818796, 0.96076846, -0.00049420755, -0.27735135, 20.06343, -20.390408, -32.0709)
 
 [node name="BodySpawn5" type="Marker3D" parent="BodyPartSpawner" unique_id=1934552842]
-transform = Transform3D(-0.18499811, -0.13329838, 0.97365665, 0, 0.99075824, 0.13563968, -0.98273885, 0.025093084, -0.18328841, -68.91519, -19.13125, 152.62798)
+transform = Transform3D(-0.9947882, -0.007375118, 0.10169581, 0, 0.9973807, 0.0723314, -0.101962894, 0.071954414, -0.99218255, 21.659204, -20.922916, -22.575077)
 
 [node name="BodySpawn6" type="Marker3D" parent="BodyPartSpawner" unique_id=1471741227]
-transform = Transform3D(-0.15489566, 0.007834794, 0.9878998, 0, 0.9999686, -0.007930509, -0.98793083, -0.0012284013, -0.15489079, -82.32486, -19.151915, 154.76405)
+transform = Transform3D(-0.98196614, 0.00048803902, -0.18905643, 0, 0.99999666, 0.002581438, 0.18905705, 0.0025348845, -0.98196286, 23.16774, -21.048191, -13.309353)
 
 [node name="BodySpawn7" type="Marker3D" parent="BodyPartSpawner" unique_id=1634469481]
-transform = Transform3D(-0.15920554, -0.030934535, 0.9867607, 0, 0.999509, 0.031334188, -0.9872455, 0.004988576, -0.15912735, -94.78, -19.499418, 156.74239)
+transform = Transform3D(-0.9872816, -0.003057839, -0.15895161, 0, 0.999815, -0.019233989, 0.15898101, -0.018989364, -0.98709905, 24.32228, -20.91602, -6.4612465)
 
 [node name="BodySpawn8" type="Marker3D" parent="BodyPartSpawner" unique_id=572494259]
-transform = Transform3D(0.8674262, 0.00256712, -0.4975592, 0, 0.9999867, 0.0051593576, 0.4975658, -0.004475362, 0.8674147, -90.596085, -19.542805, 149.44838)
+transform = Transform3D(-0.9698629, 0.008937194, 0.2434875, 0, 0.99932706, -0.03668024, -0.24365146, -0.0355748, -0.9692102, 22.451412, -20.69271, 1.6051674)
 
 [node name="BodySpawn9" type="Marker3D" parent="BodyPartSpawner" unique_id=872558581]
-transform = Transform3D(0.72128755, -0.032680616, -0.6918644, 0, 0.9988863, -0.047182977, 0.6926358, 0.03403249, 0.72048426, -80.93121, -18.877287, 139.37495)
+transform = Transform3D(-0.6580046, 0.014483424, 0.7528747, 0, 0.99981505, -0.01923394, -0.75301397, -0.012656021, -0.65788287, 22.171955, -19.313553, 17.97047)
 
 [node name="BodySpawn10" type="Marker3D" parent="BodyPartSpawner" unique_id=1492744978]
-transform = Transform3D(0.18499686, 0.043648034, -0.9817693, 0, 0.9990132, 0.04441467, 0.9827391, -0.008216575, 0.18481429, -72.031494, -19.275661, 137.6389)
+transform = Transform3D(-0.0025800238, 0.045399286, 0.9989656, 0, 0.99896896, -0.04539944, -0.99999666, -0.00011713163, -0.0025773637, 10.274979, -20.235844, 17.107998)
 
 [node name="BodySpawn11" type="Marker3D" parent="BodyPartSpawner" unique_id=1814621766]
-transform = Transform3D(0.6075318, -0.013230153, -0.7941852, 0, 0.9998613, -0.016656466, 0.7942954, 0.010119332, 0.6074475, -56.14276, -19.297705, 129.7382)
+transform = Transform3D(0.045401838, -0.11131777, 0.9927472, 0, 0.99377203, 0.11143267, -0.99896884, -0.0050592483, 0.045119073, -4.4360657, -18.63176, 22.20199)
 
 [node name="BodySpawn12" type="Marker3D" parent="BodyPartSpawner" unique_id=1141298404]
-transform = Transform3D(0.8029381, -0.3088155, -0.50982684, 0, 0.85532457, -0.5180926, 0.5960624, 0.41599625, 0.6867727, -50.474457, -13.641623, 122.16762)
+transform = Transform3D(0.27316034, -0.065393575, 0.95974326, 0, 0.99768674, 0.06797892, -0.96196854, -0.018569142, 0.27252844, -16.433128, -20.398552, 19.461393)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=151192934]
 
@@ -463,13 +463,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+stretch = true
 script = ExtResource("28_rscal")
 nearest_filter = false
 aspect_ratio = Vector2(4, 3)
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1945453894]
 handle_input_locally = false
-size = Vector2i(1280, 960)
+size = Vector2i(480, 320)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
@@ -512,16 +513,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.47662354, 0.20548439, 0.67
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.20095, 85.54709, -6.19973)
 
 [node name="SpawnPoint1" type="Marker3D" parent="SubViewportContainer/SubViewport/SpawnPoints" unique_id=1757836481]
-transform = Transform3D(-0.49856833, -0.32887015, 0.8020437, 0, 0.92523885, 0.3793851, -0.86685044, 0.1891494, -0.46129477, -25.121193, -67.85431, 44.118034)
+transform = Transform3D(-0.7325665, 0.040344752, -0.67949885, 0, 0.998242, 0.0592699, 0.6806955, 0.04341914, -0.73127866, 30.932169, -72.82511, -0.02130127)
 
 [node name="SpawnPoint2" type="Marker3D" parent="SubViewportContainer/SubViewport/SpawnPoints" unique_id=1160767251]
-transform = Transform3D(0.70519304, -0.12367477, 0.6981457, 0, 0.98466927, 0.17443173, -0.7090154, -0.12300803, 0.6943819, -25.26136, -67.75885, 51.043907)
+transform = Transform3D(0.006946218, 0.29066032, -0.9568011, 0, 0.95682424, 0.29066733, 0.9999759, -0.0020190387, 0.0066463095, 29.155235, -72.82511, 9.354641)
 
 [node name="SpawnPoint3" type="Marker3D" parent="SubViewportContainer/SubViewport/SpawnPoints" unique_id=1598305161]
-transform = Transform3D(0.9827609, -0.049549118, 0.17811787, 0, 0.96341753, 0.26800507, -0.18488128, -0.26338488, 0.94680905, -26.723785, -67.675285, 52.089348)
+transform = Transform3D(0.10276046, -0.01045266, -0.99465126, 0, 0.9999448, -0.0105082905, 0.99470615, 0.0010798365, 0.10275479, 32.18138, -74.14082, -22.377998)
 
 [node name="SpawnPoint4" type="Marker3D" parent="SubViewportContainer/SubViewport/SpawnPoints" unique_id=933366168]
-transform = Transform3D(-0.82319015, 0.0020254957, 0.56776214, 0, 0.9999936, -0.003567485, -0.5677658, -0.0029367185, -0.8231849, -26.698982, -68.20772, 42.689598)
+transform = Transform3D(0.015675567, -0.045393888, -0.9988462, 0, 0.99896896, -0.045399465, 0.99987715, 0.00071166235, 0.015659405, 45.631943, -73.52947, -22.58884)
 
 [node name="Sky3D" type="WorldEnvironment" parent="SubViewportContainer/SubViewport" unique_id=1611302914]
 environment = SubResource("Environment_fehfy")
