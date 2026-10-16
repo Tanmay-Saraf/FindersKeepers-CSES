@@ -33,6 +33,7 @@ const MAX_PLAYERS: int = 4
 const MATCH_DURATION_SECONDS: float = 300.0    # 6 minutes total round duration
 const BLOOD_SHRINE_TRIGGER_TIME: float = 180.0 # Triggers halfway through (at 3:00)
 const SHRINE_PENALTY_SECONDS: float = 20.0     # Time stripped if players accept the deal
+const SHRINE_REWARD_CARD_PATH: String = "res://Tarot/Cards/Definitions/Recaller.tres" # Super card given to every yes-voter
 const TIMER_SYNC_INTERVAL: float = 0.5         # Sync timer over network twice a second
 
 const PLAYER_COLOR_VALUES: Array[Color] = [Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW]
@@ -358,6 +359,10 @@ func submit_shrine_vote(accepted: bool) -> void:
 	if not multiplayer.is_server():
 		return
 
+	# Ignore late votes so the result (and the card rewards) can't be applied twice
+	if current_state != MatchState.BLOOD_SHRINE_ACTIVE:
+		return
+
 	# Handle both remote callers and local host caller (sender_id == 0 means host)
 	var sender_id: int = multiplayer.get_remote_sender_id()
 	if sender_id == 0:
@@ -392,10 +397,14 @@ func evaluate_shrine_votes() -> void:
 		
 		if majority_accepted:
 			time_remaining = max(0.0, time_remaining - SHRINE_PENALTY_SECONDS)
-			if tarot_card_spawner != null:
-				tarot_card_spawner.spawn_super_tarot()
-			else:
-				push_warning("GameManager: Tarot Card Spawner is not assigned")
+
+		# Every yes-voter receives the super card, whatever the overall outcome
+		for pid in players:
+			if players[pid]["voted_shrine"] and players[pid]["voted_yes"] \
+				and players[pid]["is_alive"] and players[pid]["is_connected"]:
+				var player_node = get_node_or_null("/root/GameMode/SubViewportContainer/SubViewport/WorldObjects/Player_" + str(pid))
+				if player_node != null:
+					player_node.grant_tarot_card.rpc(SHRINE_REWARD_CARD_PATH)
 
 		current_state = MatchState.IN_PROGRESS
 		broadcast_shrine_result.rpc(majority_accepted)

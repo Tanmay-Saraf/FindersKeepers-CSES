@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dpy1ljvu0stn6"
-path="res://.godot/imported/hands.glb-f809333043de4f9883868ef34983bcc1.scn"
+valid=false
 
 [deps]
 
 source_file="res://Models/characters/SplitParts/Player1/hands.glb"
-dest_files=["res://.godot/imported/hands.glb-f809333043de4f9883868ef34983bcc1.scn"]
 
 [params]
 

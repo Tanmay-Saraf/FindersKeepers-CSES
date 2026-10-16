@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://b3b5lkasf8fx3"
-path="res://.godot/imported/Injured Standing Jump.fbx-23c3fd513543eaa62b3c58d1c2146497.scn"
+valid=false
 
 [deps]
 
 source_file="res://Animations/Injured Standing Jump.fbx"
-dest_files=["res://.godot/imported/Injured Standing Jump.fbx-23c3fd513543eaa62b3c58d1c2146497.scn"]
 
 [params]
 
