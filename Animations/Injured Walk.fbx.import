@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cfym8iyr8twjr"
-valid=false
+path="res://.godot/imported/Injured Walk.fbx-97043c3813edfba7b448778f21ad5144.scn"
 
 [deps]
 
 source_file="res://Animations/Injured Walk.fbx"
+dest_files=["res://.godot/imported/Injured Walk.fbx-97043c3813edfba7b448778f21ad5144.scn"]
 
 [params]
 

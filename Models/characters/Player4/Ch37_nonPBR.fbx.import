@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dne870po1qy05"
-valid=false
+path="res://.godot/imported/Ch37_nonPBR.fbx-8458ab5bddc655b7682319ff1f94962c.scn"
 
 [deps]
 
 source_file="res://Models/characters/Player4/Ch37_nonPBR.fbx"
+dest_files=["res://.godot/imported/Ch37_nonPBR.fbx-8458ab5bddc655b7682319ff1f94962c.scn"]
 
 [params]
 

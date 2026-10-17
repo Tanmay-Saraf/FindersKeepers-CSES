@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bwi12x7kew48j"
-valid=false
+path="res://.godot/imported/Jump Backward.fbx-dda221c7a5f222e3bf41227db0995212.scn"
 
 [deps]
 
 source_file="res://Animations/Jump Backward.fbx"
+dest_files=["res://.godot/imported/Jump Backward.fbx-dda221c7a5f222e3bf41227db0995212.scn"]
 
 [params]
 

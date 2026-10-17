@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cpcipqsnrpxdp"
-valid=false
+path="res://.godot/imported/Walking Backwards.fbx-a74b9eac3227b826fb1697b04731147b.scn"
 
 [deps]
 
 source_file="res://Animations/Walking Backwards.fbx"
+dest_files=["res://.godot/imported/Walking Backwards.fbx-a74b9eac3227b826fb1697b04731147b.scn"]
 
 [params]
 
