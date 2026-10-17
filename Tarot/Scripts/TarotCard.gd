@@ -16,3 +16,6 @@ enum cardCategory{
 
 @export_group("Effect")
 @export var effect: TarotEffect
+
+
+signal tarot_picked_up(position : Vector3)

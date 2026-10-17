@@ -3,6 +3,8 @@ extends Area3D
 
 @export var card:TarotCard
 
+signal collected(pickup : TarotPickup)
+
 @rpc("any_peer", "call_local", "reliable")
 func collect(playerPath : NodePath)->bool:
 	var player = get_node_or_null(playerPath)
@@ -21,6 +23,7 @@ func collect(playerPath : NodePath)->bool:
 	var added: bool = player.add_tarot_card(card)
 	if not added:
 		return false
+	collected.emit(self)
 	queue_free()
 	return true
 
