@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bt46q8k3vyyfy"
-valid=false
+path="res://.godot/imported/Crouched Walking.fbx-1112f5f0d280ae2d037f9b58519bec1e.scn"
 
 [deps]
 
 source_file="res://Animations/Crouched Walking.fbx"
+dest_files=["res://.godot/imported/Crouched Walking.fbx-1112f5f0d280ae2d037f9b58519bec1e.scn"]
 
 [params]
 

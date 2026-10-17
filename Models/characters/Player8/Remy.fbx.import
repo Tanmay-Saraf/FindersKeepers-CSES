@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bf17yngmaxews"
-valid=false
+path="res://.godot/imported/Remy.fbx-03a2eb307aa8995bc653c3464f6f3726.scn"
 
 [deps]
 
 source_file="res://Models/characters/Player8/Remy.fbx"
+dest_files=["res://.godot/imported/Remy.fbx-03a2eb307aa8995bc653c3464f6f3726.scn"]
 
 [params]
 

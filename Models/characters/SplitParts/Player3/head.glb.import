@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://qmh6qrdnklm1"
-valid=false
+path="res://.godot/imported/head.glb-c3d16652af03d5f184e7a922265a6fa8.scn"
 
 [deps]
 
 source_file="res://Models/characters/SplitParts/Player3/head.glb"
+dest_files=["res://.godot/imported/head.glb-c3d16652af03d5f184e7a922265a6fa8.scn"]
 
 [params]
 

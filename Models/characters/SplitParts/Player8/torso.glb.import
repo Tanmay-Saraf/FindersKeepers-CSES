@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bcbdfcui0aros"
-valid=false
+path="res://.godot/imported/torso.glb-9130055541bfac9aa41eb470a95d4310.scn"
 
 [deps]
 
 source_file="res://Models/characters/SplitParts/Player8/torso.glb"
+dest_files=["res://.godot/imported/torso.glb-9130055541bfac9aa41eb470a95d4310.scn"]
 
 [params]
 

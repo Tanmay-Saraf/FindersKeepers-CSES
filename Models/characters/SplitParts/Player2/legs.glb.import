@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bd1ltdcjf5x8d"
-valid=false
+path="res://.godot/imported/legs.glb-66f9a587557ed9e66a70ad4e7f31beb9.scn"
 
 [deps]
 
 source_file="res://Models/characters/SplitParts/Player2/legs.glb"
+dest_files=["res://.godot/imported/legs.glb-66f9a587557ed9e66a70ad4e7f31beb9.scn"]
 
 [params]
 
