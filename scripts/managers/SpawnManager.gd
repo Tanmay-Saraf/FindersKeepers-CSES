@@ -65,6 +65,7 @@ func spawn_super_tarot() -> void:
 		-1,
 		super_tarot_scene
 	)
+	print("Super Tarot Card was Spawned At: ", random_spawn_point)
 
 
 func _spawn_object(
