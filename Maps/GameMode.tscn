@@ -124,8 +124,8 @@ shader_parameter/cirrus_absorption = 2.0
 shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.50846547, 0.50846547)
-shader_parameter/cirrus_position2 = Vector2(0.50846547, 0.50846547)
+shader_parameter/cirrus_position1 = Vector2(0.96404755, 0.96404755)
+shader_parameter/cirrus_position2 = Vector2(0.96404755, 0.96404755)
 shader_parameter/cirrus_texture = ExtResource("19_fehfy")
 shader_parameter/cumulus_visible = true
 shader_parameter/cumulus_intensity = 0.6
@@ -135,7 +135,7 @@ shader_parameter/cumulus_absorption = 2.0
 shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(97.78091, 97.78091)
+shader_parameter/cumulus_position = Vector2(398.0474, 398.0474)
 shader_parameter/cumulus_texture = ExtResource("20_3pguu")
 shader_parameter/cumulus_partial_mie_phase = Vector3(0.957564, 1.042436, 0.412)
 shader_parameter/cumulus_mie_intensity = 1.0
@@ -470,7 +470,7 @@ aspect_ratio = Vector2(4, 3)
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1945453894]
 handle_input_locally = false
-size = Vector2i(480, 320)
+size = Vector2i(1152, 648)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 

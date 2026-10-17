@@ -11,8 +11,11 @@ enum spawnerType {
 @export var objects_to_spawn = 1
 @export var object_spawner_type: spawnerType
 @export var super_tarot_scene: PackedScene
+@export var tarot_spawn_delay : float = 3.0
 
 var spawned_objects: Array[Node] = []
+var _tarot_spawn_points: Dictionary = {}
+var _spawn_generation: int = 0
 
 
 func spawn_objects(peer_id: int = -1) -> void:
@@ -62,6 +65,7 @@ func spawn_super_tarot() -> void:
 		-1,
 		super_tarot_scene
 	)
+	print("Super Tarot Card was Spawned At: ", random_spawn_point)
 
 
 func _spawn_object(
@@ -108,7 +112,63 @@ func _spawn_object(
 	world_node.add_child(object, true)
 	object.global_position = spawn_point.global_position
 	spawned_objects.append(object)
+	_track_tarot_pickup(object, spawn_point)
 
+func _track_tarot_pickup(spawned_root: Node, spawn_point: Marker3D) -> void:
+	if object_spawner_type != spawnerType.TarotCardSpawner:
+		return
+	
+	var pickup := _find_tarot_pickup(spawned_root)
+	if pickup == null:
+		return
+	
+	_tarot_spawn_points[pickup] = spawn_point
+	pickup.collected.connect(_on_tarot_collected)
+
+func _find_tarot_pickup(spawned_root: Node) -> TarotPickup:
+	if spawned_root is TarotPickup:
+		return spawned_root
+	
+	for child in spawned_root.get_children():
+		if child is TarotPickup:
+			return child
+	
+	return null
+
+func _on_tarot_collected(pickup: TarotPickup) -> void:
+	if not multiplayer.is_server():
+		return
+
+	if not _tarot_spawn_points.has(pickup):
+		return
+
+	var spawn_point: Marker3D = _tarot_spawn_points[pickup]
+	_tarot_spawn_points.erase(pickup)
+
+	get_tree().create_timer(tarot_spawn_delay).timeout.connect(
+		_respawn_tarot.bind(spawn_point, pickup.get_parent(), _spawn_generation)
+	)
+
+func _respawn_tarot(spawn_point: Marker3D, old_root: Node, generation: int):
+	if generation != _spawn_generation:
+		return
+
+	if GameManager.current_state == GameManager.MatchState.GAME_OVER:
+		return
+
+	if is_instance_valid(old_root):
+		old_root.queue_free()
+
+	if not is_instance_valid(spawn_point):
+		return
+
+	_spawn_object(spawn_point, -1, -1, _pick_respawn_scene())
+
+func _pick_respawn_scene() -> PackedScene:
+	if object_scenes.is_empty():
+		return object_scene
+	
+	return object_scenes.pick_random()
 
 func clear_objects() -> void:
 	for object in spawned_objects:
@@ -116,6 +176,8 @@ func clear_objects() -> void:
 			object.queue_free()
 
 	spawned_objects.clear()
+	_tarot_spawn_points.clear()
+	_spawn_generation += 1
 
 
 func _ready() -> void:
@@ -128,6 +190,7 @@ func _ready() -> void:
 	if multiplayer.is_server():
 		# Whenever a client connects, call spawn_objects.
 		multiplayer.peer_connected.connect(spawn_objects)
+
 
 
 func _process(delta: float) -> void:
