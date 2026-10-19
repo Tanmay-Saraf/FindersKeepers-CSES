@@ -43576,8 +43576,8 @@ shader_parameter/cirrus_absorption = 2.0
 shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.8981116, 0.8981116)
-shader_parameter/cirrus_position2 = Vector2(0.8981116, 0.8981116)
+shader_parameter/cirrus_position1 = Vector2(0.68040484, 0.68040484)
+shader_parameter/cirrus_position2 = Vector2(0.68040484, 0.68040484)
 shader_parameter/cirrus_texture = ExtResource("19_fehfy")
 shader_parameter/cumulus_visible = true
 shader_parameter/cumulus_intensity = 0.6
@@ -43587,7 +43587,7 @@ shader_parameter/cumulus_absorption = 2.0
 shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(24.490166, 24.490166)
+shader_parameter/cumulus_position = Vector2(38.40109, 38.40109)
 shader_parameter/cumulus_texture = ExtResource("20_3pguu")
 shader_parameter/cumulus_partial_mie_phase = Vector3(0.957564, 1.042436, 0.412)
 shader_parameter/cumulus_mie_intensity = 1.0
@@ -43630,7 +43630,7 @@ spawn_path = NodePath("../SubViewportContainer/SubViewport/WorldObjects")
 spawn_limit = 4
 
 [node name="TarotCardSpawner" type="Node3D" parent="." unique_id=1817543051 node_paths=PackedStringArray("spawn_points")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1076427, 99.647064, -3.4061177)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49.846813, 87.09, -3.4061177)
 script = ExtResource("2_abnra")
 object_scene = ExtResource("3_abnra")
 object_scenes = Array[PackedScene]([ExtResource("4_gdwpl"), ExtResource("5_oaoby"), ExtResource("6_yjxwv"), ExtResource("7_3pguu")])
@@ -43953,7 +43953,7 @@ mesh = SubResource("BoxMesh_tarot")
 shape = SubResource("BoxShape3D_tarot")
 
 [node name="SpellCenter" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=689938534 instance=ExtResource("9_center")]
-transform = Transform3D(0.18400419, -0.028266579, 0.982519, 0, 0.9995864, 0.028757604, -0.9829255, -0.005291519, 0.18392809, -8.132065, 2.0134134, -13.220425)
+transform = Transform3D(0.18400419, -0.028266579, 0.982519, 0, 0.9995864, 0.028757604, -0.9829255, -0.005291519, 0.18392809, -8.132065, 47.753723, 17.008547)
 
 [node name="Sketchfab_Scene" type="Node3D" parent="SubViewportContainer/SubViewport/WorldObjects" unique_id=1141097775]
 transform = Transform3D(22.32, 0, 0, 0, 22.32, 0, 0, 0, 22.32, 97.97613, 69.1661, 123.30121)
