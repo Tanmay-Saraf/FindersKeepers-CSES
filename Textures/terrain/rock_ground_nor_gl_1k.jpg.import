@@ -3,19 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bqiw8cl2sm2j1"
-path="res://.godot/imported/rock_ground_nor_gl_1k.jpg-c993abeb6276bb6c5660257aab595803.ctex"
+path.s3tc="res://.godot/imported/rock_ground_nor_gl_1k.jpg-c993abeb6276bb6c5660257aab595803.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://Textures/terrain/rock_ground_nor_gl_1k.jpg"
-dest_files=["res://.godot/imported/rock_ground_nor_gl_1k.jpg-c993abeb6276bb6c5660257aab595803.ctex"]
+dest_files=["res://.godot/imported/rock_ground_nor_gl_1k.jpg-c993abeb6276bb6c5660257aab595803.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -26,7 +27,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
-roughness/src_normal=""
+roughness/src_normal="res://Textures/terrain/rock_ground_nor_gl_1k.jpg"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

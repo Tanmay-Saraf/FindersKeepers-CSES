@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dxb64gqg55oe3"
-path="res://.godot/imported/shipyard_wharf_fishing_boat_fishingport.glb-5c7cc69c577b6bf692a430f410eb4e3e.scn"
+valid=false
 
 [deps]
 
 source_file="res://Assets/shipyard/shipyard_wharf_fishing_boat_fishingport.glb"
-dest_files=["res://.godot/imported/shipyard_wharf_fishing_boat_fishingport.glb-5c7cc69c577b6bf692a430f410eb4e3e.scn"]
 
 [params]
 

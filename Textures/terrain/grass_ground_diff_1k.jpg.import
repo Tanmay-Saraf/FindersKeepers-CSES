@@ -3,19 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bfoi5bynsk2oh"
-path="res://.godot/imported/grass_ground_diff_1k.jpg-68083ddbfb2758e04f0e31b20a579c14.ctex"
+path.s3tc="res://.godot/imported/grass_ground_diff_1k.jpg-68083ddbfb2758e04f0e31b20a579c14.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://Textures/terrain/grass_ground_diff_1k.jpg"
-dest_files=["res://.godot/imported/grass_ground_diff_1k.jpg-68083ddbfb2758e04f0e31b20a579c14.ctex"]
+dest_files=["res://.godot/imported/grass_ground_diff_1k.jpg-68083ddbfb2758e04f0e31b20a579c14.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

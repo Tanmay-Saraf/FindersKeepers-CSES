@@ -9,3 +9,4 @@ Maps/forest.scn filter=lfs diff=lfs merge=lfs -text
 Assets/shipyard/** -filter -diff -merge
 Assets/graveyard/** -filter -diff -merge
 Assets/forestnotused/** -filter -diff -merge
+Maps/forest.tscn filter=lfs diff=lfs merge=lfs -text

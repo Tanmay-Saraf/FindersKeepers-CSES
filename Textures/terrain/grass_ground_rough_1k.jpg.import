@@ -3,19 +3,20 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dmq2247vmcsfx"
-path="res://.godot/imported/grass_ground_rough_1k.jpg-3440a6e1740aaa44fb44c1606ba4597f.ctex"
+path.s3tc="res://.godot/imported/grass_ground_rough_1k.jpg-3440a6e1740aaa44fb44c1606ba4597f.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://Textures/terrain/grass_ground_rough_1k.jpg"
-dest_files=["res://.godot/imported/grass_ground_rough_1k.jpg-3440a6e1740aaa44fb44c1606ba4597f.ctex"]
+dest_files=["res://.godot/imported/grass_ground_rough_1k.jpg-3440a6e1740aaa44fb44c1606ba4597f.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
