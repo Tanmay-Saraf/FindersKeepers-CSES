@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cjsstbxelp7rg"]
 
 [ext_resource type="PackedScene" uid="uid://cmtlv2wyaewl5" path="res://Maps/church.tscn" id="1_u3all"]
-[ext_resource type="PackedScene" uid="uid://dr0erobna241t" path="res://Maps/forest.scn" id="2_3s748"]
+[ext_resource type="PackedScene" uid="uid://c3wfdwpr2in52" path="res://Maps/forest.scn" id="2_3s748"]
 [ext_resource type="Script" uid="uid://cib2rig7vup10" path="res://addons/terrain_3d/tools/importer.gd" id="5_vv64y"]
 [ext_resource type="Terrain3DAssets" uid="uid://hwlqou0asrc6" path="res://Materials/main_map_terrain_assets.tres" id="6_terrain_assets"]
 [ext_resource type="Script" uid="uid://cxxkyaih6skhx" path="res://Maps/main_map_setup.gd" id="7_setup"]
@@ -64,12 +64,13 @@ shader_override = ExtResource("8_ocean_shader")
 script = ExtResource("7_setup")
 
 [node name="church" parent="." unique_id=1824352235 instance=ExtResource("1_u3all")]
-transform = Transform3D(-1.2370323e-07, 0, -2.83, 0, 2.83, 0, 2.83, 0, -1.2370323e-07, -97.34478, 38.597, -6.5020447)
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -109.32372, 41.943336, 28.415337)
 
 [node name="Terrain3D" type="Terrain3D" parent="." unique_id=677699343]
 data_directory = "res://Maps/terrain_data"
 material = SubResource("Terrain3DMaterial_2x6ge")
 assets = ExtResource("6_terrain_assets")
+collision_mode = 3
 top_level = true
 script = ExtResource("5_vv64y")
 height_file_name = "/home/soham-roy/Documents/code/Games/FindersKeepers/Textures/rocks/herringbone_concrete_tile_03_nor_gl_4k.exr"
@@ -87,7 +88,5 @@ metadata/_edit_lock_ = true
 
 [node name="BoujieOcean" parent="." unique_id=1516741431 instance=ExtResource("9_boujie_ocean")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
-far_edge = 4000
 
 [node name="Node3D" parent="." unique_id=684661660 instance=ExtResource("2_3s748")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 41.53999, 0)

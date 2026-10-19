@@ -124,6 +124,8 @@ group_uniforms;
 
 uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
 uniform sampler2D depth_texture : hint_depth_texture, filter_linear_mipmap;
+// Blend the live sky visible in the screen buffer into the water at grazing angles.
+uniform float sky_reflection_strength : hint_range(0.0, 1.0) = 0.85;
 
 varying vec3	uv_tri;
 varying vec2	refraction_uv;
@@ -152,7 +154,8 @@ float snell(float amount, vec3 normal, vec3 view)
  * Direction, Frequency, Speed: self explanatory
  */
 vec3 P_DEG(float x, float z, float t, float Steepness, float Amplitude, float DirectionDegrees, float Frequency, float Speed, float PhaseDegrees) {
-	vec2 Direction = vec2( sin(DirectionDegrees * TAU / 360.0), cos(DirectionDegrees * TAU / 360.0 ));
+	float strength  = 1.4;
+	vec2 Direction = normalize(strength* normalize(vec2( x, z))+ normalize(vec2( sin(DirectionDegrees * TAU / 360.0), cos(DirectionDegrees * TAU / 360.0 ))));
 	float p = PhaseDegrees * TAU / 360.0;
 	vec3 result;
 	result.x = ((Steepness * Amplitude) * Direction.x * cos(TAU * dot(Frequency * Direction, vec2(x, z)) + (Speed * (t+p))));
@@ -423,6 +426,22 @@ void fragment() {
 	// Read the screen for screen-reading shader features
 #if defined(REFRACTION) || defined(DEPTH_FOG)
 	vec3 screen_color = textureLod(screen_texture, screen_uv, screen_lod).rgb;
+	// Project the reflected view ray into screen space. Only accept samples whose
+	// depth is the far plane, so this reflection follows the live sky and not
+	// foreground geometry. The screen texture includes the rendered sky.
+	vec3 reflected_dir = reflect(-normalize(VIEW), normalize(NORMAL));
+	vec4 reflected_clip = PROJECTION_MATRIX * vec4(VERTEX + reflected_dir * 1000.0, 1.0);
+	vec2 reflected_uv = reflected_clip.xy / reflected_clip.w * 0.5 + 0.5;
+	float reflected_depth = textureLod(depth_texture, clamp(reflected_uv, vec2(0.0), vec2(1.0)), 0.0).r;
+	// Forward+ uses reverse-Z: the sky/far plane is at depth zero.
+	float sky_mask = (1.0 - step(0.0001, reflected_depth)) * step(0.0, reflected_uv.x) * step(reflected_uv.x, 1.0) * step(0.0, reflected_uv.y) * step(reflected_uv.y, 1.0);
+	float reflection_fresnel = fresnel(3.0, NORMAL, VIEW);
+	float reflection_weight = sky_mask * reflection_fresnel * sky_reflection_strength;
+	vec3 reflected_sky = textureLod(screen_texture, clamp(reflected_uv, vec2(0.0), vec2(1.0)), roughness * 8.0).rgb;
+	screen_color = mix(screen_color, reflected_sky, reflection_weight);
+	// Keep the reflected sky visible even when opaque albedo would otherwise
+	// suppress the screen-buffer contribution at grazing angles.
+	screen_read_blend_amount = max(screen_read_blend_amount, reflection_weight);
 #endif
 
 	// Blend the screen color with depth fade
