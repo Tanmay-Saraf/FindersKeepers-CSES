@@ -2,11 +2,13 @@
 
 [ext_resource type="Resource" uid="uid://7242he012s84" path="res://Tarot/Cards/Effects/RecallerEffect.tres" id="1_7n5hn"]
 [ext_resource type="Script" uid="uid://ddrmv7b3k80g5" path="res://Tarot/Scripts/TarotCard.gd" id="1_w6vln"]
+[ext_resource type="Texture2D" path="res://Models/dependencies/Tarot/special.png" id="3_art"]
 
 [resource]
 script = ExtResource("1_w6vln")
 card_id = &"recaller"
 card_name = "Recaller"
+art = ExtResource("3_art")
 description = "Sends all opponents to random spawn locations "
 effect = ExtResource("1_7n5hn")
 metadata/_custom_type_script = "uid://ddrmv7b3k80g5"

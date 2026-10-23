@@ -10,6 +10,7 @@ enum cardCategory{
 @export var card_id:StringName
 @export var card_name: String
 @export_multiline var description: String
+@export var art: Texture2D
 
 @export_group("Classification")
 @export var category:cardCategory = cardCategory.NORMAL
