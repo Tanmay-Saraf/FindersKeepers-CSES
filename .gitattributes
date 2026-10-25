@@ -10,3 +10,4 @@ Assets/shipyard/** -filter -diff -merge
 Assets/graveyard/** -filter -diff -merge
 Assets/forestnotused/** -filter -diff -merge
 Maps/forest.tscn filter=lfs diff=lfs merge=lfs -text
+Maps/GameMode.tscn filter=lfs diff=lfs merge=lfs -text
