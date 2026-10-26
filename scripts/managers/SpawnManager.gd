@@ -110,7 +110,17 @@ func _spawn_object(
 		world_node = get_parent()
 
 	world_node.add_child(object, true)
-	object.global_position = spawn_point.global_position
+	var spawn_position := spawn_point.global_position
+	if object_spawner_type == spawnerType.TarotCardSpawner:
+		var terrain := world_node.find_child("Terrain3D", true, false) as Terrain3D
+		if terrain != null and terrain.data != null:
+			var ground_height: float = terrain.data.get_height(spawn_position)
+			if not is_nan(ground_height):
+				# Some tarot markers are embedded below the generated terrain.
+				# Start above the actual surface so gravity can settle the card
+				# onto the map instead of leaving it underground.
+				spawn_position.y = max(spawn_position.y, ground_height + 1.75)
+		object.global_position = spawn_position
 	spawned_objects.append(object)
 	_track_tarot_pickup(object, spawn_point)
 

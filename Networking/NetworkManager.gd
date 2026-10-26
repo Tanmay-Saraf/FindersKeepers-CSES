@@ -67,6 +67,7 @@ func host_game():
 	multiplayer.multiplayer_peer = peer
 	print("Hosting game on port ", PORT)
 	match_started = false
+	GameManager.reset_state()
 	start_host_discovery()
 	load_lobby()
 	
@@ -116,6 +117,7 @@ func join_game(ip: String = "localhost"):
 		
 	# Set as multiplayer peer
 	multiplayer.multiplayer_peer = peer
+	GameManager.reset_state()
 	print("Joining game at ", ip)
 	return true
 
@@ -156,7 +158,7 @@ func leave_session():
 		multiplayer.multiplayer_peer.close()
 	multiplayer.multiplayer_peer = null
 	match_started = false
-	
+	GameManager.reset_state()
 	get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
 
 # Remote procedure call to load game world on clients

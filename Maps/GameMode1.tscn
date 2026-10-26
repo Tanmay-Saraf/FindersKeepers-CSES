@@ -182,7 +182,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1076427, 35.9231, -3.406117
 script = ExtResource("2_abnra")
 object_scene = ExtResource("3_abnra")
 object_scenes = Array[PackedScene]([ExtResource("4_gdwpl"), ExtResource("5_oaoby"), ExtResource("6_yjxwv"), ExtResource("7_3pguu")])
-spawn_points = [NodePath("TarotSpawn1"), NodePath("TarotSpawn2"), NodePath("TarotSpawn3")]
+spawn_points = [NodePath("TarotSpawn1"), NodePath("TarotSpawn2"), NodePath("TarotSpawn3"), NodePath("TarotSpawn4")]
 super_tarot_scene = ExtResource("7_fehfy")
 
 [node name="TarotSpawn1" type="Marker3D" parent="TarotCardSpawner" unique_id=191008190]
@@ -193,6 +193,9 @@ transform = Transform3D(0.02796269, -0.0723033, 0.9969906, 0, 0.9973807, 0.07233
 
 [node name="TarotSpawn3" type="Marker3D" parent="TarotCardSpawner" unique_id=690235969]
 transform = Transform3D(0.9906235, -0.009772967, -0.13627043, 0, 0.9974382, -0.07153371, 0.13662043, 0.07086297, 0.9880857, -6.6447186, -25.902178, -10.051143)
+
+[node name="TarotSpawn4" type="Marker3D" parent="TarotCardSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, -25.8, -8.0)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="TarotCardSpawner" unique_id=1876028794]
 _spawnable_scenes = PackedStringArray("uid://b0u1d8aox07b8", "uid://bonou20gtdbp2", "uid://bdux4ohva6vk8", "uid://um7aivmlr1qr", "uid://2npo8sjgn5st", "uid://dd6texlcddpm5")
@@ -414,16 +417,16 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -110.0
+offset_left = -78.0
 offset_top = -120.0
-offset_right = 110.0
+offset_right = 78.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 20
 
 [node name="Slot1" type="Panel" parent="CanvasLayer/TarotInventory/HBoxContainer" unique_id=881700418]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(68, 100)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot1")
 
@@ -440,7 +443,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Slot2" type="Panel" parent="CanvasLayer/TarotInventory/HBoxContainer" unique_id=615263237]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(68, 100)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot2")
 

@@ -488,3 +488,19 @@ func get_player_display_number(peer_id: int) -> int:
 		return -1
 
 	return index + 1
+
+# Reset function to clear all players and connections from GameManager
+func reset_state() -> void:
+	players.clear()
+	active_body_parts.clear()
+	current_state = MatchState.WAITING_FOR_PLAYERS
+	time_remaining = MATCH_DURATION_SECONDS
+	shrine_event_triggered = false
+	timer_sync_accumulator = 0.0
+	tarot_card_spawner = null
+	body_part_spawner = null
+	set_process(false)
+	player_roster_updated.emit()
+	
+	
+	

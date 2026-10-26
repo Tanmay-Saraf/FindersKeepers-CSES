@@ -288,4 +288,3 @@ func _on_setting_menu_back_pressed():
 	main_menu.visible = true  # Return to main pause menu
 	if has_node("PauseContainer/Settings"):
 		$PauseContainer/Settings.grab_focus()
-

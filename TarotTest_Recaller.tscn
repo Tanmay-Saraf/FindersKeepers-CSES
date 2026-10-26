@@ -4,6 +4,10 @@
 [ext_resource type="Resource" uid="uid://03fc567bvki5" path="res://Tarot/Cards/Definitions/Recaller.tres" id="2_6dt7u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qw86s"]
+size = Vector3(0.8, 1.0, 0.2)
+
+[sub_resource type="BoxShape3D" id="CardBodyShape"]
+size = Vector3(0.62, 0.92, 0.035)
 
 [sub_resource type="TextMesh" id="TextMesh_v1n8c"]
 text = "This is a Tarot card"
@@ -13,7 +17,16 @@ properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
 
-[node name="Node3D" type="Node3D" unique_id=518107162]
+[node name="Node3D" type="RigidBody3D" unique_id=518107162]
+collision_layer = 2
+collision_mask = 4294967295
+continuous_cd = true
+mass = 0.15
+linear_damp = 0.15
+angular_damp = 1.5
+
+[node name="PhysicsCollision" type="CollisionShape3D" parent="."]
+shape = SubResource("CardBodyShape")
 
 [node name="TarotPickup" type="Area3D" parent="." unique_id=418096463]
 script = ExtResource("1_6dt7u")
