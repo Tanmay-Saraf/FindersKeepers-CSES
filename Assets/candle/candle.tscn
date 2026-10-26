@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://squj03t4gfyq"]
+
+[ext_resource type="PackedScene" uid="uid://cyrmp606svyyt" path="res://Assets/candle/candle_light.glb" id="1_r57si"]
+
+[node name="Sketchfab_Scene" unique_id=277146521 instance=ExtResource("1_r57si")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Sketchfab_model/7bdce573fa4f4345b532d79e2adc2223_fbx/Object_2/RootNode" parent_id_path=PackedInt32Array(1682807878) index="1" unique_id=1697640294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5597, 63.689236, -12.602306)
+light_color = Color(1, 0.6039216, 0.23529412, 1)
+light_energy = 0.579
+distance_fade_enabled = true
+distance_fade_begin = 1.0
+distance_fade_shadow = 0.5
+distance_fade_length = 3.0
