@@ -2,11 +2,13 @@
 
 [ext_resource type="Resource" uid="uid://bf5r08fd8148a" path="res://Tarot/Cards/Effects/DemonSpeedEffect.tres" id="1_hpwn4"]
 [ext_resource type="Script" uid="uid://ddrmv7b3k80g5" path="res://Tarot/Scripts/TarotCard.gd" id="2_41l4g"]
+[ext_resource type="Texture2D" path="res://Models/dependencies/Tarot/demon_speed.png" id="3_art"]
 
 [resource]
 script = ExtResource("2_41l4g")
 card_id = &"demon_speed"
 card_name = "Demon Speed"
+art = ExtResource("3_art")
 description = "Increases movement speed for 10 seconds."
 effect = ExtResource("1_hpwn4")
 metadata/_custom_type_script = "uid://ddrmv7b3k80g5"

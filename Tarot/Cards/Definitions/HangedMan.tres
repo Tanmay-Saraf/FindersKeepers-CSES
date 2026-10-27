@@ -2,11 +2,13 @@
 
 [ext_resource type="Resource" uid="uid://b2dokjanvqhrb" path="res://Tarot/Cards/Effects/HangedManEffect.tres" id="1_q0ga4"]
 [ext_resource type="Script" uid="uid://ddrmv7b3k80g5" path="res://Tarot/Scripts/TarotCard.gd" id="1_wymy0"]
+[ext_resource type="Texture2D" path="res://Models/dependencies/Tarot/hanged_man.png" id="3_art"]
 
 [resource]
 script = ExtResource("1_wymy0")
 card_id = &"hanged_man"
 card_name = "Hanged Man"
+art = ExtResource("3_art")
 description = "Inverts control for all players for a limited time 
 "
 effect = ExtResource("1_q0ga4")
