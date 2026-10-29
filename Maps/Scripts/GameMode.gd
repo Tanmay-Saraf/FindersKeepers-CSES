@@ -7,11 +7,15 @@ extends Node3D
 
 var nextSpawnIdx : int = 0;
 
+# Max time the host waits for every client to finish loading the map before
+# starting without the stragglers (they are spawned when they report in).
+const PEER_LOAD_TIMEOUT := 20.0
+var _match_running := false
+
 # Called when the node enters the scene tree
 func _enter_tree():
 	# Connect multiplayer signals if multiplayer is available
 	if multiplayer != null:
-		multiplayer.peer_connected.connect(_on_peer_connected)
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
 func get_game_time() -> String:
@@ -45,41 +49,61 @@ func _ready():
 		spell_center.part_deposited.connect(_on_spell_center_deposited)
 		print("GameMode: Connected to SpellCenter.part_deposited")
 
-	# If this is the server, spawn the host player
+	# If this is the server, wait for every client to load the map, then spawn
+	# all players and start the match. Spawning before a client has this scene
+	# loaded means the MultiplayerSpawner replication never reaches that client.
 	if multiplayer != null && multiplayer.is_server():
-		spawn_player(multiplayer.get_unique_id())
-		# Existing lobby peers do not emit peer_connected again when this scene
-		# loads. Also, a client's one-shot ready RPC may arrive before this node
-		# exists on the server, so reconcile connected peers here.
-		for peer_id in multiplayer.get_peers():
-			spawn_player(peer_id)
-		GameManager.start_match()
-		# Ensure MatchHUD is present under CanvasLayer
-		if has_node("CanvasLayer"):
-			var canvas = $CanvasLayer
-			# Remove any existing MatchHUD
-			var old = canvas.get_node_or_null("MatchHUD")
-			if old:
-				old.queue_free()
-			# Instantiate a fresh MatchHUD (which includes CompassUI from the tscn)
-			var hud_scene = load("res://Maps/MatchHUD.tscn")
-			if hud_scene:
-				var hud = hud_scene.instantiate()
-				hud.name = "MatchHUD"
-				canvas.add_child(hud)
-		print("Match Started")
+		_start_match_when_peers_loaded()
 	elif multiplayer != null and multiplayer.has_multiplayer_peer():
-		# Peers that connected in the lobby won't fire peer_connected again,
-		# so tell the server our map is loaded and we can be spawned
-		_client_ready_in_game.rpc_id(1)
+		# Tell the host our map is loaded and we can be spawned
+		NetworkManager.report_game_loaded.rpc_id(1)
 
-@rpc("any_peer", "reliable")
-func _client_ready_in_game():
-	if multiplayer.is_server():
-		spawn_player(multiplayer.get_remote_sender_id())
-		# Respawn body parts for all currently registered players
-		if GameManager.body_part_spawner != null:
-			GameManager.body_part_spawner.spawn_objects()
+func _all_peers_loaded() -> bool:
+	for peer_id in multiplayer.get_peers():
+		if not NetworkManager.loaded_peers.has(peer_id):
+			return false
+	return true
+
+func _start_match_when_peers_loaded() -> void:
+	var waited := 0.0
+	while not _all_peers_loaded() and waited < PEER_LOAD_TIMEOUT:
+		await get_tree().process_frame
+		if not is_inside_tree():
+			return
+		waited += get_process_delta_time()
+	if not _all_peers_loaded():
+		push_warning("GameMode: starting before every client finished loading")
+
+	spawn_player(multiplayer.get_unique_id())
+	for peer_id in NetworkManager.loaded_peers.keys():
+		spawn_player(peer_id)
+	GameManager.start_match()
+	_match_running = true
+	# Ensure MatchHUD is present under CanvasLayer
+	if has_node("CanvasLayer"):
+		var canvas = $CanvasLayer
+		# Remove any existing MatchHUD
+		var old = canvas.get_node_or_null("MatchHUD")
+		if old:
+			old.queue_free()
+		# Instantiate a fresh MatchHUD (which includes CompassUI from the tscn)
+		var hud_scene = load("res://Maps/MatchHUD.tscn")
+		if hud_scene:
+			var hud = hud_scene.instantiate()
+			hud.name = "MatchHUD"
+			canvas.add_child(hud)
+	print("Match Started")
+
+# Called on the host by NetworkManager when a client reports its map is loaded.
+# Clients that report before the match starts are spawned by
+# _start_match_when_peers_loaded; this handles late joiners and stragglers.
+func on_peer_loaded(peer_id: int) -> void:
+	if not multiplayer.is_server() or not _match_running:
+		return
+	spawn_player(peer_id)
+	# Respawn body parts for all currently registered players
+	if GameManager.body_part_spawner != null:
+		GameManager.body_part_spawner.spawn_objects()
 
 func _on_spell_center_deposited(collector: Node, part: Node) -> void:
 	if collector == null or not collector.is_multiplayer_authority():
@@ -89,11 +113,6 @@ func _on_spell_center_deposited(collector: Node, part: Node) -> void:
 	var part_type: int = part.get("part_type") if (part and part.get("part_type") != null) else 0
 
 	GameManager.request_deposit_part.rpc_id(1, part_type, victim_id)
-
-# Called when a new peer connects
-func _on_peer_connected(peer_id: int):
-	if multiplayer.is_server():
-		spawn_player(peer_id)
 
 # Called when a peer disconnects
 func _on_peer_disconnected(peer_id: int):

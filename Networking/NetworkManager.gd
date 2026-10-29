@@ -1,29 +1,30 @@
 # NetworkManager.gd
 # This script handles all multiplayer networking functionality
-
+ 
 # Extends Node to act as a network manager
 extends Node
-
+ 
 # Network constants
 const PORT = 8910  # Default port for connections
 const MAX_PLAYERS = 4  # Maximum allowed players
 var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()  # ENet networking peer
-
+ 
 const DISCOVERY_PORT = 8911
 const DISCOVERY_MESSAGE = "FINDERS_KEEPERS_HOST"
-
+ 
 var discovery_peer : PacketPeerUDP = PacketPeerUDP.new()
 var listener_peer : PacketPeerUDP = PacketPeerUDP.new()
-
+ 
 var discovery_timer : Timer
 var discovery_listen_timer : Timer
-
+ 
 const LOBBY_SCENE = "res://MainMenu/Lobby.tscn"
 var match_started := false  # Set once the host leaves the lobby and starts the match
-
+var loaded_peers := {}  # Server only: client peer IDs whose GameMode scene has finished loading
+ 
 # Signals
 signal player_update_received(peer_id, position, velocity, rotation, camera_rotation)
-
+ 
 # Called when the node enters the scene tree
 func _ready():
 	# Connect multiplayer signals
@@ -42,7 +43,7 @@ func _broadcast_host():
 	discovery_peer.put_packet(message)
 	
 	print("Broadcasting Host")
-
+ 
 func start_host_discovery():
 	discovery_peer.set_broadcast_enabled(true)
 	discovery_peer.set_dest_address("255.255.255.255", DISCOVERY_PORT)
@@ -53,7 +54,7 @@ func start_host_discovery():
 	add_child(discovery_timer)
 	discovery_timer.start()
 	print("LAN Discovery started on PORT: " , DISCOVERY_PORT)
-
+ 
 # Host a new game server
 func host_game():
 	# Create server with specified port and max players
@@ -91,7 +92,7 @@ func start_host_search():
 	discovery_listen_timer.start()
 	
 	return true
-
+ 
 func _check_for_host():
 	print("Listening for LAN Hosts")
 	while listener_peer.get_available_packet_count() > 0:
@@ -105,7 +106,7 @@ func _check_for_host():
 			discovery_listen_timer.stop()
 			join_game(sender_ip)
 			return
-
+ 
 # Join an existing game
 func join_game(ip: String = "localhost"):
 	# Create client connection to specified IP
@@ -120,34 +121,35 @@ func join_game(ip: String = "localhost"):
 	GameManager.reset_state()
 	print("Joining game at ", ip)
 	return true
-
+ 
 # Show connection error through UI
 func show_connection_error():
 	print("Failed to connect to server")
 	get_tree().call_group("ui", "show_error", "Connection failed. Make sure host is running.")
-
+ 
 # Load the game world scene
 func load_game_world():
 	# Only change scene if not already in game
 	if get_tree().current_scene.name != "GameMode":
 		get_tree().change_scene_to_file("res://Maps/GameMode.tscn")
-
+ 
 # Load the pre-match lobby where players gather before the host starts
 func load_lobby():
 	get_tree().change_scene_to_file(LOBBY_SCENE)
-
+ 
 # Called by the host from the lobby: moves every connected peer into the match
 func start_game():
 	if not multiplayer.is_server():
 		return
 	match_started = true
+	loaded_peers.clear()
 	rpc_start_game.rpc()
-
+ 
 # Sent by the host to all peers (including itself) to leave the lobby for the match
 @rpc("authority", "call_local", "reliable")
 func rpc_start_game():
 	load_game_world()
-
+ 
 # Leave the current session (host or client) and return to the main menu
 func leave_session():
 	if discovery_timer:
@@ -158,16 +160,17 @@ func leave_session():
 		multiplayer.multiplayer_peer.close()
 	multiplayer.multiplayer_peer = null
 	match_started = false
+	loaded_peers.clear()
 	GameManager.reset_state()
 	get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
-
+ 
 # Remote procedure call to load game world on clients
 @rpc("any_peer", "call_local", "reliable")
 func rpc_load_game_world():
 	# Only server can tell clients to load game
 	if multiplayer.is_server():
 		load_game_world()
-
+ 
 # Called when a new peer connects
 func _on_peer_connected(id):
 	print("Player connected: ", id)
@@ -178,15 +181,29 @@ func _on_peer_connected(id):
 	# Late joiners go straight into a running match; otherwise they wait in the lobby
 	if multiplayer.is_server() and match_started:
 		rpc_start_game.rpc_id(id)
-
+ 
 # Called when a peer disconnects
 func _on_peer_disconnected(id):
 	print("Player disconnected: ", id)
+	loaded_peers.erase(id)
 	# Remove player from game if in game scene
 	var game_scene = get_tree().current_scene
 	if game_scene and game_scene.has_method("remove_player"):
 		game_scene.remove_player(id)
-
+ 
+# Sent by a client once its GameMode scene is ready. This lives on the autoload
+# rather than on GameMode so the host always receives it, even if the host is
+# still loading the map (an RPC to a node that doesn't exist yet is dropped).
+@rpc("any_peer", "reliable")
+func report_game_loaded():
+	if not multiplayer.is_server():
+		return
+	var id := multiplayer.get_remote_sender_id()
+	loaded_peers[id] = true
+	var game_scene = get_tree().current_scene
+	if game_scene and game_scene.has_method("on_peer_loaded"):
+		game_scene.on_peer_loaded(id)
+ 
 # Called when successfully connected to server
 func _on_connected_to_server():
 	print("Successfully connected to server")
@@ -195,21 +212,22 @@ func _on_connected_to_server():
 	if p:
 		p.set_timeout(32, 600000, 900000)
 	load_lobby()
-
+ 
 # Called when connection attempt fails
 func _on_connection_failed():
 	print("Connection failed")
 	show_connection_error()
-
+ 
 # Send player state update to other peers
 func send_player_update(position: Vector3, velocity: Vector3, rotation: Vector3, camera_rotation: Vector3):
 	if multiplayer.multiplayer_peer:
 		# Send update via RPC
 		rpc("_receive_player_update", position, velocity, rotation, camera_rotation)
-
+ 
 # Receive player updates from other peers
 @rpc("unreliable_ordered", "any_peer")
 func _receive_player_update(position: Vector3, velocity: Vector3, rotation: Vector3, camera_rotation: Vector3):
 	# Get sender ID and emit signal with update data
 	var sender_id = multiplayer.get_remote_sender_id()
 	player_update_received.emit(sender_id, position, velocity, rotation, camera_rotation)
+ 
