@@ -190,10 +190,10 @@ func _on_peer_disconnected(id):
 # Called when successfully connected to server
 func _on_connected_to_server():
 	print("Successfully connected to server")
-	if multiplayer.is_server():
-		var p = peer.get_peer(1)
-		if p:
-			p.set_timeout(32, 600000, 900000)
+	
+	var p = peer.get_peer(1)
+	if p:
+		p.set_timeout(32, 600000, 900000)
 	load_lobby()
 
 # Called when connection attempt fails

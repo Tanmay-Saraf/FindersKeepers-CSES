@@ -183,6 +183,9 @@ func _ready():
 		if camera: 
 			camera.far = normal_render_distance
 			camera.current = true
+			for t in get_parent().find_children("*", "Terrain3D", true, false):
+				t.set_camera(camera)
+				t.set_physics_process(true)
 		if interact_prompt:
 			interact_prompt.text = "Press [X] to interact"
 		var settings_node = get_node_or_null("/root/Settings")
@@ -262,7 +265,7 @@ func _input(event):
 		use_tarot_card.rpc(1)
 		
 	if event.is_action_pressed("flashlight"):
-		set_flashlight(not flashlight.visible)
+		set_flashlight.rpc(not flashlight.visible)
 				
 # ===== Flashlight =====
 @rpc("authority", "reliable", "call_local")
@@ -276,7 +279,7 @@ signal tarot_card_added(card: TarotCard, slot: int)  # Emitted when a card fills
 signal tarot_card_removed(slot: int)
 
 var tarot_cards: Array[TarotCard] = []  # Fixed-size slots, empty slots hold null
-
+	
 # Stores a card in the first empty slot. Returns true if it fit.
 
 @rpc("any_peer", "call_local", "reliable")
