@@ -129,6 +129,7 @@ func spawn_player(peer_id: int):
 	var player_scene = load("res://Player/_Player.tscn")
 	var player = player_scene.instantiate()
 	player.name = "Player_" + str(peer_id)
+	player.character_id = NetworkManager.get_character_id_for_peer(peer_id)
 
 	var spawnPos : Vector3= get_next_spawn_position(nextSpawnIdx)
 	player.position = spawnPos

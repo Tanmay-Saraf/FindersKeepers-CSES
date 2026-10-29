@@ -21,9 +21,13 @@ var discovery_listen_timer : Timer
 const LOBBY_SCENE = "res://MainMenu/Lobby.tscn"
 var match_started := false  # Set once the host leaves the lobby and starts the match
 var loaded_peers := {}  # Server only: client peer IDs whose GameMode scene has finished loading
+var player_character_selections: Dictionary = {}
+const CHARACTER_CATALOG: CharacterCatalog = preload("res://Models/characters/Definitions/CharacterCatalog.tres")
+const DEFAULT_CHARACTER_ID: StringName = &"player_1"
  
 # Signals
 signal player_update_received(peer_id, position, velocity, rotation, camera_rotation)
+signal character_selections_changed(selections: Dictionary)
  
 # Called when the node enters the scene tree
 func _ready():
@@ -68,6 +72,8 @@ func host_game():
 	multiplayer.multiplayer_peer = peer
 	print("Hosting game on port ", PORT)
 	match_started = false
+	player_character_selections.clear()
+	player_character_selections[1] = DEFAULT_CHARACTER_ID
 	GameManager.reset_state()
 	start_host_discovery()
 	load_lobby()
@@ -118,6 +124,7 @@ func join_game(ip: String = "localhost"):
 		
 	# Set as multiplayer peer
 	multiplayer.multiplayer_peer = peer
+	player_character_selections.clear()
 	GameManager.reset_state()
 	print("Joining game at ", ip)
 	return true
@@ -161,8 +168,87 @@ func leave_session():
 	multiplayer.multiplayer_peer = null
 	match_started = false
 	loaded_peers.clear()
+	player_character_selections.clear()
 	GameManager.reset_state()
 	get_tree().change_scene_to_file("res://MainMenu/MainMenu.tscn")
+
+
+func get_local_character_id() -> StringName:
+	return player_character_selections.get(multiplayer.get_unique_id(), DEFAULT_CHARACTER_ID)
+
+
+func get_character_id_for_peer(peer_id: int) -> StringName:
+	return player_character_selections.get(peer_id, DEFAULT_CHARACTER_ID)
+
+
+func is_character_available(character_id: StringName, peer_id: int) -> bool:
+	for selected_peer_id in player_character_selections:
+		if int(selected_peer_id) != peer_id and player_character_selections[selected_peer_id] == character_id:
+			return false
+	return true
+
+
+func select_local_character(character_id: StringName) -> void:
+	if CHARACTER_CATALOG.get_character(character_id) == null:
+		return
+	var peer_id := multiplayer.get_unique_id()
+	if not is_character_available(character_id, peer_id):
+		return
+	if multiplayer.has_multiplayer_peer() and not multiplayer.is_server():
+		rpc_submit_character_selection.rpc_id(1, character_id)
+		return
+	player_character_selections[peer_id] = character_id
+	_broadcast_character_selections()
+
+
+func request_character_selections() -> void:
+	if multiplayer.has_multiplayer_peer() and not multiplayer.is_server():
+		rpc_request_character_selections.rpc_id(1)
+	elif multiplayer.is_server():
+		character_selections_changed.emit(player_character_selections.duplicate())
+
+
+func _assign_character_if_needed(peer_id: int) -> void:
+	if player_character_selections.has(peer_id):
+		return
+	for definition in CHARACTER_CATALOG.characters:
+		if is_character_available(definition.character_id, peer_id):
+			player_character_selections[peer_id] = definition.character_id
+			return
+
+
+func _broadcast_character_selections() -> void:
+	var selections := player_character_selections.duplicate()
+	character_selections_changed.emit(selections)
+	if multiplayer.is_server() and multiplayer.has_multiplayer_peer():
+		rpc_sync_character_selections.rpc(selections)
+
+
+@rpc("any_peer", "reliable")
+func rpc_request_character_selections() -> void:
+	if not multiplayer.is_server():
+		return
+	var peer_id := multiplayer.get_remote_sender_id()
+	_assign_character_if_needed(peer_id)
+	rpc_sync_character_selections.rpc_id(peer_id, player_character_selections.duplicate())
+
+
+@rpc("authority", "call_remote", "reliable")
+func rpc_sync_character_selections(selections: Dictionary) -> void:
+	player_character_selections = selections.duplicate()
+	character_selections_changed.emit(player_character_selections.duplicate())
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func rpc_submit_character_selection(character_id: StringName) -> void:
+	if not multiplayer.is_server() or CHARACTER_CATALOG.get_character(character_id) == null:
+		return
+	var peer_id := multiplayer.get_remote_sender_id()
+	if is_character_available(character_id, peer_id):
+		player_character_selections[peer_id] = character_id
+		_broadcast_character_selections()
+	else:
+		rpc_sync_character_selections.rpc_id(peer_id, player_character_selections.duplicate())
  
 # Remote procedure call to load game world on clients
 @rpc("any_peer", "call_local", "reliable")
@@ -178,6 +264,8 @@ func _on_peer_connected(id):
 		var p = peer.get_peer(id)
 		if p:
 			p.set_timeout(32, 600000, 900000)
+		_assign_character_if_needed(id)
+		_broadcast_character_selections()
 	# Late joiners go straight into a running match; otherwise they wait in the lobby
 	if multiplayer.is_server() and match_started:
 		rpc_start_game.rpc_id(id)
@@ -186,6 +274,8 @@ func _on_peer_connected(id):
 func _on_peer_disconnected(id):
 	print("Player disconnected: ", id)
 	loaded_peers.erase(id)
+	if multiplayer.is_server() and player_character_selections.erase(id):
+		_broadcast_character_selections()
 	# Remove player from game if in game scene
 	var game_scene = get_tree().current_scene
 	if game_scene and game_scene.has_method("remove_player"):
