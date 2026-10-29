@@ -5,3 +5,8 @@
 [node name="head2" unique_id=243596335 instance=ExtResource("1_mnfvw")]
 transform = Transform3D(3.5000002, 0, 0, 0, 3.5000002, 0, 0, 0, 3.5, -0.0045125484, -5.078738, 0)
 metadata/_edit_group_ = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." index="3" unique_id=1167973698]
+transform = Transform3D(0.28571424, 0, 0, 0, -1.2488966e-08, 0.28571427, 0, -0.28571424, -1.2488967e-08, 0, 2.1978722, 0)
+light_color = Color(0.9301194, 0, 0.21670121, 1)
+light_energy = 4.0
