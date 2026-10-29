@@ -228,7 +228,7 @@ func _process_footsteps(delta: float) -> void:
 	if on_floor and is_moving:
 		# Cadence tailored to match movement speeds (walk ~10, sprint ~15)
 		var step_distance_threshold: float = 3.6
-		var step_volume_db: float = -11.0
+		var step_volume_db: float = -17.0
 
 		var is_sprinting: bool = false
 		if "current_state" in player and player.current_state == 1:
@@ -242,13 +242,13 @@ func _process_footsteps(delta: float) -> void:
 
 		if is_sprinting:
 			step_distance_threshold = 4.2 # Rapid heavy sprint steps (~3.5/sec)
-			step_volume_db = -8.5
+			step_volume_db = -14.5
 		elif is_crouching:
 			step_distance_threshold = 2.4 # Deliberate stealth creep (~2.0/sec)
-			step_volume_db = -15.5 # Subtle stealth footsteps
+			step_volume_db = -21.5 # Subtle stealth footsteps
 		else:
 			step_distance_threshold = 3.6 # Natural walking cadence (~2.8/sec)
-			step_volume_db = -11.0 # Reduced to ~16% volume per user request
+			step_volume_db = -17.0 # Halved again (-6 dB) per user request
 
 		step_accumulator += speed * delta
 
