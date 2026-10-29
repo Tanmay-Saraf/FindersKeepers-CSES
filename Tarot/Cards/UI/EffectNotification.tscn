@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dqpprxjsxopx8"]
+
+[ext_resource type="Script" uid="uid://dt4cpdh53bfv3" path="res://Tarot/Cards/UI/tarot_notification.gd" id="1_63qek"]
+
+[node name="EffectNotification" type="Node2D" unique_id=878229499]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1905999690]
+layer = 10
+script = ExtResource("1_63qek")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer" unique_id=734798771]
+custom_minimum_size = Vector2(300, 70)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 50.0
+offset_right = 20.0
+offset_bottom = 90.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+
+[node name="MessageLabel" type="Label" parent="CanvasLayer/PanelContainer" unique_id=1307036355]
+layout_mode = 2
+text = "hi for testing "
+horizontal_alignment = 1
+autowrap_mode = 2

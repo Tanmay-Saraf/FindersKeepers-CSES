@@ -6,6 +6,7 @@
 script = ExtResource("1_b4iom")
 effect_id = &"recaller_effect"
 display_name = "Recaller"
+applied_message = "You have been teleported to new location."
 effect_type = 0
 target_mode = 3
 metadata/_custom_type_script = "uid://b3qp6rt6xxqmf"

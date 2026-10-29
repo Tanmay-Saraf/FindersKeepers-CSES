@@ -6,6 +6,8 @@
 script = ExtResource("1_4b6vw")
 effect_id = &"hanged_man_effect"
 display_name = "Hanged Man"
+applied_message = "Your controls have been reversed"
+expired_message = "Your controls are back to normal"
 duration = 20.0
 target_mode = 3
 metadata/_custom_type_script = "uid://m0ptk04r40l3"

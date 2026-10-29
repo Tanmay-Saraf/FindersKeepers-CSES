@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://b362schemplyn" path="res://Tarot/Scripts/TarotEffectController.gd" id="5_3ledp"]
 [ext_resource type="Script" uid="uid://uh4mw0m6exo8" path="res://Player/Scripts/PlayerAnimationController.gd" id="6_3ledp"]
 [ext_resource type="Resource" path="res://Models/characters/Definitions/CharacterCatalog.tres" id="7_catalog"]
+[ext_resource type="PackedScene" uid="uid://cevrohj1btnt" path="res://Tarot/Cards/UI/TarotCardTooltip.tscn" id="7_h48p4"]
+[ext_resource type="PackedScene" uid="uid://dqpprxjsxopx8" path="res://Tarot/Cards/UI/EffectNotification.tscn" id="8_1jmuo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hegmd"]
 
@@ -136,3 +138,7 @@ grow_vertical = 2
 custom_minimum_size = Vector2(2, 2)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3ledp")
+
+[node name="TarotCardTooltip" parent="." unique_id=1830138883 instance=ExtResource("7_h48p4")]
+
+[node name="EffectNotification" parent="." unique_id=878229499 instance=ExtResource("8_1jmuo")]

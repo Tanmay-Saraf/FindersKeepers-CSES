@@ -1,8 +1,12 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://d136nt6voujr8"]
 
-[ext_resource type="Script" path="res://MainMenu/Scripts/Lobby.gd" id="1_lobby"]
+[ext_resource type="Script" uid="uid://3nqvnys1oewl" path="res://MainMenu/Scripts/Lobby.gd" id="1_lobby"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 32.0
+content_margin_top = 24.0
+content_margin_right = 32.0
+content_margin_bottom = 24.0
 bg_color = Color(0.08, 0.06, 0.12, 0.92)
 border_width_left = 2
 border_width_top = 2
@@ -13,12 +17,8 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-content_margin_left = 32.0
-content_margin_top = 24.0
-content_margin_right = 32.0
-content_margin_bottom = 24.0
 
-[node name="Lobby" type="Control"]
+[node name="Lobby" type="Control" unique_id=109398251]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,7 +27,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lobby")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1792341730]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,7 +36,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.03, 0.02, 0.05, 1)
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Panel" type="PanelContainer" parent="." unique_id=1224086787]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -51,50 +51,50 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=339188031]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Title" type="Label" parent="Panel/VBoxContainer"]
+[node name="Title" type="Label" parent="Panel/VBoxContainer" unique_id=1609027203]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "Hosting Game"
 horizontal_alignment = 1
 
-[node name="Status" type="Label" parent="Panel/VBoxContainer"]
+[node name="Status" type="Label" parent="Panel/VBoxContainer" unique_id=1719402937]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.8, 0.85, 1)
 theme_override_font_sizes/font_size = 18
 text = "Waiting for players to join"
 horizontal_alignment = 1
 
-[node name="PlayerCount" type="Label" parent="Panel/VBoxContainer"]
+[node name="PlayerCount" type="Label" parent="Panel/VBoxContainer" unique_id=446077107]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84, 0, 1)
 theme_override_font_sizes/font_size = 28
 text = "Players joined: 1 / 4"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer" unique_id=188957994]
 layout_mode = 2
 
-[node name="PlayerList" type="VBoxContainer" parent="Panel/VBoxContainer"]
+[node name="PlayerList" type="VBoxContainer" parent="Panel/VBoxContainer" unique_id=19989631]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
-[node name="Buttons" type="HBoxContainer" parent="Panel/VBoxContainer"]
+[node name="Buttons" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=394194214]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="Start" type="Button" parent="Panel/VBoxContainer/Buttons"]
+[node name="Start" type="Button" parent="Panel/VBoxContainer/Buttons" unique_id=591119927]
 custom_minimum_size = Vector2(160, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Start Match"
 
-[node name="Leave" type="Button" parent="Panel/VBoxContainer/Buttons"]
+[node name="Leave" type="Button" parent="Panel/VBoxContainer/Buttons" unique_id=394292367]
 custom_minimum_size = Vector2(160, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20

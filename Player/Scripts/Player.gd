@@ -45,6 +45,8 @@ var pitch = 0.0
 @onready var animation_controller: Node = $AnimationController # Animation controller for character animations
 @onready var flashlight : SpotLight3D = $Camera3D/Flashlight
 @onready var timer : Timer = $Camera3D/Flashlight/Timer
+@onready var tarot_tooltip = $TarotCardTooltip/CanvasLayer
+@onready var tarot_notification = $EffectNotification/CanvasLayer
 
 # ===== MOVEMENT STATE =====
 enum MovementState { WALKING, SPRINTING, AIRBORNE }
@@ -96,7 +98,11 @@ var held_body_part: BodyPart = null   # Body part being carried, deposited at th
 var hovered_body_part: BodyPart = null # Body part which is being hovered
 var _t := 0.0
 
-
+func show_tarot_notification(message: String) -> void:
+	print("Notification requested: ", message)
+	if not is_multiplayer_authority():
+		return
+	tarot_notification.show_notification(message)
 
 func flicker_lights(delta) -> void:
 	# Calls hotel.set_light() on a stuttery pattern.
@@ -107,7 +113,7 @@ func flicker_lights(delta) -> void:
 	_t = randf_range(0.03, 0.12) if hotel.is_light_on() else randf_range(0.05, 0.4)
 	hotel.set_light(not hotel.is_light_on())
 	
-# Called every frame. Checks what the player is looking at and updates interaction prompt.
+
 func _process(delta):
 	# Update controller camera look (local player only)
 	if is_multiplayer_authority() and input_enabled:
@@ -118,15 +124,33 @@ func _process(delta):
 		return
 
 	var current_hovered_part: BodyPart = null
-
 	var ray_hit = look_at_ray.get_collider() if look_at_ray and look_at_ray.is_colliding() else null
 	var pickup_target = _get_pickup_target()
 
 	if not held_object and not held_body_part and (ray_hit != null or pickup_target != null):
+		# Show Tarot tooltip for a directly targeted or assisted Tarot pickup.
+		var tarot_target: TarotPickup = null
+
+		if ray_hit is TarotPickup:
+			tarot_target = ray_hit
+		elif pickup_target is TarotPickup:
+			tarot_target = pickup_target
+
+		if tarot_target != null and tarot_target.card != null:
+			tarot_tooltip.show_tooltip(
+				tarot_target.card.card_name,
+				tarot_target.card.description
+			)
+		else:
+			tarot_tooltip.hide_tooltip()
+
+		# Track hovered body parts.
 		if pickup_target is BodyPart:
 			current_hovered_part = pickup_target as BodyPart
+		elif ray_hit is BodyPart:
+			current_hovered_part = ray_hit as BodyPart
 
-		# Show the appropriate prompt for the targeted object.
+		# Preserve existing interaction prompts.
 		if interact_prompt:
 			if ray_hit is CharacterBody3D and ray_hit.is_in_group("player"):
 				var is_in_range := global_position.distance_to(ray_hit.global_position) <= 3.0
@@ -138,15 +162,16 @@ func _process(delta):
 	else:
 		if interact_prompt:
 			interact_prompt.visible = false
+		tarot_tooltip.hide_tooltip()
 
-	# Hide the previously hovered body part
+	# Hide the previously hovered body part.
 	if hovered_body_part != current_hovered_part:
 		if is_instance_valid(hovered_body_part):
 			hovered_body_part.set_owner_label_visible(false)
 
 		hovered_body_part = current_hovered_part
 
-	# Show the label on the newly hovered body part
+	# Show the label on the newly hovered body part.
 	if is_instance_valid(hovered_body_part):
 		hovered_body_part.set_owner_label_visible(true)
 

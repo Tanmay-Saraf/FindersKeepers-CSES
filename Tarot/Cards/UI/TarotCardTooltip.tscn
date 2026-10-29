@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cevrohj1btnt"]
+
+[ext_resource type="Script" uid="uid://cgm53cjpusdwg" path="res://Tarot/Cards/UI/card_tooltip.gd" id="1_eb34i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eb34i"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.10980392, 0.10980392, 0.10980392, 0.5647059)
+
+[node name="TarotCardTooltip" type="Node2D" unique_id=1830138883]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1657572672]
+layer = 10
+script = ExtResource("1_eb34i")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer" unique_id=2128951326]
+visible = false
+offset_left = 550.0
+offset_top = 420.0
+offset_right = 896.0
+offset_bottom = 470.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_eb34i")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer" unique_id=1936315413]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer" unique_id=1077301715]
+layout_mode = 2
+text = "The Fool"
+
+[node name="DescriptionLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer" unique_id=585493851]
+layout_mode = 2
+text = "a description of the card being hovered over "
