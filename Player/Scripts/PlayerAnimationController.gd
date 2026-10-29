@@ -72,8 +72,7 @@ func load_character_model(player_node: Node3D, definition: CharacterDefinition) 
 	return true
 
 
-## Switch to a catalog entry. A future character selector can call this with
-## the selected definition or use set_character_by_id() with its stable ID.
+## Switch to a catalog entry by definition or stable character ID.
 func set_character_definition(definition: CharacterDefinition) -> bool:
 	if definition == null:
 		return false
@@ -227,13 +226,24 @@ func _remap_animation(source_anim: Animation) -> Animation:
 func _remap_track_path(original_path: String) -> String:
 	# FBX tracks point through the source rig (for example
 	# Skeleton3D:mixamorig2_Hips). The destination AnimationPlayer
-	# roots at the target Skeleton3D, so retain only the bone subname.
+	# roots at the target Skeleton3D. Character FBXs use several different
+	# Mixamo prefixes, so resolve the bone by its suffix in this skeleton.
 	var colon_index := original_path.find(":")
 	if colon_index < 0:
 		return original_path
 	var bone_name := original_path.substr(colon_index + 1)
-	if bone_name.begins_with(ANIM_BONE_PREFIX):
-		bone_name = TARGET_BONE_PREFIX + bone_name.substr(ANIM_BONE_PREFIX.length())
+	var separator_index := bone_name.find("_")
+	if bone_name.begins_with("mixamorig") and separator_index >= 0:
+		var bone_suffix := bone_name.substr(separator_index + 1)
+		if skeleton != null:
+			var standard_name := TARGET_BONE_PREFIX + bone_suffix
+			if skeleton.find_bone(standard_name) >= 0:
+				return ":" + standard_name
+			for bone_index in skeleton.get_bone_count():
+				var target_bone := String(skeleton.get_bone_name(bone_index))
+				if target_bone.ends_with("_" + bone_suffix):
+					return ":" + target_bone
+		bone_name = TARGET_BONE_PREFIX + bone_suffix
 	return ":" + bone_name
 
 

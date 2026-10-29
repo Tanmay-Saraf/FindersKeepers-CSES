@@ -85,6 +85,11 @@ var input_enabled: bool = true        # Whether input is enabled
 ## Body parts use this to identify their owner. Matches the network peer ID
 ## for the local player, and -1 for any player that has no authority.
 var player_id: int = -1
+@export var character_id: StringName = &"player_1":
+	set(value):
+		character_id = value
+		if is_node_ready() and animation_controller != null:
+			animation_controller.set_character_by_id(value)
  
 # ===== LOOK-AT DETECTION =====
 var look_at_ray: RayCast3D            # Raycast for detecting objects in front of player
@@ -211,6 +216,7 @@ func _ready():
  
 	# Initialize animations
 	if animation_controller and animation_controller.has_method("setup"):
+		animation_controller.default_character_id = character_id
 		animation_controller.setup(self)
  
 # ===== INPUT HANDLING =====

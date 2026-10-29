@@ -11,8 +11,20 @@ extends Control
 @onready var player_list: VBoxContainer = $Panel/VBoxContainer/PlayerList
 @onready var start_btn: Button = $Panel/VBoxContainer/Buttons/Start
 @onready var leave_btn: Button = $Panel/VBoxContainer/Buttons/Leave
+@onready var previous_character_btn: Button = $Panel/VBoxContainer/CharacterPicker/PreviousCharacter
+@onready var next_character_btn: Button = $Panel/VBoxContainer/CharacterPicker/NextCharacter
+@onready var character_name_label: Label = $Panel/VBoxContainer/CharacterPicker/CharacterName
+@onready var preview_stage: Node3D = $Panel/VBoxContainer/CharacterPreview/Viewport/PreviewStage
+@onready var preview_camera: Camera3D = $Panel/VBoxContainer/CharacterPreview/Viewport/PreviewStage/Camera3D
+
+const CHARACTER_CATALOG: CharacterCatalog = preload("res://Models/characters/Definitions/CharacterCatalog.tres")
 
 var _dots_time := 0.0
+var _selected_character_index := 0
+var _character_selection_ready := false
+var _preview_model: Node3D
+var _preview_pivot: Node3D
+var _preview_character_id: StringName = &""
 
 # Called when the node enters the scene tree
 func _ready():
@@ -24,6 +36,17 @@ func _ready():
 
 	start_btn.pressed.connect(_on_start_pressed)
 	leave_btn.pressed.connect(_on_leave_pressed)
+	previous_character_btn.pressed.connect(_on_previous_character_pressed)
+	next_character_btn.pressed.connect(_on_next_character_pressed)
+	NetworkManager.character_selections_changed.connect(_on_character_selections_changed)
+
+	var current_id := NetworkManager.get_local_character_id()
+	for i in CHARACTER_CATALOG.characters.size():
+		if CHARACTER_CATALOG.characters[i].character_id == current_id:
+			_selected_character_index = i
+			break
+	_refresh_character_selection()
+	NetworkManager.request_character_selections()
 
 	var is_host := multiplayer.is_server()
 	title_label.text = "Hosting Game" if is_host else "Joined Game"
@@ -44,6 +67,8 @@ func _process(delta: float) -> void:
 	var dots := ".".repeat(int(_dots_time * 2.0) % 4)
 	var base := "Waiting for players to join" if multiplayer.is_server() else "Waiting for host to start the match"
 	status_label.text = base + dots
+	if is_instance_valid(_preview_pivot):
+		_preview_pivot.rotate_y(delta * 0.35)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -58,6 +83,8 @@ func _setup_focus_styling() -> void:
 	focus_box.set_corner_radius_all(4)
 	start_btn.add_theme_stylebox_override("focus", focus_box)
 	leave_btn.add_theme_stylebox_override("focus", focus_box)
+	previous_character_btn.add_theme_stylebox_override("focus", focus_box)
+	next_character_btn.add_theme_stylebox_override("focus", focus_box)
 
 func _on_peers_changed(_id: int) -> void:
 	if not is_inside_tree():
@@ -84,6 +111,10 @@ func _refresh() -> void:
 			entry.text += " (Host)"
 		if id == multiplayer.get_unique_id():
 			entry.text += " - You"
+		var selected_character_id: StringName = NetworkManager.player_character_selections.get(id, &"")
+		var selected_definition := CHARACTER_CATALOG.get_character(selected_character_id)
+		if selected_definition != null:
+			entry.text += " — " + selected_definition.display_name
 		if i < GameManager.PLAYER_COLOR_VALUES.size():
 			entry.modulate = GameManager.PLAYER_COLOR_VALUES[i].lightened(0.3)
 		player_list.add_child(entry)
@@ -94,6 +125,128 @@ func _on_start_pressed() -> void:
 
 func _on_leave_pressed() -> void:
 	NetworkManager.leave_session()
+
+
+func _on_previous_character_pressed() -> void:
+	_select_character(_selected_character_index - 1)
+
+
+func _on_next_character_pressed() -> void:
+	_select_character(_selected_character_index + 1)
+
+
+func _select_character(index: int) -> void:
+	var count := CHARACTER_CATALOG.characters.size()
+	if count == 0 or not _character_selection_ready:
+		return
+	var direction := -1 if index < _selected_character_index else 1
+	var candidate_index := _find_available_character_index(index, direction)
+	if candidate_index < 0 or candidate_index == _selected_character_index:
+		return
+	_selected_character_index = candidate_index
+	_refresh_character_selection()
+	NetworkManager.select_local_character(CHARACTER_CATALOG.characters[_selected_character_index].character_id)
+
+
+func _refresh_character_selection() -> void:
+	if CHARACTER_CATALOG.characters.is_empty():
+		character_name_label.text = "No characters available"
+		previous_character_btn.disabled = true
+		next_character_btn.disabled = true
+		return
+	var definition: CharacterDefinition = CHARACTER_CATALOG.characters[_selected_character_index]
+	character_name_label.text = definition.display_name
+	_update_character_preview(definition)
+	previous_character_btn.disabled = not _character_selection_ready or _find_available_character_index(_selected_character_index - 1, -1) == _selected_character_index
+	next_character_btn.disabled = not _character_selection_ready or _find_available_character_index(_selected_character_index + 1, 1) == _selected_character_index
+
+
+func _update_character_preview(definition: CharacterDefinition) -> void:
+	if definition.character_id == _preview_character_id:
+		return
+	_preview_character_id = definition.character_id
+	if is_instance_valid(_preview_pivot):
+		_preview_pivot.queue_free()
+		_preview_pivot = null
+		_preview_model = null
+	if definition.model_scene == null:
+		return
+	_preview_pivot = Node3D.new()
+	_preview_pivot.name = "CharacterPreviewPivot"
+	_preview_pivot.position = Vector3(0.0, 1.0, 0.0)
+	preview_stage.add_child(_preview_pivot)
+	_preview_model = definition.model_scene.instantiate() as Node3D
+	if _preview_model == null:
+		push_warning("Character preview could not instance '%s'" % definition.display_name)
+		return
+	_preview_model.name = "CharacterPreviewModel"
+	_preview_model.position.y = definition.vertical_offset
+	_preview_model.scale = definition.model_scale
+	_preview_model.rotation.y = 0.0
+	_preview_pivot.add_child(_preview_model)
+	call_deferred("_frame_preview_model")
+
+
+func _frame_preview_model() -> void:
+	if not is_instance_valid(_preview_model) or not is_instance_valid(preview_camera):
+		return
+	var visual_nodes: Array[VisualInstance3D] = []
+	_collect_preview_visuals(_preview_model, visual_nodes)
+	var has_bounds := false
+	var model_bounds := AABB()
+	for visual in visual_nodes:
+		var world_bounds: AABB = visual.global_transform * visual.get_aabb()
+		if has_bounds:
+			model_bounds = model_bounds.merge(world_bounds)
+		else:
+			model_bounds = world_bounds
+			has_bounds = true
+	if not has_bounds:
+		preview_camera.position = Vector3(0.0, 1.0, 3.0)
+		preview_camera.look_at(Vector3(0.0, 1.0, 0.0))
+		return
+
+	var bounds_center := model_bounds.get_center()
+	_preview_model.position -= Vector3(bounds_center.x, bounds_center.y - 1.0, bounds_center.z)
+	var half_fov := deg_to_rad(preview_camera.fov * 0.5)
+	var vertical_distance := model_bounds.size.y * 0.5 / tan(half_fov)
+	var viewport_size := preview_camera.get_viewport().get_visible_rect().size
+	var aspect_ratio := viewport_size.x / viewport_size.y if viewport_size.y > 0.0 else 320.0 / 220.0
+	var half_horizontal_fov := atan(tan(half_fov) * aspect_ratio)
+	var horizontal_distance := model_bounds.size.x * 0.5 / tan(half_horizontal_fov)
+	var camera_distance := maxf(vertical_distance, horizontal_distance) * 1.2
+	preview_camera.position = Vector3(0.0, 1.0, maxf(camera_distance, 1.6))
+	preview_camera.look_at(Vector3(0.0, 1.0, 0.0))
+
+
+func _collect_preview_visuals(node: Node, visuals: Array[VisualInstance3D]) -> void:
+	if node is VisualInstance3D:
+		visuals.append(node as VisualInstance3D)
+	for child in node.get_children():
+		_collect_preview_visuals(child, visuals)
+
+
+func _find_available_character_index(start_index: int, direction: int) -> int:
+	var count := CHARACTER_CATALOG.characters.size()
+	if count == 0:
+		return -1
+	for step in range(count):
+		var candidate_index := posmod(start_index + direction * step, count)
+		var character_id: StringName = CHARACTER_CATALOG.characters[candidate_index].character_id
+		if NetworkManager.is_character_available(character_id, multiplayer.get_unique_id()):
+			return candidate_index
+	return -1
+
+
+func _on_character_selections_changed(_selections: Dictionary) -> void:
+	_character_selection_ready = true
+	var current_id := NetworkManager.get_local_character_id()
+	for i in CHARACTER_CATALOG.characters.size():
+		if CHARACTER_CATALOG.characters[i].character_id == current_id:
+			_selected_character_index = i
+			break
+	_refresh_character_selection()
+	_refresh()
 
 func _on_server_disconnected() -> void:
 	print("Host closed the lobby")

@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("1_definition")
 character_id = &"player_7"
-display_name = "Player 7"
+display_name = "Noah"
 model_scene = ExtResource("2_model")
 vertical_offset = -1.1
 model_scale = Vector3(1.0, 1.0, 1.0)

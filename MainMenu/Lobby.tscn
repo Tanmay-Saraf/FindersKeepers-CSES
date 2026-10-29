@@ -43,10 +43,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -220.0
-offset_right = 260.0
-offset_bottom = 220.0
+offset_left = -290.0
+offset_top = -300.0
+offset_right = 290.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
@@ -74,6 +74,63 @@ theme_override_colors/font_color = Color(1, 0.84, 0, 1)
 theme_override_font_sizes/font_size = 28
 text = "Players joined: 1 / 4"
 horizontal_alignment = 1
+
+[node name="CharacterLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.85, 1)
+theme_override_font_sizes/font_size = 18
+text = "Choose your character"
+horizontal_alignment = 1
+
+[node name="CharacterPreview" type="SubViewportContainer" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(320, 220)
+layout_mode = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="Panel/VBoxContainer/CharacterPreview"]
+size = Vector2i(320, 220)
+transparent_bg = true
+render_target_update_mode = 4
+
+[node name="PreviewStage" type="Node3D" parent="Panel/VBoxContainer/CharacterPreview/Viewport"]
+
+[node name="Camera3D" type="Camera3D" parent="Panel/VBoxContainer/CharacterPreview/Viewport/PreviewStage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 4.1)
+current = true
+fov = 38.0
+
+[node name="KeyLight" type="DirectionalLight3D" parent="Panel/VBoxContainer/CharacterPreview/Viewport/PreviewStage"]
+rotation_degrees = Vector3(-32, -25, 0)
+light_energy = 1.4
+
+[node name="FillLight" type="OmniLight3D" parent="Panel/VBoxContainer/CharacterPreview/Viewport/PreviewStage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.2, 2)
+light_energy = 0.7
+omni_range = 8.0
+
+[node name="CharacterPicker" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="PreviousCharacter" type="Button" parent="Panel/VBoxContainer/CharacterPicker"]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+text = "◀"
+
+[node name="CharacterName" type="Label" parent="Panel/VBoxContainer/CharacterPicker"]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Player 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NextCharacter" type="Button" parent="Panel/VBoxContainer/CharacterPicker"]
+custom_minimum_size = Vector2(52, 40)
+layout_mode = 2
+text = "▶"
 
 [node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer"]
 layout_mode = 2

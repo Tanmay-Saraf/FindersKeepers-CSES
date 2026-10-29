@@ -1,7 +1,7 @@
 extends Resource
 class_name CharacterCatalog
 
-## Ordered character definitions available to a future character selector.
+## Ordered character definitions available to the lobby character selector.
 @export var characters: Array[CharacterDefinition] = []
 
 
