@@ -1,6 +1,9 @@
 # This script extends Node3D, making it a 3D scene root
 extends Node3D
 
+@export_group("Time of Day")
+@export_range(0.0, 23.9998, 0.001) var gameplay_start_time: float = 18.911
+
 @onready var world: Node = $SubViewportContainer/SubViewport/WorldObjects
 @onready var spawn_points: Node = $SubViewportContainer/SubViewport/SpawnPoints
 @onready var tod: TimeOfDay = $SubViewportContainer/SubViewport/Sky3D/TimeOfDay
@@ -25,6 +28,11 @@ func get_game_time() -> String:
 
 # Called when the node is ready
 func _ready():
+
+	# Apply the inspector-configured time to the sky and its clock.
+	var sky: WorldEnvironment = $SubViewportContainer/SubViewport/Sky3D
+	sky.current_time = gameplay_start_time
+	tod.current_time = gameplay_start_time
 	# If running standalone (e.g. F6) without an active peer, initialize local server peer
 	if multiplayer != null and not multiplayer.has_multiplayer_peer():
 		var peer = ENetMultiplayerPeer.new()
