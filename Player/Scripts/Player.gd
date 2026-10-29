@@ -165,14 +165,15 @@ func _enter_tree():
 		var peer_id = name.get_slice("_", 1).to_int()
 		set_multiplayer_authority(peer_id)
 		player_id = peer_id
-		if sync:
-			sync.set_multiplayer_authority(peer_id)
-			sync.replication_interval = 1.0 / network_update_rate
-			
 	
 
 func _ready():
 	add_to_group("player")
+	# @onready references are not initialized during _enter_tree(). Set the
+	# synchronizer authority here so remote players are driven by their owner.
+	if sync:
+		sync.set_multiplayer_authority(get_multiplayer_authority())
+		sync.replication_interval = 1.0 / network_update_rate
 	print("Player Spawns at: ", global_position)
 	dark_moon_environment = Environment.new()
 	dark_moon_environment.background_mode = Environment.BG_COLOR
