@@ -48,6 +48,11 @@ func _ready():
 	# If this is the server, spawn the host player
 	if multiplayer != null && multiplayer.is_server():
 		spawn_player(multiplayer.get_unique_id())
+		# Existing lobby peers do not emit peer_connected again when this scene
+		# loads. Also, a client's one-shot ready RPC may arrive before this node
+		# exists on the server, so reconcile connected peers here.
+		for peer_id in multiplayer.get_peers():
+			spawn_player(peer_id)
 		GameManager.start_match()
 		# Ensure MatchHUD is present under CanvasLayer
 		if has_node("CanvasLayer"):
