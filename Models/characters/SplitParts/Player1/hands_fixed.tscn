@@ -4,3 +4,8 @@
 
 [node name="hands2" unique_id=1168593935 instance=ExtResource("1_lg6nl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8390669, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." index="3" unique_id=97706747]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4.2022986, 0)
+light_color = Color(0.9999998, 0.12076812, 0.21294442, 1)
+light_energy = 4.0

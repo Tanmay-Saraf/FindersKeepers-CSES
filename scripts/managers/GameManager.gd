@@ -31,7 +31,7 @@ const MIN_PLAYERS: int = 2
 const MAX_PLAYERS: int = 4
 
 const MATCH_DURATION_SECONDS: float = 300.0    # 6 minutes total round duration
-const BLOOD_SHRINE_TRIGGER_TIME: float = 20.0 # Triggers halfway through (at 3:00)
+const BLOOD_SHRINE_TRIGGER_TIME: float = 180.0 # Triggers halfway through (at 3:00)
 const SHRINE_PENALTY_SECONDS: float = 20.0     # Time stripped if players accept the deal
 const SHRINE_REWARD_CARD_PATH: String = "res://Tarot/Cards/Definitions/Recaller.tres" # Super card given to every yes-voter
 const TIMER_SYNC_INTERVAL: float = 0.5         # Sync timer over network twice a second

@@ -4,3 +4,8 @@
 
 [node name="torso2" unique_id=2045294804 instance=ExtResource("1_hgqqy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.0705109, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." index="4" unique_id=568010696]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4.4455404, 0)
+light_color = Color(0.8549999, 0.084002905, 0.20291668, 1)
+light_energy = 4.0

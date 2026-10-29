@@ -4,3 +4,8 @@
 
 [node name="legs2" unique_id=1595234288 instance=ExtResource("1_n6u1d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.68878824, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." index="4" unique_id=1189942630]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.7514551, 0)
+light_color = Color(0.75486916, 0, 0.032776657, 1)
+light_energy = 4.0
