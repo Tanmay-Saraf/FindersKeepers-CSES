@@ -1,3 +1,4 @@
+
 class_name RecallerEffect
 extends TarotEffect
 
@@ -13,21 +14,23 @@ func apply(target: Node) -> void:
 		push_warning("RecallerEffect: GameMode spawn system not found")
 		return
 
+	if not target.has_method("teleport_to"):
+		push_warning("RecallerEffect: Target has no teleport_to() method")
+		return
+
 	var new_position: Vector3 = game_mode.get_random_spawn_position()
 
-	if target.has_method("teleport_to"):
-		var authority_id := target.get_multiplayer_authority()
-		var multiplayer_api := tree.get_multiplayer()
+	# The server owns the teleport decision.
+	# Send the teleport to the target player's authority.
+	var authority_id: int = target.get_multiplayer_authority()
 
-		if authority_id == multiplayer_api.get_unique_id():
-			target.teleport_to(new_position)
-		else:
-			target.teleport_to.rpc_id(authority_id, new_position)
-
-		print("Recaller: recalling ", target.name, " to ", new_position)
+	if authority_id == 1:
+		target.global_position = new_position
+		target.velocity = Vector3.ZERO
 	else:
-		push_warning("RecallerEffect: Target has no teleport_to() method")
+		target.teleport_to.rpc_id(authority_id, new_position)
 
+	print("Recaller: recalling ", target.name, " to ", new_position)
 
 func remove(_target: Node) -> void:
 	pass
