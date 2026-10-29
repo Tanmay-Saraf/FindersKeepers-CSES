@@ -6,6 +6,9 @@ extends Control
 
 class_name CompassUI
 
+const FADE_FULL_DISTANCE: float = 25.0
+const FADE_ZERO_DISTANCE: float = 10.0
+
 @onready var distance_label: Label = $DistanceLabel
 
 var world_objects: Node = null
@@ -27,6 +30,9 @@ func _ready() -> void:
 	# Get local player's peer ID
 	local_player_id = multiplayer.get_unique_id()
 
+	# Hide distance label (no exact distance display)
+	if distance_label:
+		distance_label.visible = false
 	# Initially hidden
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -127,10 +133,16 @@ func _update_compass(player: Node, target: Node) -> void:
 		_current_angle = angle_diff
 		queue_redraw()
 
-	# Update distance label
+	# Update fade based on distance to target
 	var distance = player.global_position.distance_to(target.global_position)
-	if distance_label:
-		distance_label.text = "%dm" % int(distance)
+	var alpha: float = 0.0
+	if distance >= FADE_FULL_DISTANCE:
+		alpha = 1.0
+	elif distance <= FADE_ZERO_DISTANCE:
+		alpha = 0.0
+	else:
+		alpha = (distance - FADE_ZERO_DISTANCE) / (FADE_FULL_DISTANCE - FADE_ZERO_DISTANCE)
+	modulate.a = alpha
 
 # Draw a simple arrow triangle programmatically
 func _draw() -> void:
