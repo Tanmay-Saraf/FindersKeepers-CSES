@@ -126,7 +126,7 @@ func _ready() -> void:
 func _setup_audio_buses() -> void:
 	_ensure_bus("SFX", "Master", 0.0)
 	_ensure_bus("Ambience", "Master", -4.0)
-	_ensure_bus("Footsteps", "SFX", 1.5)
+	_ensure_bus("Footsteps", "SFX", 0.0)
 	_ensure_bus("Heartbeat", "Master", 0.0)
 
 func _ensure_bus(bus_name: StringName, send_to: StringName, default_volume_db: float) -> void:
