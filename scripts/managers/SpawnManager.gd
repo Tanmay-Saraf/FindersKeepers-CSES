@@ -349,7 +349,7 @@ func _spawn_object(
 				# Start above the actual surface so gravity can settle the card
 				# onto the map instead of leaving it underground.
 				spawn_position.y = max(spawn_position.y, ground_height + 1.75)
-		object.global_position = spawn_position
+	object.global_position = spawn_position
 	spawned_objects.append(object)
 	_track_tarot_pickup(object, spawn_point)
 

@@ -1,4 +1,3 @@
-
 [gd_scene format=3 uid="uid://b662evo73twym"]
 
 [ext_resource type="Script" uid="uid://c2tg4bbt5rqq8" path="res://BodyParts/bodypart.gd" id="1_part"]
@@ -38,6 +37,7 @@ material = SubResource("StandardMaterial3D_2krnp")
 size = Vector2(1.5, 0.38)
 
 [node name="BodyPart" type="RigidBody3D" unique_id=1864461176 groups=["interactable"]]
+transform = Transform3D(1.42, 0, 0, 0, 1.42, 0, 0, 0, 1.42, 0, 0, 0)
 collision_mask = 3
 linear_damp = 1.0
 angular_damp = 1.0
@@ -73,3 +73,9 @@ transform = Transform3D(1.04, 0, 0, 0, 1.12, 0, 0, 0, 1, 0, 0.65, 0)
 visible = false
 mesh = SubResource("QuadMesh_evfu2")
 skeleton = NodePath("../OwnerLabel")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1828468295]
+transform = Transform3D(0.7042254, 0, 0, 0, -0.0016401457, 0.7042235, 0, -0.7042235, -0.0016401457, 0, 1.1800858, -0.030035874)
+light_color = Color(0.86865073, 0.17330459, 0.236604, 1)
+light_energy = 2.022
+spot_range = 3.678

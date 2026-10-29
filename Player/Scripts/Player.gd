@@ -262,25 +262,13 @@ func _input(event):
 		use_tarot_card.rpc(1)
 		
 	if event.is_action_pressed("flashlight"):
-		if not flashlight.visible and timer.is_stopped():
-			timer.start(2)
-			timer.timeout.connect(func() : set_flashlight.rpc(not flashlight.visible))
-		elif flashlight.visible:
-			set_flashlight.rpc(not flashlight.visible)
-			if not timer.is_stopped():
-				timer.stop()
+		set_flashlight(not flashlight.visible)
 				
 # ===== Flashlight =====
 @rpc("authority", "reliable", "call_local")
 func set_flashlight(on : bool):
 	print("Flashlight was Turned ", on)
 	flashlight.visible = on
-	timer.stop()
-	if flashlight.visible:
-		timer.start(10)
-		timer.timeout.connect(func() : set_flashlight.rpc(false))
-	else:
-		timer.set_wait_time(2)
 	
 
 # ===== TAROT INVENTORY =====
