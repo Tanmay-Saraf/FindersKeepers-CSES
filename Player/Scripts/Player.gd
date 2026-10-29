@@ -183,9 +183,6 @@ func _ready():
 		if camera: 
 			camera.far = normal_render_distance
 			camera.current = true
-			for t in get_parent().find_children("*", "Terrain3D", true, false):
-				t.set_camera(camera)
-				t.set_physics_process(true)
 		if interact_prompt:
 			interact_prompt.text = "Press [X] to interact"
 		var settings_node = get_node_or_null("/root/Settings")
