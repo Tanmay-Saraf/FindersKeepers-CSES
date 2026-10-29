@@ -316,6 +316,14 @@ func request_deposit_part(part_type: int, victim_id: int) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func broadcast_part_deposit(depositor_id: int, victim_id: int, part_type: int) -> void:
+	# The server already recorded the deposit in request_deposit_part. Clients
+	# only hold the roster copy from sync_match_start, so mirror the change here
+	# or their HUD keeps reading a stale parts_deposited of 0.
+	if not multiplayer.is_server():
+		if players.has(depositor_id):
+			players[depositor_id]["parts_deposited"] += 1
+		if players.has(victim_id) and not (part_type in players[victim_id]["parts_lost"]):
+			players[victim_id]["parts_lost"].append(part_type)
 	part_deposited_broadcast.emit(depositor_id, victim_id, part_type as BodyPartType)
 
 
