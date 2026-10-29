@@ -6,4 +6,6 @@
 script = ExtResource("1_wjdb3")
 effect_id = &"demon_speed_effect"
 display_name = "Demon Speed"
+applied_message = "Your speed has increased"
+expired_message = "Your speed boost has expired"
 metadata/_custom_type_script = "uid://dg0erl665nq8f"

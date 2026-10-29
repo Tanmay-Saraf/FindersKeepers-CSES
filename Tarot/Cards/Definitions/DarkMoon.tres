@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://ddrmv7b3k80g5" path="res://Tarot/Scripts/TarotCard.gd" id="1_1v5y7"]
 [ext_resource type="Resource" uid="uid://di28yp034v5qq" path="res://Tarot/Cards/Effects/DarkMoonEffect.tres" id="1_023nt"]
-[ext_resource type="Texture2D" path="res://Models/dependencies/Tarot/dark_moon.png" id="3_art"]
+[ext_resource type="Texture2D" uid="uid://c2k5ekkshj2p1" path="res://Models/dependencies/Tarot/dark_moon.png" id="3_art"]
 
 [resource]
 script = ExtResource("1_1v5y7")
 card_id = &"dark_moon"
 card_name = "Dark Moon"
-art = ExtResource("3_art")
 description = "Reduces vision of all opponents for a limited time ."
+art = ExtResource("3_art")
 effect = ExtResource("1_023nt")
 metadata/_custom_type_script = "uid://ddrmv7b3k80g5"

@@ -25,6 +25,9 @@ enum TargetMode {
 @export var effect_id:StringName
 @export var display_name:String
 
+@export var applied_message: String
+@export var expired_message: String
+
 @export_group("Behaviour")
 @export var effect_type:EffectType = EffectType.TIMED
 @export_range(0.0,300.0,0.5) var duration:float=10.0
