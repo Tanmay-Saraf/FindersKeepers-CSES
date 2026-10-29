@@ -6,5 +6,5 @@
 [resource]
 script = ExtResource("1_definition")
 character_id = &"player_7"
-display_name = "Noah"
+display_name = "Ishaan"
 model_scene = ExtResource("2_model")
