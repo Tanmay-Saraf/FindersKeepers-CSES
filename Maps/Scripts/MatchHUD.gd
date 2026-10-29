@@ -23,7 +23,7 @@ extends Control
 
 @onready var player_legend_rows: VBoxContainer = $PlayerLegend/LegendVBox/LegendRows
 
-var local_deposits: int = 0
+var local_parts_lost: int = 0
 
 func _ready() -> void:
 	# Hide overlays initially
@@ -100,12 +100,8 @@ func _on_match_timer_updated(time_remaining: float) -> void:
 		timer_label.add_theme_color_override("font_color", Color.WHITE)
 
 func _on_part_deposited(depositor_id: int, victim_id: int, part_type: int) -> void:
-	var my_id: int = multiplayer.get_unique_id()
-	if depositor_id == my_id or (my_id <= 1 and depositor_id <= 1):
-		if GameManager and GameManager.players.has(depositor_id):
-			local_deposits = GameManager.players[depositor_id]["parts_deposited"]
-		else:
-			local_deposits += 1
+	# The counter tracks how many of the local player's own parts were sacrificed.
+	if victim_id == multiplayer.get_unique_id():
 		_update_score_display()
 	
 	var part_names: Array[String] = ["Head", "Hands", "Torso", "Legs"]
@@ -117,11 +113,9 @@ func _on_part_deposited(depositor_id: int, victim_id: int, part_type: int) -> vo
 func _update_score_display() -> void:
 	var my_id: int = multiplayer.get_unique_id()
 	if GameManager and GameManager.players.has(my_id):
-		local_deposits = GameManager.players[my_id]["parts_deposited"]
-	elif GameManager and GameManager.players.has(1):
-		local_deposits = GameManager.players[1]["parts_deposited"]
+		local_parts_lost = GameManager.players[my_id]["parts_lost"].size()
 	if score_label:
-		score_label.text = "Sacrifices: %d" % local_deposits
+		score_label.text = "Your Parts Sacrificed: %d/4" % local_parts_lost
 
 func _on_player_eliminated(peer_id: int, player_name: String) -> void:
 	_show_banner("ELIMINATED: %s was completely sacrificed!" % player_name, Color(1.0, 0.3, 0.3))
