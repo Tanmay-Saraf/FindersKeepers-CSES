@@ -25,10 +25,10 @@ config/icon="res://icon.svg"
 NetworkManager="*res://Networking/NetworkManager.gd"
 Settings="*res://Player/Scripts/Settings.gd"
 GameManager="*res://scripts/managers/GameManager.gd"
+AudioManager="*res://Audio/Scripts/AudioManager.gd"
 
 [display]
 
-window/size/mode=3
 window/stretch/mode="canvas_items"
 window/fps=60
 window/canvas_textures/default_texture_filter=1

@@ -72,7 +72,7 @@ var camera_tilt := 0.0                # Current camera tilt amount
 var raw_input_dir := Vector2.ZERO     # Raw input direction
 var vision_modifier: float  = 1.0
 var render_distance_modifier: float = 1.0
-@export var normal_render_distance: float  = 100.0 
+@export var normal_render_distance: float  = 5000.0
 var dark_moon_environment: Environment
 
 # ===== NETWORK INTERPOLATION =====

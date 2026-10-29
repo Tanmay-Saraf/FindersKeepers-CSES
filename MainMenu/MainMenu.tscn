@@ -44,7 +44,7 @@ ssr_enabled = true
 ssao_enabled = true
 ssil_enabled = true
 sdfgi_enabled = true
-glow_enabled = true
+glow_enabled = false
 fog_enabled = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_lbqne"]

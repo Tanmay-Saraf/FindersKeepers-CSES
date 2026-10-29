@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://d6o18yb54dg7"
-path="res://.godot/imported/a_forest_3_with_a_road_at_night_for_game.glb-d9333b275735475d5c7e011a121d6462.scn"
+valid=false
 
 [deps]
 
 source_file="res://Assets/forestnotused/a_forest_3_with_a_road_at_night_for_game.glb"
-dest_files=["res://.godot/imported/a_forest_3_with_a_road_at_night_for_game.glb-d9333b275735475d5c7e011a121d6462.scn"]
 
 [params]
 
@@ -41,9 +40,6 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "nodes": {
-"PATH:Sketchfab_model/8487a72de1e44d0180e1c3e69ca9c229_fbx/RootNode": {
-"node/node_type": "StaticBody3D"
-},
 "PATH:Sketchfab_model/8487a72de1e44d0180e1c3e69ca9c229_fbx/RootNode/Plane_002/Plane_002_Material_003_0": {
 "generate/physics": true,
 "physics/shape_type": 2
