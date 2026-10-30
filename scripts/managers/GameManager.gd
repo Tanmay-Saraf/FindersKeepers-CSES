@@ -338,7 +338,7 @@ func eliminate_player(victim_id: int) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func broadcast_player_elimination(victim_id: int) -> void:
-	var victim_name: String = players[victim_id]["name"] if players.has(victim_id) else "Unknown"
+	var victim_name: String = get_player_display_name(victim_id) if players.has(victim_id) else "Unknown"
 	player_eliminated.emit(victim_id, victim_name)
 
 
@@ -468,7 +468,7 @@ func conclude_match(winner_id: int) -> void:
 	
 	var winner_name: String = "No one (Tie)"
 	if winner_id != -1 and players.has(winner_id):
-		winner_name = players[winner_id]["name"]
+		winner_name = get_player_display_name(winner_id)
 		
 	broadcast_game_over.rpc(winner_id, winner_name)
 
@@ -496,6 +496,14 @@ func get_player_display_number(peer_id: int) -> int:
 		return -1
 
 	return index + 1
+
+## Name shown to players on banners and the end screen, e.g. "Player 2".
+## The roster "name" is "Player_<peer_id>", which exposes the raw peer ID.
+func get_player_display_name(peer_id: int) -> String:
+	var number: int = get_player_display_number(peer_id)
+	if number == -1:
+		return "Unknown"
+	return "Player %d" % number
 
 # Reset function to clear all players and connections from GameManager
 func reset_state() -> void:
